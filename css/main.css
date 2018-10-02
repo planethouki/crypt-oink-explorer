@@ -1,0 +1,21 @@
+._margin-bottom50 {
+    margin-bottom: 50px;
+}
+
+._margin-bottom20 {
+    margin-bottom: 20px;
+}
+
+._bold {
+    font-weight: bold;
+}
+
+.-fit {
+    object-fit: cover;
+}
+
+.col-thumb > img {
+    object-fit: cover;
+    height: 50px;
+    width: 100px;
+}

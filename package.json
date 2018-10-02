@@ -1,0 +1,19 @@
+{
+  "name": "nem2-crosschain",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "build": "gulp build",
+    "serve": "gulp serve",
+    "watch": "gulp watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "planethouki",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "pug": "^2.0.3",
+    "superstatic": "^6.0.1"
+  }
+}

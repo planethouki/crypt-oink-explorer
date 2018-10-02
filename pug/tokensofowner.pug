@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    ._margin-bottom20
+    .container._margin-bottom50
+        .row
+
+            h2 tokensOfOwner
+                small &nbsp; search your entities
+        .row
+            .col.m4-5
+                input(name="address" type="text" placeholder="Put your address.")._width100
+            .col.m1-5
+                button#getEntity._width100 go
+        .row
+            #pagination
+        .row
+            #dataEntity
+block script
+    script(src="js/tokensofowner.js?a=aa34d")
+

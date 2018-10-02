@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    ._margin-bottom20
+    .container._margin-bottom50
+        .row
+            .col.m6
+                h2 Entity List
+            .col.m6
+                .col.m2-5
+                    button#getEntity._width100 reload
+                .col.m3-5
+                    input(name="tokenId" type="text" placeholder="Put tokenId. Default latest.")._width100
+        .row
+            #dataEntity
+    .container._margin-bottom50
+        h2 Refference &nbsp;
+        .row
+            ul
+                li
+                    a(href="" target="_blank") Github
+                li
+                    a(href="https://twitter.com/planethouki" target="_blank") Twitter @planethouki
+
+
