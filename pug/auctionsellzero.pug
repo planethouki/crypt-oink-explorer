@@ -1,6 +1,7 @@
 extends layout
 
 block content
+    include _header
     ._margin-bottom20
     .container._margin-bottom50
         .row
@@ -8,5 +9,6 @@ block content
                 h2 Official Shop
         .row
             #dataEntity
+    include _footer
 block script
     script(src="js/auctionsellzero.js")
