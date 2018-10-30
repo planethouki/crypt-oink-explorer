@@ -6,7 +6,6 @@ const pug = require('pug');
 const files = [
     {in:'./pug/index.pug',out:'./index.html'},
     {in:'./pug/entitylist.pug',out:'./entitylist.html'},
-    {in:'./pug/auctionsellzero.pug',out:'./auctionsellzero.html'},
     {in:'./pug/auctionsell.pug',out:'./auctionsell.html'},
     {in:'./pug/auctionseed.pug',out:'./auctionseed.html'},
 ];

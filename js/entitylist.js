@@ -25,7 +25,7 @@ function renderEntity(tokenId) {
                         "breederId": result[6],
                         "seederId": result[7],
                         "generation": result[8],
-                        "dna": new BigNumber(result[9]).toString(16),
+                        "dna": result[9].toString(16),
                     }
                 ]
             );

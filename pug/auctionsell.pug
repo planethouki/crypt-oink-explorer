@@ -4,6 +4,17 @@ block content
     include _header
     ._margin-bottom20
     .container._margin-bottom50
-
+        .row
+            h2 Auction
+        .row
+            .col.m6
+                #pagination
+            .col.m6
+                ._floatRight
+                    input(name="tokenId" type="number" placeholder="id" style="width:15rem;")._floatLeft
+                    button#getEntity._floatLeft(style="margin-left:1rem;") search
+        .row
+            #dataEntity
     include _footer
-
+block script
+    script(src="js/auctionsell.js")
