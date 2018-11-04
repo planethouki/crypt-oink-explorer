@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    include _header
+    ._margin-bottom20
+    .container._margin-bottom50
+        .row
+            h2 Instruction
+        .row
+            h4 Query String
+            dl
+                dt address
+                dd EntityCore address if you want to specify. Other address is obtained from EntityCore. When not mainnet, you must specify.
+                dt network
+                dd mainnet and ropsten are available. Default is mainnnet. If you specify metamask provider, network is ignored.
+                dt provider
+                dd metamask is available. When select it, network depends on metamask's setting. Default is administrator's infura endpoint.
+            h4 Thumbnails
+            ul
+                li Thumbnails depend on crypt-oink.io. DNA does not link to appearance exclude mainnet.
+    include _footer
+block script

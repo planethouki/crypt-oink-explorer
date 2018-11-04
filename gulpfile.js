@@ -8,6 +8,8 @@ const files = [
     {in:'./pug/entitylist.pug',out:'./entitylist.html'},
     {in:'./pug/auctionsell.pug',out:'./auctionsell.html'},
     {in:'./pug/auctionseed.pug',out:'./auctionseed.html'},
+    {in:'./pug/instruction.pug',out:'./instruction.html'},
+    {in:'./pug/entitydata.pug',out:'./entitydata.html'},
 ];
 
 gulp.task("build", function(done) {
