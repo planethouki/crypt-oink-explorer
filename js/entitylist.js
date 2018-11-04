@@ -1,3 +1,6 @@
+let contracts;
+let pageSize;
+
 function renderEntity(tokenId) {
     $("#dataEntity").tabulator("addData",
         [
@@ -18,13 +21,13 @@ function renderEntity(tokenId) {
                         "id": tokenId,
                         "isBreeding": result[0].toString(),
                         "isReady": result[1].toString(),
-                        "cooldownIndex": result[2],
-                        "nextActionAt": result[3],
-                        "matingWithId": result[4],
-                        "birthTime": result[5],
-                        "breederId": result[6],
-                        "seederId": result[7],
-                        "generation": result[8],
+                        "cooldownIndex": result[2].toNumber(),
+                        "nextActionAt": result[3].toNumber(),
+                        "matingWithId": result[4].toNumber(),
+                        "birthTime": result[5].toNumber(),
+                        "breederId": result[6].toNumber(),
+                        "seederId": result[7].toNumber(),
+                        "generation": result[8].toNumber(),
                         "dna": result[9].toString(16),
                     }
                 ]
@@ -46,17 +49,10 @@ function renderEntity(tokenId) {
     });
 }
 
-function renderEntities(tokenId, num) {
-    for (let i=0;i<num;i++) {
-        if (tokenId - i < 1) return;
-        renderEntity(tokenId - i);
-    }
-}
-
 function renderPagination(len) {
     $('#pagination').pagination({
         dataSource: getSequence(len),
-        pageSize: 20,
+        pageSize: pageSize,
         showGoInput: true,
         showGoButton: true,
         callback: function(data, pagination) {
@@ -110,8 +106,8 @@ function renderDetailContent(tokenId) {
 async function init() {
     const tableContainer = $("#dataEntity");
     tableContainer.tabulator({
-        height:"1557px",
-        columns:[
+        height: (40 + 74 * pageSize + 20) + "px",
+        columns: [
             {title:"thumb", field:"thumb", formatter: "image", "cssClass":"col-thumb", headerSort:false},
             {title:"id", field:"tokenId", sorter:"number", "cssClass":"col-id"},
             {title:"breeder", field:"breederId", sorter:"number", "cssClass":"col-breeder"},
@@ -119,7 +115,7 @@ async function init() {
             {title:"gen", field:"generation", sorter:"number", headerTooltip:"generation", "cssClass":"col-gen"},
             {title:"owner", field:"owner", sorter:"string", "cssClass":"col-owner"},
         ],
-        // columns:[
+        // columns: [
         //     {title:"thumb", field:"thumb", formatter: "image", "cssClass":"col-thumb", width:100, headerSort:false},
         //     {title:"tokenId", field:"tokenId", sorter:"number"},
         //     {title:"Brd", field:"isBreeding", sorter:"string", headerTooltip:"isBreeding", width:70},
@@ -134,7 +130,7 @@ async function init() {
         //     {title:"dna", field:"dna", sorter:"string", width:550},
         //     {title:"owner", field:"owner", sorter:"string", width:450},
         // ],
-        rowClick:function(event, row){
+        rowClick: function(event, row) {
             //e - the click event object
             //row - row component
             const tokenId = row.row.data.tokenId;
@@ -148,19 +144,35 @@ async function init() {
             if (result) resolve(result.toNumber());
         });
     });
-    renderEntities(totalSupply, 20);
-    renderPagination(totalSupply);
     $("#getEntity").click(() => {
         const tokenId = $("input[name=tokenId]").val();
         if (tokenId === "") return;
         const container = $("#pagination");
         const totalPage = container.pagination("getTotalPage");
-        const page = Math.floor((totalSupply - tokenId) / 20 + 1);
+        const page = Math.floor((totalSupply - tokenId) / pageSize + 1);
         if (page < 1 || totalPage < page) return;
         container.pagination("go", page);
     });
+    $("#donloadCSV").click(() => {
+        tableContainer.tabulator("download", "csv", "data.csv");
+    });
+    renderPagination(totalSupply);
 }
 
-$(function() {
-    init();
+async function getPageSize() {
+    const searchParams = new URLSearchParams(location.search);
+    let ps;
+    if (searchParams.has("size")) {
+        ps = parseInt(searchParams.get("size"));
+        console.log(`page size specification: ${ps}`);
+    } else {
+        ps = 20;
+    }
+    return ps;
+}
+
+$(async () => {
+    contracts = await getInstance();
+    pageSize = await getPageSize();
+    await init();
 });

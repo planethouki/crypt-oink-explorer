@@ -1,9 +1,9 @@
-const contracts = {};
+const getInstance = async function() {
 
-(() => {
+    const contracts = {};
+
     const abis = {
         "AuctionSeed": {
-            "address": "0xcf20f1cc6efa9a05ae7eff8a0c6331f3680899cf",
             "abi": [
                 {
                     "constant": false,
@@ -353,7 +353,6 @@ const contracts = {};
             ],
         },
         "AuctionSell": {
-            "address": "0xa2156f24711a631e92e65dc114cf172065ddd49b",
             "abi": [
                 {
                     "constant": false,
@@ -750,7 +749,6 @@ const contracts = {};
             ],
         },
         "EntityCore": {
-            "address": "0x1a94fce7ef36bc90959e206ba569a12afbc91ca1",
             "abi": [
                 {
                     "constant": true,
@@ -1783,27 +1781,85 @@ const contracts = {};
                     "type": "event"
                 }
             ]
-        }
+        },
     };
 
-    function localWeb3() {
-        return new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io/v3/6d6832b8808346ab82226925aac5509d"));
+    const apiKey = "6d6832b8808346ab82226925aac5509d";
+
+    const endPoints = {
+        "mainnet": "https://mainnet.infura.io/v3/",
+        "ropsten": "https://ropsten.infura.io/v3/",
+    };
+
+    const searchParams = new URLSearchParams(location.search);
+
+    let address = "0x1a94fce7ef36bc90959e206ba569a12afbc91ca1";
+    if (searchParams.has("address")) {
+        address = searchParams.get("address");
+        console.log(`address specification: ${address}`);
     }
 
-    if (window.ethereum) {
-        try {
-            window.web3 = new Web3(ethereum);
-            ethereum.enable();
-        } catch (error) {
-            window.web3 = localWeb3();
+    function setInfuraProvider() {
+        let endPoint = `${endPoints['mainnet']}${apiKey}`;
+        if (searchParams.has("network")) {
+            const network = searchParams.get("network");
+            if (endPoints.hasOwnProperty(network)) {
+                endPoint = `${endPoints[network]}${apiKey}`;
+                console.log(`network specification: ${network}`);
+            } else {
+                console.log(`network specification fail. use main net.`);
+            }
         }
-    } else if (window.web3) {
-        window.web3 = new Web3(web3.currentProvider);
-    } else {
-        window.web3 = localWeb3();
+        window.web3 = new Web3(new Web3.providers.HttpProvider(endPoint));
     }
 
-    Object.keys(abis).map((cn) => {
-        contracts[cn] = window.web3.eth.contract(abis[cn].abi).at(abis[cn].address);
+    if (searchParams.has("provider")) {
+        const provider = searchParams.get("provider");
+        switch (provider) {
+            case "metamask":
+                console.log("metamask mode");
+                if (window.ethereum) {
+                    window.web3 = new Web3(ethereum);
+                    try {
+                        await ethereum.enable();
+                    } catch (error) {
+                        console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+                        console.log("infura mode");
+                        setInfuraProvider();
+                    }
+                } else if (window.web3) {
+                    window.web3 = new Web3(web3.currentProvider);
+                } else {
+                    console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+                    console.log("infura mode");
+                    setInfuraProvider();
+                }
+                break;
+            default:
+                console.log("infura mode");
+                setInfuraProvider();
+        }
+    } else {
+        console.log("infura mode");
+        setInfuraProvider();
+    }
+
+    contracts['EntityCore'] = window.web3.eth.contract(abis['EntityCore'].abi).at(address);
+
+    const auctionSellAddress = await new Promise((resolve, reject) => {
+        contracts.EntityCore.auctionSellContract((error, result) => {
+            if (error) { reject(error) } else { resolve(result) }
+        });
     });
-})();
+
+    const auctionSeedAddress = await new Promise((resolve, reject) => {
+        contracts.EntityCore.auctionSeedContract((error, result) => {
+            if (error) { reject(error) } else { resolve(result) }
+        });
+    });
+
+    contracts['AuctionSell'] = window.web3.eth.contract(abis['AuctionSell'].abi).at(auctionSellAddress);
+    contracts['AuctionSeed'] = window.web3.eth.contract(abis['AuctionSeed'].abi).at(auctionSeedAddress);
+
+    return contracts;
+};

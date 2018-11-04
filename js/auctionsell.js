@@ -82,6 +82,7 @@ async function init() {
     });
 }
 
-$(function() {
-    init();
+$(async () => {
+    contracts = await getInstance();
+    await init();
 });

@@ -7,12 +7,14 @@ block content
         .row
             h2 Entity List
         .row
-            .col.m6
-                #pagination
-            .col.m6
+            .col
+                input(name="tokenId" type="number" placeholder="id" style="width:15rem;")._floatLeft
+                button#getEntity._floatLeft(style="margin-left:1rem;") search
+        .row
+            .col
+                ._floatLeft#pagination
                 ._floatRight
-                    input(name="tokenId" type="number" placeholder="id" style="width:15rem;")._floatLeft
-                    button#getEntity._floatLeft(style="margin-left:1rem;") search
+                    button#donloadCSV._xsmall Download
         .row
             #dataEntity
     .modalbox-modal#detailContent
