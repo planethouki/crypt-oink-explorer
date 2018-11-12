@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    include _header
+    ._margin-bottom20
+    .container._margin-bottom50#familytree
+        .row
+            h2 Family Tree
+        .row
+            ._floatRight
+                input(name="tokenId" type="number" placeholder="id" style="width:15rem;")._floatLeft
+                button#getEntity._floatLeft(style="margin-left:1rem;") search
+        .row
+            #chart_progress
+            #chart_div
+    include _footer
+block script
+    script(src="https://www.gstatic.com/charts/loader.js")
+    script(src="js/familytree.js")
