@@ -6,87 +6,6 @@ const getInstance = async function() {
         "AuctionSeed": {
             "abi": [
                 {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_tokenId",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_startingPrice",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_endingPrice",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_duration",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_seller",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "createAuction",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [],
-                    "name": "unpause",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "bool"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_tokenId",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "bid",
-                    "outputs": [],
-                    "payable": true,
-                    "stateMutability": "payable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "paused",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "bool"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [],
-                    "name": "withdrawBalance",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
                     "constant": true,
                     "inputs": [
                         {
@@ -124,48 +43,6 @@ const getInstance = async function() {
                 {
                     "constant": true,
                     "inputs": [],
-                    "name": "ownerCut",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [],
-                    "name": "pause",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "bool"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_tokenId",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "cancelAuctionWhenPaused",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
                     "name": "owner",
                     "outputs": [
                         {
@@ -175,20 +52,6 @@ const getInstance = async function() {
                     ],
                     "payable": false,
                     "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_tokenId",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "cancelAuction",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
                     "type": "function"
                 },
                 {
@@ -239,35 +102,6 @@ const getInstance = async function() {
                     "type": "function"
                 },
                 {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "newOwner",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "transferOwnership",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "inputs": [
-                        {
-                            "name": "_nftAddr",
-                            "type": "address"
-                        },
-                        {
-                            "name": "_cut",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "constructor"
-                },
-                {
                     "anonymous": false,
                     "inputs": [
                         {
@@ -338,122 +172,10 @@ const getInstance = async function() {
                     "name": "AuctionCancelled",
                     "type": "event"
                 },
-                {
-                    "anonymous": false,
-                    "inputs": [],
-                    "name": "Pause",
-                    "type": "event"
-                },
-                {
-                    "anonymous": false,
-                    "inputs": [],
-                    "name": "Unpause",
-                    "type": "event"
-                }
             ],
         },
         "AuctionSell": {
             "abi": [
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_tokenId",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_startingPrice",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_endingPrice",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_duration",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_seller",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "createAuction",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [],
-                    "name": "unpause",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "bool"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_tokenId",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "bid",
-                    "outputs": [],
-                    "payable": true,
-                    "stateMutability": "payable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "lastGen0SalePrices",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "paused",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "bool"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [],
-                    "name": "withdrawBalance",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
                 {
                     "constant": true,
                     "inputs": [
@@ -492,62 +214,6 @@ const getInstance = async function() {
                 {
                     "constant": true,
                     "inputs": [],
-                    "name": "ownerCut",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [],
-                    "name": "pause",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "bool"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_tokenId",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "cancelAuctionWhenPaused",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "gen0SaleCount",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
                     "name": "owner",
                     "outputs": [
                         {
@@ -571,20 +237,6 @@ const getInstance = async function() {
                     ],
                     "payable": false,
                     "stateMutability": "pure",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_tokenId",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "cancelAuction",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
                     "type": "function"
                 },
                 {
@@ -635,35 +287,6 @@ const getInstance = async function() {
                     "type": "function"
                 },
                 {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "newOwner",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "transferOwnership",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "inputs": [
-                        {
-                            "name": "_nftAddr",
-                            "type": "address"
-                        },
-                        {
-                            "name": "_cut",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "constructor"
-                },
-                {
                     "anonymous": false,
                     "inputs": [
                         {
@@ -734,55 +357,10 @@ const getInstance = async function() {
                     "name": "AuctionCancelled",
                     "type": "event"
                 },
-                {
-                    "anonymous": false,
-                    "inputs": [],
-                    "name": "Pause",
-                    "type": "event"
-                },
-                {
-                    "anonymous": false,
-                    "inputs": [],
-                    "name": "Unpause",
-                    "type": "event"
-                }
             ],
         },
         "EntityCore": {
             "abi": [
-                {
-                    "constant": true,
-                    "inputs": [
-                        {
-                            "name": "_interfaceID",
-                            "type": "bytes4"
-                        }
-                    ],
-                    "name": "supportsInterface",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "bool"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "cfoAddress",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "address"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
                 {
                     "constant": true,
                     "inputs": [],
@@ -791,80 +369,6 @@ const getInstance = async function() {
                         {
                             "name": "",
                             "type": "string"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_to",
-                            "type": "address"
-                        },
-                        {
-                            "name": "_tokenId",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "approve",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "ceoAddress",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "address"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_address",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "setDnaCoreAddress",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "GEN0_STARTING_PRICE",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "dnaCoreContract",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "address"
                         }
                     ],
                     "payable": false,
@@ -887,144 +391,6 @@ const getInstance = async function() {
                 },
                 {
                     "constant": true,
-                    "inputs": [],
-                    "name": "activated",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "bool"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [
-                        {
-                            "name": "_entityId",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "isPregnant",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "bool"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "GEN0_AUCTION_DURATION",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_newCEO",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "setCEORequest",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_from",
-                            "type": "address"
-                        },
-                        {
-                            "name": "_to",
-                            "type": "address"
-                        },
-                        {
-                            "name": "_tokenId",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "transferFrom",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [],
-                    "name": "Minimalize",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_newCOO",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "setCOORequest",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "GEN0_STARTING_PRICE_END",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_breederId",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_seederId",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "mateWithAuto",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
                     "inputs": [
                         {
                             "name": "",
@@ -1040,104 +406,6 @@ const getInstance = async function() {
                     ],
                     "payable": false,
                     "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_ceo",
-                            "type": "address"
-                        },
-                        {
-                            "name": "_coo",
-                            "type": "address"
-                        },
-                        {
-                            "name": "_cfo",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "setCoAddresses",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_seederId",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_breederId",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "bidOnAuctionSeed",
-                    "outputs": [],
-                    "payable": true,
-                    "stateMutability": "payable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_newCOO",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "setCOOConfirm",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [],
-                    "name": "Activate",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_entityId",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_startingPrice",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_endingPrice",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_duration",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "createAuctionSell",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [],
-                    "name": "withdrawBalance",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
                     "type": "function"
                 },
                 {
@@ -1160,34 +428,6 @@ const getInstance = async function() {
                     "type": "function"
                 },
                 {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_newCEO",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "setCEOConfirm",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "newContractAddress",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "address"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
                     "constant": true,
                     "inputs": [
                         {
@@ -1200,131 +440,6 @@ const getInstance = async function() {
                         {
                             "name": "count",
                             "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_v2Address",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "setNewAddress",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "secondsPerBlock",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_genes",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_owner",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "createAndGiveEntity",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [
-                        {
-                            "name": "_owner",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "tokensOfOwner",
-                    "outputs": [
-                        {
-                            "name": "ownerTokens",
-                            "type": "uint256[]"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_breederId",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "giveBirth",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_addr",
-                            "type": "address"
-                        },
-                        {
-                            "name": "_seederId",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "approveMating",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [],
-                    "name": "withdrawAuctionBalances",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "minimal",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "bool"
                         }
                     ],
                     "payable": false,
@@ -1384,32 +499,6 @@ const getInstance = async function() {
                     "type": "function"
                 },
                 {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_entityId",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_startingPrice",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_endingPrice",
-                            "type": "uint256"
-                        },
-                        {
-                            "name": "_duration",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "createAuctionSeed",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
                     "constant": true,
                     "inputs": [
                         {
@@ -1426,38 +515,6 @@ const getInstance = async function() {
                         {
                             "name": "",
                             "type": "bool"
-                        }
-                    ],
-                    "payable": false,
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_to",
-                            "type": "address"
-                        },
-                        {
-                            "name": "_tokenId",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "transfer",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": true,
-                    "inputs": [],
-                    "name": "cooAddress",
-                    "outputs": [
-                        {
-                            "name": "",
-                            "type": "address"
                         }
                     ],
                     "payable": false,
@@ -1534,61 +591,6 @@ const getInstance = async function() {
                     "type": "function"
                 },
                 {
-                    "constant": false,
-                    "inputs": [],
-                    "name": "Deactivate",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_genes",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "createGen0Auction",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_sell",
-                            "type": "address"
-                        },
-                        {
-                            "name": "_seed",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "setAuctionAddresses",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_newCFO",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "setCFOConfirm",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
                     "constant": true,
                     "inputs": [
                         {
@@ -1622,20 +624,6 @@ const getInstance = async function() {
                     "type": "function"
                 },
                 {
-                    "constant": false,
-                    "inputs": [
-                        {
-                            "name": "_newCFO",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "setCFORequest",
-                    "outputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
                     "constant": true,
                     "inputs": [
                         {
@@ -1653,29 +641,6 @@ const getInstance = async function() {
                     "payable": false,
                     "stateMutability": "view",
                     "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "payable": false,
-                    "stateMutability": "nonpayable",
-                    "type": "constructor"
-                },
-                {
-                    "payable": true,
-                    "stateMutability": "payable",
-                    "type": "fallback"
-                },
-                {
-                    "anonymous": false,
-                    "inputs": [
-                        {
-                            "indexed": false,
-                            "name": "newContract",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "ContractUpgrade",
-                    "type": "event"
                 },
                 {
                     "anonymous": false,
