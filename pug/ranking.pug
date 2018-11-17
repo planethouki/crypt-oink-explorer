@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    include _header
+    ._margin-bottom20
+    .container._margin-bottom50
+        .row
+            h2 Ranking &nbsp;
+                small (not on time)
+        .row
+            #pagination
+        .row
+            #dataRanking
+    include _footer
+block script
+    script(src="js/ranking.js")

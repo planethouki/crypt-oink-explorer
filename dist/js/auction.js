@@ -32,7 +32,7 @@ async function init() {
         callback: function(data, pagination) {
             $("#dataEntity").tabulator("clearData");
             data.map((tokenId) => {
-                renderEntity(tokenId);
+                renderRanking(tokenId);
             });
         }
     });

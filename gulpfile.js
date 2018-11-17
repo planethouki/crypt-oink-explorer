@@ -11,6 +11,8 @@ const files = [
     {in:'./pug/instruction.pug',out:'./dist/instruction.html'},
     {in:'./pug/entitydata.pug',out:'./dist/entitydata.html'},
     {in:'./pug/familytree.pug',out:'./dist/familytree.html'},
+    {in:'./pug/ownership.pug',out:'./dist/ownership.html'},
+    {in:'./pug/ranking.pug',out:'./dist/ranking.html'},
 ];
 
 gulp.task("build", function(done) {

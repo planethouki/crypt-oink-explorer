@@ -131,9 +131,6 @@ async function init() {
         if (page < 1 || totalPage < page) return;
         container.pagination("go", page);
     });
-    $("#donloadCSV").click(() => {
-        tableContainer.tabulator("download", "csv", "data.csv");
-    });
     $('#pagination').pagination({
         dataSource: function(done) {
             let a = new Array(totalSupply);
@@ -152,18 +149,6 @@ async function init() {
             });
         }
     });
-}
-
-async function getPageSize() {
-    const searchParams = new URLSearchParams(location.search);
-    let ps;
-    if (searchParams.has("size")) {
-        ps = parseInt(searchParams.get("size"));
-        console.log(`page size specification: ${ps}`);
-    } else {
-        ps = 20;
-    }
-    return ps;
 }
 
 $(async () => {

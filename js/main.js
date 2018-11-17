@@ -828,3 +828,16 @@ const getInstance = async function() {
 
     return contracts;
 };
+
+
+async function getPageSize() {
+    const searchParams = new URLSearchParams(location.search);
+    let ps;
+    if (searchParams.has("size")) {
+        ps = parseInt(searchParams.get("size"));
+        console.log(`page size specification: ${ps}`);
+    } else {
+        ps = 20;
+    }
+    return ps;
+}

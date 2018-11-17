@@ -31,6 +31,7 @@ async function draw(rootTokenId) {
     const progressBox = $("#chart_progress");
     progressBox.text(`drawing ${rootTokenId}...`);
     let rowData = [];
+    let acceptableMaxLevel = 0;
     const fTag = function(tokenId) {
         return `<div>${tokenId}</div><div class="image_box"><img src="/img/trans.png"/><div class="over_image" style="background-image:url(https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/${tokenId}_512x586.png);"></div></div>`;
     };
@@ -51,15 +52,20 @@ async function draw(rootTokenId) {
                 randomId + "-" + r.tokenId_str,
                 ''
             ]);
-            if (level < 4) {
+            if (level < 3) {
                 await recu(r.breederId,level + 1, breederRandomId);
                 await recu(r.seederId,level + 1, seederRandomId);
             }
+            if (acceptableMaxLevel < level + 1) acceptableMaxLevel = level + 1;
+        } else {
+            if (acceptableMaxLevel < level) acceptableMaxLevel = level;
         }
     };
     rowData.push([{v:"0" + "-" + rootTokenId,f:fTag(rootTokenId)}, '', '']);
-    await recu(rootTokenId, 2, "0");
+    await recu(rootTokenId, 1, "0");
     // console.log(rowData);
+    // console.log(acceptableMaxLevel);
+    $("#chart_div").css("max-width",`${(acceptableMaxLevel)*25}%`);
     google.charts.load('current', {packages:["orgchart"]});
     google.charts.setOnLoadCallback(drawChart);
     progressBox.empty();

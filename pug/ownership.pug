@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    include _header
+    ._margin-bottom20
+    .container._margin-bottom50
+        .row
+            h2 Ownership &nbsp;
+                small (not on time)
+        .row
+            ._floatLeft#pagination
+            button#getOwner._floatRight(style="margin-left:1rem;") search
+            input(name="owner" type="text" placeholder="address" style="width:40rem;")._floatRight
+        .row
+            #dataOwnership
+    include _footer
+block script
+    script(src="js/ownership.js")
