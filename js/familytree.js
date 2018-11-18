@@ -79,10 +79,12 @@ async function draw(rootTokenId) {
         const chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
         function selectHandler() {
             const selection = chart.getSelection();
-            if (selection.length === 0 || selection[0]['row'] === 0) return;
+            // if (selection.length === 0 || selection[0]['row'] === 0) return;
+            if (selection.length === 0) return;
             const v = rowData[selection[0]['row']][0]['v'];
             const splitV = v.split("-");
-            location.href = `${location.origin}/familytree.html?id=${splitV[1]}`;
+            // location.href = `${location.origin}/familytree.html?id=${splitV[1]}`;
+            $("input[name=tokenId]").val(splitV[1]);
         }
         google.visualization.events.addListener(chart, 'select', selectHandler);
         function onmouseoverHandler(row) {

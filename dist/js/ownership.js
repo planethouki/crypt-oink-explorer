@@ -1,12 +1,15 @@
-let contracts;
 let pageSize;
 
-
-
 async function addressHandler(address) {
+    $("#ownerAddress").text(address);
     $('#pagination').pagination({
         dataSource: function(done) {
-            $.getJSON(`https://cryptoinkexplorer.blob.core.windows.net/api/v1/ownertotokens/${address}.json`, (json) => done(json));
+            $.getJSON(`https://cryptoinkexplorer.blob.core.windows.net/api/v1/ownertotokens/${address}.json`, (json) => {
+                json.sort((a, b) => {
+                    return parseInt(b) - parseInt(a);
+                });
+                done(json)
+            });
         },
         pageSize: pageSize,
         showGoInput: true,
@@ -26,10 +29,10 @@ async function init() {
         if (owner === "") return;
         addressHandler(owner.toLowerCase());
     });
+    addressHandler("0xa2156F24711A631e92e65dC114CF172065dDd49b".toLowerCase());
 }
 
 $(async () => {
-    contracts = await getInstance();
     pageSize = await getPageSize();
     await init();
 });

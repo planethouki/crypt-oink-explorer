@@ -1,10 +1,23 @@
-let contracts;
 let data;
 let pageSize;
 
 async function getData() {
     return new Promise((resolve, reject) => {
-        $.getJSON("https://cryptoinkexplorer.blob.core.windows.net/api/v1/ownerRanking.json", (json) => resolve(json));
+        $.getJSON("https://cryptoinkexplorer.blob.core.windows.net/api/v1/ownerRanking.json", (rankingArray) => {
+            const orderd = rankingArray.map((ranking, index) => {
+                if (index === 0) {
+                    ranking["order"] = 1;
+                } else {
+                    if (ranking["count"] === rankingArray[index - 1]["count"]) {
+                        ranking["order"] = rankingArray[index - 1]["order"];
+                    } else {
+                        ranking["order"] = rankingArray[index - 1]["order"] + 1;
+                    }
+                }
+                return ranking;
+            });
+            resolve(orderd);
+        });
     });
 }
 
@@ -13,7 +26,7 @@ function renderRanking(index) {
         [
             {
                 "id": index,
-                "order": index + 1,
+                "order": data[index].order,
                 "owner": data[index].owner,
                 "count": data[index].count,
             }
@@ -32,27 +45,25 @@ async function init() {
         ],
     });
     $('#pagination').pagination({
-        dataSource: function(done) {
-            let a = new Array(data.length);
-            for (let i = 0; i < data.length; i++) {
-                a[i] = i;
-            }
-            done(a);
-        },
+        dataSource: data,
         pageSize: pageSize,
         showGoInput: true,
         showGoButton: true,
-        callback: function(indexes, pagination) {
-            $("#dataRanking").tabulator("clearData");
-            indexes.map((index) => {
-                renderRanking(index);
+        callback: function(viewDataArray, pagination) {
+            const tableData = viewDataArray.map((obj, index) => {
+                return {
+                    "id": index,
+                    "order": obj.order,
+                    "owner": obj.owner,
+                    "count": obj.count,
+                }
             });
+            $("#dataRanking").tabulator("clearData").tabulator("addData", tableData);
         }
     });
 }
 
 $(async () => {
-    contracts = await getInstance();
     pageSize = await getPageSize();
     data = await getData();
     await init();
