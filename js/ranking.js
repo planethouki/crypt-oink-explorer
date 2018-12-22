@@ -4,7 +4,7 @@ let pageSize;
 async function getData() {
     return new Promise((resolve, reject) => {
         $.getJSON("https://cryptoinkexplorer.blob.core.windows.net/api/v1/ownerRanking.json", (json) => {
-            resolve(JSON.parse(json));
+            resolve(json);
         });
     });
 }
@@ -20,6 +20,16 @@ function renderRanking(index) {
             }
         ]
     );
+}
+
+function getLastMod() {
+    $.getJSON(`https://cryptoinkexplorer.blob.core.windows.net/api/v1/block.json`, (json) => {
+        console.log(json.block);
+        web3.eth.getBlock(json.block, (error, result) => {
+            const date = new Date(result.timestamp * 1000);
+            $("#lastMod").text("Last Modified: ".concat(date.toUTCString()));
+        });
+    });
 }
 
 async function init() {
@@ -54,5 +64,6 @@ async function init() {
 $(async () => {
     pageSize = await getPageSize();
     data = await getData();
+    getLastMod();
     await init();
 });

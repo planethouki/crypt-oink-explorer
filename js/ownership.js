@@ -5,11 +5,8 @@ async function addressHandler(address) {
     $('#pagination').pagination({
         dataSource: function(done) {
             $.getJSON(`https://cryptoinkexplorer.blob.core.windows.net/api/v1/ownertotokens/${address}.json`, (json) => {
-                const obj = JSON.parse(json);
-                obj.sort((a, b) => {
-                    return parseInt(b) - parseInt(a);
-                });
-                done(obj);
+                json.reverse();
+                done(json);
             });
         },
         pageSize: pageSize,
@@ -24,6 +21,16 @@ async function addressHandler(address) {
     });
 }
 
+function getLastMod() {
+    $.getJSON(`https://cryptoinkexplorer.blob.core.windows.net/api/v1/block.json`, (json) => {
+        console.log(json.block);
+        web3.eth.getBlock(json.block, (error, result) => {
+            const date = new Date(result.timestamp * 1000);
+            $("#lastMod").text("Last Modified: ".concat(date.toUTCString()));
+        });
+    });
+}
+
 async function init() {
     $("#getOwner").click(() => {
         const owner = $("input[name=owner]").val();
@@ -35,5 +42,6 @@ async function init() {
 
 $(async () => {
     pageSize = await getPageSize();
+    getLastMod();
     await init();
 });
