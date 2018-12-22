@@ -3,20 +3,8 @@ let pageSize;
 
 async function getData() {
     return new Promise((resolve, reject) => {
-        $.getJSON("https://cryptoinkexplorer.blob.core.windows.net/api/v1/ownerRanking.json", (rankingArray) => {
-            const orderd = rankingArray.map((ranking, index) => {
-                if (index === 0) {
-                    ranking["order"] = 1;
-                } else {
-                    if (ranking["count"] === rankingArray[index - 1]["count"]) {
-                        ranking["order"] = rankingArray[index - 1]["order"];
-                    } else {
-                        ranking["order"] = rankingArray[index - 1]["order"] + 1;
-                    }
-                }
-                return ranking;
-            });
-            resolve(orderd);
+        $.getJSON("https://cryptoinkexplorer.blob.core.windows.net/api/v1/ownerRanking.json", (json) => {
+            resolve(JSON.parse(json));
         });
     });
 }

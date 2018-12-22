@@ -5,10 +5,11 @@ async function addressHandler(address) {
     $('#pagination').pagination({
         dataSource: function(done) {
             $.getJSON(`https://cryptoinkexplorer.blob.core.windows.net/api/v1/ownertotokens/${address}.json`, (json) => {
-                json.sort((a, b) => {
+                const obj = JSON.parse(json);
+                obj.sort((a, b) => {
                     return parseInt(b) - parseInt(a);
                 });
-                done(json)
+                done(obj);
             });
         },
         pageSize: pageSize,
