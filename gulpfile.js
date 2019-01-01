@@ -22,7 +22,7 @@ gulp.task("build", function(done) {
         } catch(e) {
             fs.mkdirSync("./dist/js");
         }
-        files.map((file) => {
+        files.filter(file => file.endsWith(".js")).map((file) => {
             fs.copyFile(`./js/${file}`, `./dist/js/${file}`, (err) => {
                 if(err) {console.error(err)}
             });

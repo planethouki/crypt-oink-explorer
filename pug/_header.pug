@@ -1,21 +1,25 @@
-ul.topnav#menu
-    li
-        a.brand(href="/") Crypt-Oink-Explorer
-    li
-        a(href="/tonlist.html") List
-    li
-        a(href="/shop.html") Shop
-    li
-        a(href="/breed.html") Breed
-    li
-        a(href="/familytree.html") Tree
-    li
-        a(href="/ownership.html") Ownership
-    li
-        a(href="/ranking.html") Ranking
-    li.dropdown
-        a(href="#") Dev Tools
-        .dropdown-content
-            a(href="/entitydata.html") Entity Data
-    li.-icon
-        a(href="javascript:void(0);" onclick="topnav('menu')") ☰
+nav.navbar.navbar-expand-lg.navbar-light.bg-light
+    a.navbar-brand(href="/") Crypt-Oink-Explorer
+    button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
+        span.navbar-toggler-icon
+    .collapse.navbar-collapse#navbarSupportedContent
+        ul.navbar-nav.mr-auto
+            li.nav-item.dropdown
+                a.nav-link.dropdown-toggle#tonsNavbarDropdown(href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false") List
+                .dropdown-menu(aria-labelledby="tonsNavbarDropdown")
+                    a.dropdown-item(href="/tonlist.html") All
+                    .dropdown-divider
+                    a.dropdown-item(href="/shop.html") Shop
+                    a.dropdown-item(href="/breed.html") Breed
+                    .dropdown-divider
+                    a.dropdown-item(href="/ownership.html") Ownership
+            li.nav-item.dropdown
+                a.nav-link.dropdown-toggle#detailNavbarDropdown(href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false") Other
+                .dropdown-menu(aria-labelledby="detailNavbarDropdown")
+                    a.dropdown-item(href="/ton.html") Detail
+                    a.dropdown-item(href="/tree.html") Tree
+            li.nav-item.dropdown
+                a.nav-link.dropdown-toggle#otherNavbarDropdown(href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false") Other
+                .dropdown-menu(aria-labelledby="otherNavbarDropdown")
+                    a.dropdown-item(href="/ranking.html") Ranking
+

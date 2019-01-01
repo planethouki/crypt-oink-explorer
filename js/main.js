@@ -811,18 +811,8 @@ const getInstance = async function() {
 
     contracts['EntityCore'] = window.web3.eth.contract(abis['EntityCore'].abi).at(address);
 
-    const auctionSellAddress = await new Promise((resolve, reject) => {
-        contracts.EntityCore.auctionSellContract((error, result) => {
-            if (error) { reject(error) } else { resolve(result) }
-        });
-    });
-
-    const auctionSeedAddress = await new Promise((resolve, reject) => {
-        contracts.EntityCore.auctionSeedContract((error, result) => {
-            if (error) { reject(error) } else { resolve(result) }
-        });
-    });
-
+    const auctionSellAddress = "0xa2156f24711a631e92e65dc114cf172065ddd49b";
+    const auctionSeedAddress = "0xcf20f1cc6efa9a05ae7eff8a0c6331f3680899cf";
     contracts['AuctionSell'] = window.web3.eth.contract(abis['AuctionSell'].abi).at(auctionSellAddress);
     contracts['AuctionSeed'] = window.web3.eth.contract(abis['AuctionSeed'].abi).at(auctionSeedAddress);
 

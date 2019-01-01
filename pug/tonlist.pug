@@ -2,41 +2,80 @@ extends layout
 
 block content
     include _header
-    ._margin-bottom20
-    .container._margin-bottom50
-        .row
-            h2 Ton List
-        .row
-            .col
-                ._floatLeft#pagination
-                button#getEntity._floatRight(style="margin-left:1rem;") search
-                input(name="tokenId" type="number" placeholder="id" style="width:15rem;")._floatRight
-        .row
-            #dataEntity
-    .modalbox-modal#detailContent
-        .modalbox-modal-content
-            span.-close#modalbox-close &times;
-            #detailThumb
-                img
-            #detailEntity
-                .row
-                    .col.m1-5.card#tokenId
-                    .col.m1-5.card#isBreeding
-                    .col.m1-5.card#isReady
-                    .col.m1-5.card#cooldownIndex
-                    .col.m1-5.card#nextActionAt
-                .row
-                    .col.m1-5.card#matingWithId
-                    .col.m1-5.card#birthTime
-                    .col.m1-5.card#breederId
-                    .col.m1-5.card#seederId
-                    .col.m1-5.card#generation
-                .row
-                    .col.card#dna
-                    .col.card#owner
+    main.container#main
+        h2 All Ton List
+        .form-inline.float-sm-right
+            .form-group.mx-sm-3.mb-2
+                input.form-control(name="tokenId" type="number" placeholder="ex.) 1000")
+            button.btn.btn-primary.mb-2#getEntity search
+        nav(aria-label="Page navigation example")
+            ul.pagination
+                li.page-item
+                    a.page-link(href="#/" aria-label="First")
+                        span(aria-hidden="true") &laquo;
+                li.page-item
+                    a.page-link(href="#/" aria-label="Previous")
+                        span(aria-hidden="true") &lt;
+                li.page-item
+                    a.page-link(href="#/page/1") 1
+                li.page-item
+                    a.page-link(href="#/page/2") 2
+                li.page-item
+                    a.page-link(href="#/page/3") 3
+                li.page-item
+                    a.page-link(href="#/" aria-label="Next")
+                        span(aria-hidden="true") &gt;
+                li.page-item
+                    a.page-link(href="#/" aria-label="Last")
+                        span(aria-hidden="true") &raquo;
+        #dataEntity.table.table-borderless.table-sm
+        nav(aria-label="Page navigation example")
+            ul.pagination
+                li.page-item
+                    a.page-link(href="#/" aria-label="Previous")
+                        span(aria-hidden="true") &laquo;
+                li.page-item
+                    a.page-link(href="#/page/1") 1
+                li.page-item
+                    a.page-link(href="#/page/2") 2
+                li.page-item
+                    a.page-link(href="#/page/3") 3
+                li.page-item
+                    a.page-link(href="#/" aria-label="Next")
+                        span(aria-hidden="true") &raquo;
+        button.btn.btn-primary(type="button" data-toggle="modal" data-target="#detailContent") Launch demo modal
+    .modal.fade#detailContent(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+        .modal-dialog.modal-xl(role="document")
+            .modal-content
+                .modal-header
+                    h5.modal-title#exampleModalLabel Ton Data
+                    button.close(type="button" data-dismiss="modal" aria-label="Close")
+                        span(aria-hidden="true") &times;
+                .modal-body
+                    .row
+                        .col-lg-12.col-xl-6#detailThumb
+                            a
+                                img
+                        .col-lg-12.col-xl-6#detailEntity
+                            .row
+                                .col-lg-3.col-xl-6.card#tokenId
+                                .col-lg-3.col-xl-6.card#isBreeding
+                                .col-lg-3.col-xl-6.card#isReady
+                                .col-lg-3.col-xl-6.card#cooldownIndex
+                                .col-lg-3.col-xl-6.card#nextActionAt
+                                .col-lg-3.col-xl-6.card#matingWithId
+                                .col-lg-3.col-xl-6.card#birthTime
+                                .col-lg-3.col-xl-6.card#breederId
+                                .col-lg-3.col-xl-6.card#seederId
+                                .col-lg-3.col-xl-6.card#generation
+                                .col-lg-12.col-xl-12.card#dna
+                                .col-lg-12.col-xl-12.card#owner
+                .modal-footer
+                    button.btn.btn-secondary(type="button" data-dismiss="modal") Close
         include _footer
 
 block script
+    script(src="js/sammy/sammy-latest.min.js")
     script(src="js/tonlist.js")
 
 
