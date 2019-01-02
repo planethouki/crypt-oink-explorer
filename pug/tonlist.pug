@@ -8,27 +8,9 @@ block content
             .form-group.mx-sm-3.mb-2
                 input.form-control(name="tokenId" type="number" placeholder="ex.) 1000")
             button.btn.btn-primary.mb-2#getEntity search
-        nav(aria-label="Page navigation example")
-            ul.pagination
-                li.page-item
-                    a.page-link(href="#/" aria-label="First")
-                        span(aria-hidden="true") &laquo;
-                li.page-item
-                    a.page-link(href="#/" aria-label="Previous")
-                        span(aria-hidden="true") &lt;
-                li.page-item
-                    a.page-link(href="#/page/1") 1
-                li.page-item
-                    a.page-link(href="#/page/2") 2
-                li.page-item
-                    a.page-link(href="#/page/3") 3
-                li.page-item
-                    a.page-link(href="#/" aria-label="Next")
-                        span(aria-hidden="true") &gt;
-                li.page-item
-                    a.page-link(href="#/" aria-label="Last")
-                        span(aria-hidden="true") &raquo;
+        #topPagination
         #dataEntity.table.table-borderless.table-sm
+        #bottomPagination
         nav(aria-label="Page navigation example")
             ul.pagination
                 li.page-item
