@@ -22,6 +22,7 @@ let sammy;
                 if (result) {
                     resolve({
                         "id": tokenId,
+                        "tokenId": tokenId,
                         "isBreeding": result[0].toString(),
                         "isReady": result[1].toString(),
                         "cooldownIndex": result[2].toNumber(),
@@ -79,23 +80,19 @@ let sammy;
         },
     });
 
+
     sammy = $.sammy("#main", function() {
         this.around(async function(callback) {
             const context = this;
-            // context.totalSupply = await new Promise((resolve, reject) => {
-            //     contracts.EntityCore.totalSupply({}, (error, result) => {
-            //         if (error) reject(error);
-            //         if (result) resolve(result.toNumber());
-            //     });
-            // });
             context.totalSupply = totalSupply;
+            context.pageSize = pageSize;
             table.clearData();
             callback();
         });
 
         this.get('#/', function(context) {
             const from = context.totalSupply;
-            const to = context.totalSupply - pageSize;
+            const to = context.totalSupply - context.pageSize;
             let tableData = [];
             for (let i = from; to < i; i--) {
                 tableData.push({
@@ -109,8 +106,8 @@ let sammy;
 
         this.get('#/page/:page', function(context) {
             const page = Number(this.params['page']);
-            const from = context.totalSupply - (pageSize * (page - 1));
-            const to = context.totalSupply - (pageSize * (page));
+            const from = context.totalSupply - (context.pageSize * (page - 1));
+            const to = context.totalSupply - (context.pageSize * (page));
             let tableData = [];
             for (let i = from; to < i; i--) {
                 tableData.push({
@@ -127,6 +124,46 @@ let sammy;
     $(() => {
         sammy.run('#/');
 
+        const topPagination = $('#topPagination');
+        const bottomPagination = $('#bottomPagination');
+
+        [topPagination, bottomPagination].map(container => {
+            container.pagination({
+                dataSource: async function(done) {
+                    const totalSupply = await new Promise((resolve, reject) => {
+                        contracts.EntityCore.totalSupply({}, (error, result) => {
+                            if (error) reject(error);
+                            if (result) resolve(result.toNumber());
+                        });
+                    });
+                    const totalPage = Math.floor((totalSupply - 1) / pageSize + 1);
+                    const page = [];
+                    for (let i = 1; i <= totalPage; i++) {
+                        page.push(i);
+                    }
+                    done(page);
+                },
+                pageSize: 1,
+                pageNumber: (function() {
+                    const hash = location.hash;
+                    return hash === "#/" ? 1 : Number(hash.split("/")[2]);
+                })(),
+                triggerPagingOnInit: false,
+                afterPageOnClick: function() {
+                    const page = container.pagination('getSelectedPageNum');
+                    location.hash = `#/page/${page}`
+                },
+            });
+        });
+
+        sammy.before(function() {
+            const hash = location.hash;
+            const page = hash === "#/" ? 1 : Number(hash.split("/")[2]);
+            [topPagination, bottomPagination].map(container => {
+                container.pagination('go', page);
+            });
+        });
+
         $("#getEntity").click(async () => {
             const tokenId = $("input[name=tokenId]").val();
             if (tokenId === "") return;
@@ -142,66 +179,6 @@ let sammy;
             location.hash = `#/page/${page}`
         });
 
-        $('#topPagination').pagination({
-            dataSource: async function(done) {
-                const totalSupply = await new Promise((resolve, reject) => {
-                    contracts.EntityCore.totalSupply({}, (error, result) => {
-                        if (error) reject(error);
-                        if (result) resolve(result.toNumber());
-                    });
-                });
-                const totalPage = Math.floor((totalSupply - 1) / pageSize + 1);
-                const page = [];
-                for (let i = 1; i <= totalPage; i++) {
-                    page.push(i);
-                }
-                done(page);
-            },
-            pageSize: 1,
-            pageNumber: (function() {
-                const hash = location.hash;
-                if (hash === "#/") {
-                    return 1;
-                }
-                const page = hash.split("/")[2];
-                return Number(page);
-            })(),
-            triggerPagingOnInit: false,
-            callback: function(data, pagination) {
-                console.log("pagination callback");
-                location.hash = `#/page/${pagination.pageNumber}`
-            },
-        });
-
-        $('#bottomPagination').pagination({
-            dataSource: async function(done) {
-                const totalSupply = await new Promise((resolve, reject) => {
-                    contracts.EntityCore.totalSupply({}, (error, result) => {
-                        if (error) reject(error);
-                        if (result) resolve(result.toNumber());
-                    });
-                });
-                const totalPage = Math.floor((totalSupply - 1) / pageSize + 1);
-                const page = [];
-                for (let i = 1; i <= totalPage; i++) {
-                    page.push(i);
-                }
-                done(page);
-            },
-            pageSize: 1,
-            pageNumber: (function() {
-                const hash = location.hash;
-                if (hash === "#/") {
-                    return 1;
-                }
-                const page = hash.split("/")[2];
-                return Number(page);
-            })(),
-            triggerPagingOnInit: false,
-            callback: function(data, pagination) {
-                console.log("pagination callback");
-                location.hash = `#/page/${pagination.pageNumber}`
-            },
-        });
     });
+
 })();

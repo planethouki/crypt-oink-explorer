@@ -1,0 +1,28 @@
+.modal.fade#detailContent(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+    .modal-dialog.modal-xl(role="document")
+        .modal-content
+            .modal-header
+                h5.modal-title#exampleModalLabel Ton Data
+                button.close(type="button" data-dismiss="modal" aria-label="Close")
+                    span(aria-hidden="true") &times;
+            .modal-body
+                .row
+                    .col-lg-12.col-xl-6#detailThumb
+                        a
+                            img
+                    .col-lg-12.col-xl-6#detailEntity
+                        .row
+                            .col-lg-3.col-xl-6.card#tokenId
+                            .col-lg-3.col-xl-6.card#isBreeding
+                            .col-lg-3.col-xl-6.card#isReady
+                            .col-lg-3.col-xl-6.card#cooldownIndex
+                            .col-lg-3.col-xl-6.card#nextActionAt
+                            .col-lg-3.col-xl-6.card#matingWithId
+                            .col-lg-3.col-xl-6.card#birthTime
+                            .col-lg-3.col-xl-6.card#breederId
+                            .col-lg-3.col-xl-6.card#seederId
+                            .col-lg-3.col-xl-6.card#generation
+                            .col-lg-12.col-xl-12.card#dna
+                            .col-lg-12.col-xl-12.card#owner
+            .modal-footer
+                button.btn.btn-secondary(type="button" data-dismiss="modal") Close

@@ -19,6 +19,10 @@
     margin-right: auto;
 }
 
+#cardEntity img {
+    width: 100%;
+}
+
 #dataEntity .col-thumb {
     width: 10rem;
 }
@@ -28,10 +32,10 @@
     width: 10rem;
 }
 #dataEntity .col-id, #dataEntity .col-seeder, #dataEntity .col-breeder, #dataEntity  .col-gen {
-    width: 10rem;
+    min-width: 8rem;
 }
 #dataEntity .col-owner {
-    width: 40rem;
+    min-width: 30rem;
 }
 #dataEntity.tabulator,
 #dataEntity .tabulator-cell,
