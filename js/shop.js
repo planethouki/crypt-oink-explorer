@@ -1,5 +1,5 @@
 async function getEntityFromTokenId(tokenId) {
-    return await new Promise((resolve, reject) => {
+    const getAuction = new Promise((resolve, reject) => {
         contracts.AuctionSell.getAuction(tokenId, {}, (error, result) => {
             if (error) reject(error);
             if (result) {
@@ -17,4 +17,19 @@ async function getEntityFromTokenId(tokenId) {
             resolve();
         });
     });
+    const getCurrentPrice = new Promise((resolve, reject) => {
+        contracts.AuctionSell.getCurrentPrice(tokenId, {}, (error, result) => {
+            if (error) reject(error);
+            if (result) {
+                resolve({
+                    "currentPrice": result.toString(),
+                });
+            }
+            resolve();
+        });
+    });
+    const auctionAndPrice = await Promise.all([getAuction, getCurrentPrice]);
+    let entity = auctionAndPrice[0];
+    entity["currentPrice"] = auctionAndPrice[1]["currentPrice"];
+    return entity;
 }

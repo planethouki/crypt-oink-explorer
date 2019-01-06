@@ -753,16 +753,10 @@ const getInstance = async function() {
 
     const endPoints = {
         "mainnet": "https://mainnet.infura.io/v3/",
-        "ropsten": "https://ropsten.infura.io/v3/",
     };
 
     const searchParams = new URLSearchParams(location.search);
 
-    let address = "0x1a94fce7ef36bc90959e206ba569a12afbc91ca1";
-    if (searchParams.has("address")) {
-        address = searchParams.get("address");
-        console.log(`address specification: ${address}`);
-    }
 
     function setInfuraProvider() {
         let endPoint = `${endPoints['mainnet']}${apiKey}`;
@@ -809,6 +803,7 @@ const getInstance = async function() {
         setInfuraProvider();
     }
 
+    const address = "0x1a94fce7ef36bc90959e206ba569a12afbc91ca1";
     contracts['EntityCore'] = window.web3.eth.contract(abis['EntityCore'].abi).at(address);
 
     const auctionSellAddress = "0xa2156f24711a631e92e65dc114cf172065ddd49b";
@@ -827,7 +822,7 @@ async function getPageSize() {
         ps = parseInt(searchParams.get("size"));
         console.log(`page size specification: ${ps}`);
     } else {
-        ps = 20;
+        ps = 60;
     }
     return ps;
 }

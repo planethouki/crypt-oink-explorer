@@ -20,9 +20,10 @@ let sammy;
             {title:"thumb", field:"thumb", formatter: "image", "cssClass":"col-thumb", headerSort:false},
             {title:"id", field:"tokenId", sorter:"number", "cssClass":"col-id"},
             {title:"startingPrice", field:"startingPrice", sorter:"number", "cssClass":"col-seeder"},
-            {title:"endingPrice", field:"endingPrice", sorter:"number", headerTooltip:"generation", "cssClass":"col-gen"},
+            {title:"endingPrice", field:"endingPrice", sorter:"number", "cssClass":"col-gen"},
             {title:"duration", field:"duration", sorter:"string", "cssClass":"col-gen"},
             {title:"startedAt", field:"startedAt", sorter:"string", "cssClass":"col-gen"},
+            {title:"currentPrice", field:"currentPrice", sorter:"number", "cssClass":"col-gen"},
         ],
         rowClick: function(event, row) {
             const tokenId = row._row.data.tokenId;
@@ -54,9 +55,13 @@ let sammy;
                 promise.push(getEntityFromTokenId(i));
             }
             Promise.all(promise).then(tableData => {
-                table.addData(tableData.filter(token => {
+                return table.addData(tableData.filter(token => {
                     return token.seller !== "0x"
                 }));
+            }).then(rows => {
+                if (rows.length === 0) {
+                    console.log("no content at page 1");
+                }
             });
         });
 
@@ -69,9 +74,13 @@ let sammy;
                 promise.push(getEntityFromTokenId(i));
             }
             Promise.all(promise).then(tableData => {
-                table.addData(tableData.filter(token => {
+                return table.addData(tableData.filter(token => {
                     return token.seller !== "0x"
                 }));
+            }).then(rows => {
+                if (rows.length === 0) {
+                    console.log(`no content at page ${page}`);
+                }
             });
         });
     });
