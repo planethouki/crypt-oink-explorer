@@ -6,6 +6,7 @@ const pug = require('pug');
 const files = [
     {in:'./pug/index.pug',out:'./dist/index.html'},
     {in:'./pug/tonlist.pug',out:'./dist/tonlist.html'},
+    {in:'./pug/ton.pug',out:'./dist/ton.html'},
     {in:'./pug/toncard.pug',out:'./dist/toncard.html'},
     {in:'./pug/shop.pug',out:'./dist/shop.html'},
     {in:'./pug/breed.pug',out:'./dist/breed.html'},
@@ -16,43 +17,25 @@ const files = [
     {in:'./pug/ranking.pug',out:'./dist/ranking.html'},
 ];
 
+function copy(folder, filter) {
+    fs.readdir(`./${folder}`, (err, files) => {
+        try {
+            fs.accessSync(`./dist/${folder}`);
+        } catch(e) {
+            fs.mkdirSync(`./dist/${folder}`);
+        }
+        files.filter(file => file.endsWith(filter)).map((file) => {
+            fs.copyFile(`./${folder}/${file}`, `./dist/${folder}/${file}`, (err) => {
+                if(err) {console.error(err)}
+            });
+        });
+    });
+}
+
 gulp.task("build", function(done) {
-    fs.readdir("./js", (err, files) => {
-        try {
-            fs.accessSync("./dist/js");
-        } catch(e) {
-            fs.mkdirSync("./dist/js");
-        }
-        files.filter(file => file.endsWith(".js")).map((file) => {
-            fs.copyFile(`./js/${file}`, `./dist/js/${file}`, (err) => {
-                if(err) {console.error(err)}
-            });
-        });
-    });
-    fs.readdir("./css", (err, files) => {
-        try {
-            fs.accessSync("./dist/css");
-        } catch(e) {
-            fs.mkdirSync("./dist/css");
-        }
-        files.map((file) => {
-            fs.copyFile(`./css/${file}`, `./dist/css/${file}`, (err) => {
-                if(err) {console.error(err)}
-            });
-        });
-    });
-    fs.readdir("./img", (err, files) => {
-        try {
-            fs.accessSync("./dist/img");
-        } catch(e) {
-            fs.mkdirSync("./dist/img");
-        }
-        files.map((file) => {
-            fs.copyFile(`./img/${file}`, `./dist/img/${file}`, (err) => {
-                if(err) {console.error(err)}
-            });
-        });
-    });
+    copy("js", ".js");
+    copy("css", ".css");
+    copy("img", "");
     files.map((file) => {
         let rawHtml = pug.renderFile(file.in);
         let outName = file.out;
