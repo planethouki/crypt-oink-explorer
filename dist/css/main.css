@@ -1,3 +1,7 @@
+body {
+    min-width: 360px;
+}
+
 ._margin-bottom50 {
     margin-bottom: 50px;
 }

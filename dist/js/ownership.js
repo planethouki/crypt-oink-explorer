@@ -2,6 +2,8 @@ let contracts;
 let pageSize;
 let deck;
 let sammy;
+let ownershipAddress;
+let ownershipTokenIds;
 
 
 (async () => {
@@ -52,8 +54,8 @@ let sammy;
         addData: function(data) {
             data.filter(token => token.id > 0).map(token => {
                 const id = token.id;
-                $("#cardEntity").append(`<div class="col-6 col-sm-3 col-md-2"><div class="card"><img src="${token.thumb}" id="token${id}" />` +
-                    `<div class="card-body"><div class="card-text">${id}</div></div></div></div>`);
+                $("#cardEntity").append(`<div class="col-6 col-sm-3 col-lg-2"><div class="card"><img src="${token.thumb}" id="token${id}" class="btn" />` +
+                    `<div class="card-img-overlay"><div class="card-text">${id}</div></div></div></div>`);
                 $(`#token${id}`).click(event => {
                     $("#detailThumb img").attr("src", token.thumb);
                     $('#detailContent').modal('show');
@@ -74,15 +76,36 @@ let sammy;
 
     sammy = $.sammy("#main", function() {
         const render = async function(context) {
+            const topPagination = $('#topPagination');
+            const bottomPagination = $('#bottomPagination');
+            if (ownershipAddress !== context.address) {
+                ownershipAddress = context.address;
+                ownershipTokenIds = await new Promise((resolve, reject) => {
+                    $.getJSON(`https://cryptoinkexplorer.blob.core.windows.net/api/v1/ownertotokens/${context.address}.json`, (json) => {
+                        json.reverse();
+                        resolve(json);
+                    });
+                });
+                [topPagination, bottomPagination].map(container => {
+                    container.pagination({
+                        dataSource: ownershipTokenIds,
+                        pageSize: context.pageSize,
+                        pageNumber: context.page,
+                        triggerPagingOnInit: false,
+                        afterPageOnClick: function() {
+                            const page = container.pagination('getSelectedPageNum');
+                            location.hash = `#/address/${context.address}/page/${page}`
+                        },
+                    });
+                });
+            } else {
+                [topPagination, bottomPagination].map(container => {
+                    container.pagination('go', context.page);
+                });
+            }
             const sliceFrom = (context.pageSize * (context.page - 1));
             const sliceTo = (context.pageSize * (context.page));
-            const tokenIds = await new Promise((resolve, reject) => {
-                $.getJSON(`https://cryptoinkexplorer.blob.core.windows.net/api/v1/ownertotokens/${context.address}.json`, (json) => {
-                    json.reverse();
-                    resolve(json);
-                });
-            });
-            const tableData = tokenIds.slice(sliceFrom,sliceTo).map(tokenId => {
+            const tableData = ownershipTokenIds.slice(sliceFrom,sliceTo).map(tokenId => {
                 return {
                     id: Number(tokenId),
                     "tokenId": Number(tokenId),
@@ -91,6 +114,7 @@ let sammy;
             });
             deck.addData(tableData);
             $("#ownerAddress").text(context.address);
+
         };
 
         this.around(async function(callback) {
@@ -125,45 +149,6 @@ let sammy;
             });
         });
 
-        const topPagination = $('#topPagination');
-        const bottomPagination = $('#bottomPagination');
-
-        // [topPagination, bottomPagination].map(container => {
-        //     container.pagination({
-        //         dataSource: async function(done) {
-        //             const totalSupply = await new Promise((resolve, reject) => {
-        //                 contracts.EntityCore.totalSupply({}, (error, result) => {
-        //                     if (error) reject(error);
-        //                     if (result) resolve(result.toNumber());
-        //                 });
-        //             });
-        //             const totalPage = Math.floor((totalSupply - 1) / pageSize + 1);
-        //             const page = [];
-        //             for (let i = 1; i <= totalPage; i++) {
-        //                 page.push(i);
-        //             }
-        //             done(page);
-        //         },
-        //         pageSize: 1,
-        //         pageNumber: (function() {
-        //             const hash = location.hash;
-        //             return hash === "#/" ? 1 : Number(hash.split("/")[2]);
-        //         })(),
-        //         triggerPagingOnInit: false,
-        //         afterPageOnClick: function() {
-        //             const page = container.pagination('getSelectedPageNum');
-        //             location.hash = `#/page/${page}`
-        //         },
-        //     });
-        // });
-        //
-        // sammy.before(function() {
-        //     const hash = location.hash;
-        //     const page = hash === "#/" ? 1 : Number(hash.split("/")[2]);
-        //     [topPagination, bottomPagination].map(container => {
-        //         container.pagination('go', page);
-        //     });
-        // });
 
         $("#getOwner").click(async () => {
             const address = $("input[name=owner]").val();
