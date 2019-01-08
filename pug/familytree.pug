@@ -1,19 +1,18 @@
 extends layout
 
+block style
+    link(rel='stylesheet' type="text/css" href='css/familytree.css')
 block content
     include _header
-    ._margin-bottom20
-    .container._margin-bottom50#familytree
-        .row
-            h2 Family Tree
-        .row
-            ._floatRight
-                input(name="tokenId" type="number" placeholder="id" style="width:15rem;")._floatLeft
-                button#getEntity._floatLeft(style="margin-left:1rem;") search
-        .row
-            #chart_progress
-        .row
-            #chart_div.-mx-auto
+    main.container#main
+        h1.display-3
+            a.text-decoration-none(href="familytree.html") Family Tree
+        .form-inline.float-sm-right
+            .form-group.mx-sm-3.mb-2
+                input.form-control(name="tokenId" type="number" placeholder="ex.) 1000")
+            button.btn.btn-primary.mb-2#getEntity search
+        #chart_progress
+        #chart_div
     include _footer
 block script
     script(src="https://www.gstatic.com/charts/loader.js")

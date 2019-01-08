@@ -40,21 +40,3 @@ body {
     padding: 1rem;
     min-height: 5rem;
 }
-
-#familytree #chart_div img {
-    object-fit: cover;
-}
-#familytree #chart_div .image_box {
-    position: relative;
-    padding: 0px;
-    margin: 0px;
-}
-#familytree #chart_div .over_image {
-    background: center / contain no-repeat;
-    position: absolute;
-    top: 0rem;
-    width: 200%;
-    padding: 0px;
-    margin: -50%;
-    height: 200%;
-}
