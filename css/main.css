@@ -2,27 +2,6 @@ body {
     min-width: 360px;
 }
 
-._margin-bottom50 {
-    margin-bottom: 50px;
-}
-
-._margin-bottom20 {
-    margin-bottom: 20px;
-}
-
-._bold {
-    font-weight: bold;
-}
-
-.-fit {
-    object-fit: cover;
-}
-
-.-mx-auto {
-    margin-left: auto;
-    margin-right: auto;
-}
-
 #cardEntity img {
     width: 100%;
 }
