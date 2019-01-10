@@ -91,8 +91,8 @@ let sammy;
         rowData.push([{v:"0" + "-" + rootTokenId,f:fTag(rootTokenId)}, '', '']);
         await recu(rootTokenId, 1, "0");
         // console.log(rowData);
-        // console.log(acceptableMaxLevel);
-        $("#chart_div").css("max-width",`${(acceptableMaxLevel)*25}%`);
+        console.log(`acceptableMaxLevel: ${acceptableMaxLevel}`);
+        $("#chart_div").css("max-width",`${Math.min((acceptableMaxLevel)*20, 100)}%`);
         google.charts.load('current', {packages:["orgchart"]});
         google.charts.setOnLoadCallback(drawChart);
         progressBox.empty();
@@ -127,17 +127,18 @@ let sammy;
             progressBox.text(`prepare initial drawing...`);
             draw(token.id);
 
-            $("#getEntity").click(async () => {
-                const tokenId = $("input[name=tokenId]").val();
-                if (tokenId === "") return;
-                await draw(tokenId);
-            });
         });
     });
 
 
     $(() => {
         sammy.run(`#/${totalSupply}`);
+
+        $("#getEntity").click(() => {
+            const tokenId = $("input[name=tokenId]").val();
+            if (tokenId === "" || tokenId <= 0) return;
+            location.hash = `#/${tokenId}`;
+        });
     });
 
 })();

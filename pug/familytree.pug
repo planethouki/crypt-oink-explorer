@@ -7,11 +7,13 @@ block content
     main.container#main
         h1.display-3
             a.text-decoration-none(href="familytree.html") Family Tree
-        .form-inline.float-sm-right
-            .form-group.mx-sm-3.mb-2
-                input.form-control(name="tokenId" type="number" placeholder="ex.) 1000")
-            button.btn.btn-primary.mb-2#getEntity search
-        #chart_progress
+        .clearfix
+            .form-inline.float-sm-right
+                .form-group.mx-sm-3.mb-2
+                    input.form-control(name="tokenId" type="number" placeholder="ex.) 1000")
+                button.btn.btn-primary.mb-2#getEntity search
+            .float-sm-left
+                #chart_progress
         #chart_div
     include _footer
 block script
