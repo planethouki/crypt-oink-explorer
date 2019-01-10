@@ -47,24 +47,6 @@ let sammy;
             callback();
         });
 
-        this.get('#/', function(context) {
-            const from = context.totalSupply;
-            const to = context.totalSupply - context.pageSize;
-            let promise = [];
-            for (let i = from; to < i; i--) {
-                promise.push(getEntityFromTokenId(i));
-            }
-            Promise.all(promise).then(tableData => {
-                return table.addData(tableData.filter(token => {
-                    return token.seller !== "0x"
-                }));
-            }).then(rows => {
-                if (rows.length === 0) {
-                    console.log("no content at page 1");
-                }
-            });
-        });
-
         this.get('#/page/:page', function(context) {
             const page = Number(this.params['page']);
             const from = context.totalSupply - (context.pageSize * (page - 1));
@@ -87,7 +69,7 @@ let sammy;
 
 
     $(() => {
-        sammy.run('#/');
+        sammy.run('#/page/1');
 
         const topPagination = $('#topPagination');
         const bottomPagination = $('#bottomPagination');
@@ -111,7 +93,7 @@ let sammy;
                 pageSize: 1,
                 pageNumber: (function() {
                     const hash = location.hash;
-                    return hash === "#/" ? 1 : Number(hash.split("/")[2]);
+                    return Number(hash.split("/")[2]);
                 })(),
                 triggerPagingOnInit: false,
                 afterPageOnClick: function() {
@@ -123,7 +105,7 @@ let sammy;
 
         sammy.before(function() {
             const hash = location.hash;
-            const page = hash === "#/" ? 1 : Number(hash.split("/")[2]);
+            const page = Number(hash.split("/")[2]);
             [topPagination, bottomPagination].map(container => {
                 container.pagination('go', page);
             });

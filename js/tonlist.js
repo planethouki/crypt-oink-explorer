@@ -90,20 +90,6 @@ let sammy;
             callback();
         });
 
-        this.get('#/', function(context) {
-            const from = context.totalSupply;
-            const to = context.totalSupply - context.pageSize;
-            let tableData = [];
-            for (let i = from; to < i; i--) {
-                tableData.push({
-                    id: i,
-                    "tokenId": i,
-                    "thumb": `https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/${i}_512x586.png`,
-                });
-            }
-            table.addData(tableData);
-        });
-
         this.get('#/page/:page', function(context) {
             const page = Number(this.params['page']);
             const from = context.totalSupply - (context.pageSize * (page - 1));
@@ -122,7 +108,7 @@ let sammy;
 
 
     $(() => {
-        sammy.run('#/');
+        sammy.run('#/page/1');
 
         const topPagination = $('#topPagination');
         const bottomPagination = $('#bottomPagination');
@@ -146,7 +132,7 @@ let sammy;
                 pageSize: 1,
                 pageNumber: (function() {
                     const hash = location.hash;
-                    return hash === "#/" ? 1 : Number(hash.split("/")[2]);
+                    return Number(hash.split("/")[2]);
                 })(),
                 triggerPagingOnInit: false,
                 afterPageOnClick: function() {
@@ -158,7 +144,7 @@ let sammy;
 
         sammy.before(function() {
             const hash = location.hash;
-            const page = hash === "#/" ? 1 : Number(hash.split("/")[2]);
+            const page = Number(hash.split("/")[2]);
             [topPagination, bottomPagination].map(container => {
                 container.pagination('go', page);
             });

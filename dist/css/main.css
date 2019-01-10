@@ -11,20 +11,14 @@ body {
 }
 #dataEntity .col-thumb > img {
     object-fit: cover;
-    height: 5rem;
-    width: 10rem;
+    height: 4rem;
+    width: 6rem;
 }
 #dataEntity .col-id, #dataEntity .col-seeder, #dataEntity .col-breeder, #dataEntity  .col-gen {
     min-width: 8rem;
 }
 #dataEntity .col-owner {
     min-width: 30rem;
-}
-#dataEntity.tabulator,
-#dataEntity .tabulator-cell,
-#dataEntity .tabulator-col {
-    border-right-width: 0;
-    border-left-width: 0;
 }
 
 #detailContent #detailThumb {
