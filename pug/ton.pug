@@ -5,11 +5,15 @@ block content
     main.container#main
         h1.display-3
             a.text-decoration-none(href="ton.html") Ton Detail
-        .row
+        .clearfix
+            .form-inline.float-sm-right
+                .form-group.mx-sm-3.mb-2
+                    input.form-control(name="tokenId" type="number" placeholder="ex.) 1000")
+                button.btn.btn-primary.mb-2#getEntity search
+        .row#detailContent
             .col-lg-12.col-xl-6#detailThumb
                 img
             .col-lg-12.col-xl-6#detailEntity
-                .row
     include _footer
 block script
     script(src="js/ton.js")

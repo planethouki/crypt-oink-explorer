@@ -56,9 +56,9 @@ let sammy;
         const resultSellPrice = entityAndOwner[3];
         const resultAuctionSeed = entityAndOwner[4];
         const resultSeedPrice = entityAndOwner[5];
-        return {
+        const state = {
             entity: {
-                "id": tokenId,
+                "owner": resultOwner,
                 "tokenId": tokenId,
                 "isBreeding": resultEntity[0].toString(),
                 "isReady": resultEntity[1].toString(),
@@ -69,18 +69,21 @@ let sammy;
                 "breederId": resultEntity[6].toNumber(),
                 "seederId": resultEntity[7].toNumber(),
                 "generation": resultEntity[8].toNumber(),
-                "owner": resultOwner,
                 "dna": resultEntity[9].toString(16),
-            },
-            shop: {
+            }
+        };
+        if (resultAuctionSell[0].toString() !== "0x") {
+            state["shop"] = {
                 "seller": resultAuctionSell[0].toString(),
                 "startingPrice": resultAuctionSell[1].toString(),
                 "endingPrice": resultAuctionSell[2].toString(),
                 "duration": resultAuctionSell[3].toString(),
                 "startedAt": resultAuctionSell[4].toString(),
                 "currentPrice": resultSellPrice.toString(),
-            },
-            seed: {
+            }
+        }
+        if (resultAuctionSeed[0].toString() !== "0x") {
+            state["seed"] = {
                 "seller": resultAuctionSeed[0].toString(),
                 "startingPrice": resultAuctionSeed[1].toString(),
                 "endingPrice": resultAuctionSeed[2].toString(),
@@ -88,7 +91,8 @@ let sammy;
                 "startedAt": resultAuctionSeed[4].toString(),
                 "currentPrice": resultSeedPrice.toString(),
             }
-        };
+        }
+        return state;
     }
 
 
@@ -103,11 +107,13 @@ let sammy;
             $("#detailThumb img").attr("src", `https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/${tokenId}_512x586.png`);
             getStateFromTokenId(tokenId).then(state => {
                 Object.keys(state).map(type => {
+                    $("#detailEntity").append(`<div id="${type}"><h1 class="display-4">${type}</h1><div class="row"></div></div>`);
                     Object.keys(state[type]).map((key) => {
                         const value = state[type][key];
-                        const colSize = value.toString().length < 30 ? "col-lg-3 col-xl-6 card" : "col-lg-6 col-xl-12 card";
-                        $("#detailEntity .row").append(`<div class="${colSize}"><strong>${key}</strong><div>${value}</div></div>`);
+                        const colSize = value.toString().length < 30 ? "col-lg-3 col-xl-6" : "col-lg-6 col-xl-12";
+                        $(`#detailEntity #${type} .row`).append(`<div class="${colSize} card"><strong>${key}</strong><div>${value}</div></div>`);
                     });
+                    $("#detailEntity").append('<div style="height:1rem;"></div>');
                 });
             });
         });
@@ -116,6 +122,12 @@ let sammy;
 
     $(() => {
         sammy.run(`#/${totalSupply}`);
+
+        $("#getEntity").click(async () => {
+            const tokenId = $("input[name=tokenId]").val();
+            if (tokenId === "" || tokenId <= 0) return;
+            location.hash = `#/${tokenId}`
+        });
     });
 
 })();
