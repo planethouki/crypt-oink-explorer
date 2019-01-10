@@ -2,18 +2,20 @@ extends layout
 
 block content
     include _header
-    ._margin-bottom20
-    .container._margin-bottom50
-        .row#lastMod(style="text-align:right;")
-        .row
-            h2 Ownership &nbsp;
-                small
-        .row
-            ._floatLeft#pagination
-            button#getOwner._floatRight(style="margin-left:1rem;") search
-            input(name="owner" type="text" placeholder="address" style="width:40rem;")._floatRight
-        .row#ownerAddress
-        .row#dataOwnership
+    main.container#main
+        .text-right#lastMod
+        h1.display-3
+            a.text-decoration-none(href="ownership.html") Ownership
+        .clearfix
+            .form-inline.float-sm-right
+                .form-group.mx-sm-3.mb-2
+                    input.form-control(name="owner" type="text" placeholder="ex.) 0xa2156F24711A631e92e65dC114CF172065dDd49b")
+                button.btn.btn-primary.mb-2#getOwner search
+            #topPagination
+        #ownerAddress
+        .row.no-gutters#cardEntity
+        #bottomPagination
+    include _tonlistmodal
     include _footer
 block script
     script(src="js/ownership.js")

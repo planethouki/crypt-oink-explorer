@@ -1,0 +1,19 @@
+
+#chart_div img {
+    object-fit: cover;
+    width: 100%;
+}
+#chart_div .image_box {
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+#chart_div .over_image {
+    background: center / contain no-repeat;
+    position: absolute;
+    top: 0;
+    width: 160%;
+    padding: 0;
+    margin: -30%;
+    height: 160%;
+}

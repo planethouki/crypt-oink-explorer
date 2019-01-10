@@ -753,16 +753,10 @@ const getInstance = async function() {
 
     const endPoints = {
         "mainnet": "https://mainnet.infura.io/v3/",
-        "ropsten": "https://ropsten.infura.io/v3/",
     };
 
     const searchParams = new URLSearchParams(location.search);
 
-    let address = "0x1a94fce7ef36bc90959e206ba569a12afbc91ca1";
-    if (searchParams.has("address")) {
-        address = searchParams.get("address");
-        console.log(`address specification: ${address}`);
-    }
 
     function setInfuraProvider() {
         let endPoint = `${endPoints['mainnet']}${apiKey}`;
@@ -809,20 +803,11 @@ const getInstance = async function() {
         setInfuraProvider();
     }
 
+    const address = "0x1a94fce7ef36bc90959e206ba569a12afbc91ca1";
     contracts['EntityCore'] = window.web3.eth.contract(abis['EntityCore'].abi).at(address);
 
-    const auctionSellAddress = await new Promise((resolve, reject) => {
-        contracts.EntityCore.auctionSellContract((error, result) => {
-            if (error) { reject(error) } else { resolve(result) }
-        });
-    });
-
-    const auctionSeedAddress = await new Promise((resolve, reject) => {
-        contracts.EntityCore.auctionSeedContract((error, result) => {
-            if (error) { reject(error) } else { resolve(result) }
-        });
-    });
-
+    const auctionSellAddress = "0xa2156f24711a631e92e65dc114cf172065ddd49b";
+    const auctionSeedAddress = "0xcf20f1cc6efa9a05ae7eff8a0c6331f3680899cf";
     contracts['AuctionSell'] = window.web3.eth.contract(abis['AuctionSell'].abi).at(auctionSellAddress);
     contracts['AuctionSeed'] = window.web3.eth.contract(abis['AuctionSeed'].abi).at(auctionSeedAddress);
 
@@ -837,7 +822,7 @@ async function getPageSize() {
         ps = parseInt(searchParams.get("size"));
         console.log(`page size specification: ${ps}`);
     } else {
-        ps = 20;
+        ps = 60;
     }
     return ps;
 }

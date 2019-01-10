@@ -2,14 +2,29 @@ extends layout
 
 block content
     include _header
-    .jumbo
-        h1 Crypt-Oink-Explorer
+    .jumbotron
+        h1.display-4 Crypt-Oink-Explorer
+        p.lead Collect your tons.
+        a.btn.btn-primary.btn-lg(href="/tonlist.html" role="button") See Anyway
+    .container
+        .row
+            .col-sm-4
+                .card
+                    img.card-img-top(src="https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/1_512x586.png")
+                    .card-body
+                        a.btn.btn-primary(href="/ton.html#/1") See more
+            .col-sm-4.d-none.d-sm-block
+                .card
+                    img.card-img-top(src="https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/2_512x586.png")
+                    .card-body
+                        a.btn.btn-primary(href="/ton.html#/2") See more
+            .col-sm-4.d-none.d-sm-block
+                .card
+                    img.card-img-top(src="https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/3_512x586.png")
+                    .card-body
+                        a.btn.btn-primary(href="/ton.html#/3") See more
+        hr.my-4
         p
-            img(src="https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/1_512x586.png")
-        p
-            h4
-                a(href="/instruction.html") Instruction
-        p
-            a(href="#") Github
+            a(href="https://github.com/planethouki/crypton-explorer") Github
         p
             a(href="https://twitter.com/planethouki" target="_blank") Twitter @planethouki

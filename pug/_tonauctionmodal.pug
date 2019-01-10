@@ -1,0 +1,23 @@
+.modal.fade#detailContent(tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+    .modal-dialog.modal-xl(role="document")
+        .modal-content
+            .modal-header
+                h5.modal-title#exampleModalLabel Ton Data
+                button.close(type="button" data-dismiss="modal" aria-label="Close")
+                    span(aria-hidden="true") &times;
+            .modal-body
+                .row
+                    .col-lg-12.col-xl-6#detailThumb
+                        a
+                            img
+                    .col-lg-12.col-xl-6#detailEntity
+                        .row
+                            .col-lg-3.col-xl-6.card#tokenId
+                            .col-lg-3.col-xl-6.card#startingPrice
+                            .col-lg-3.col-xl-6.card#endingPrice
+                            .col-lg-3.col-xl-6.card#duration
+                            .col-lg-3.col-xl-6.card#startedAt
+                            .col-lg-3.col-xl-6.card#currentPrice
+                            .col-lg-12.col-xl-12.card#seller
+            .modal-footer
+                button.btn.btn-secondary(type="button" data-dismiss="modal") Close

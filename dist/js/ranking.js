@@ -1,13 +1,7 @@
 let data;
 let pageSize;
-
-async function getData() {
-    return new Promise((resolve, reject) => {
-        $.getJSON("https://cryptoinkexplorer.blob.core.windows.net/api/v1/ownerRanking.json", (json) => {
-            resolve(json);
-        });
-    });
-}
+let table;
+let sammy;
 
 function renderRanking(index) {
     $("#dataRanking").tabulator("addData",
@@ -22,48 +16,85 @@ function renderRanking(index) {
     );
 }
 
-function getLastMod() {
+
+$(async () => {
+    pageSize = await getPageSize();
+
+    data = await new Promise((resolve, reject) => {
+        $.getJSON("https://cryptoinkexplorer.blob.core.windows.net/api/v1/ownerRanking.json", (json) => {
+            resolve(json);
+        });
+    });
+
     $.getJSON(`https://cryptoinkexplorer.blob.core.windows.net/api/v1/block.json`, (json) => {
-        console.log(json.block);
         web3.eth.getBlock(json.block, (error, result) => {
             const date = new Date(result.timestamp * 1000);
             $("#lastMod").text("Last Modified: ".concat(date.toUTCString()));
         });
     });
-}
 
-async function init() {
-    const tableContainer = $("#dataRanking");
-    tableContainer.tabulator({
+
+    table = new Tabulator("#dataRanking", {
         layout:"fitColumns",
         columns: [
             {title:"order", field:"order", sorter:"number", width:100},
             {title:"owner", field:"owner", sorter:"string"},
             {title:"count", field:"count", sorter:"number", width:100},
+            {
+                title: "bar", field: "count", formatter: "progress", formatterParams: {
+                    min: 0,
+                    max: data[0].count,
+                    color: ["gray"],
+                }
+            }
         ],
     });
-    $('#pagination').pagination({
-        dataSource: data,
-        pageSize: pageSize,
-        showGoInput: true,
-        showGoButton: true,
-        callback: function(viewDataArray, pagination) {
-            const tableData = viewDataArray.map((obj, index) => {
-                return {
-                    "id": index,
-                    "order": obj.order,
-                    "owner": obj.owner,
-                    "count": obj.count,
-                }
-            });
-            $("#dataRanking").tabulator("clearData").tabulator("addData", tableData);
-        }
-    });
-}
 
-$(async () => {
-    pageSize = await getPageSize();
-    data = await getData();
-    getLastMod();
-    await init();
+
+    sammy = $.sammy("#main", function() {
+        this.around(async function(callback) {
+            const context = this;
+            context.pageSize = pageSize;
+            table.clearData();
+            callback();
+        });
+
+        this.get('#/page/:page', function(context) {
+            const page = Number(this.params['page']);
+            const from = (context.pageSize * (page - 1));
+            const to = (context.pageSize * (page));
+            table.addData(data.slice(from, to));
+        });
+    });
+
+    $(() => {
+        sammy.run('#/page/1');
+
+        const topPagination = $('#topPagination');
+        const bottomPagination = $('#bottomPagination');
+
+        [topPagination, bottomPagination].map(container => {
+            container.pagination({
+                dataSource: data,
+                pageSize: pageSize,
+                pageNumber: (function() {
+                    const hash = location.hash;
+                    return Number(hash.split("/")[2]);
+                })(),
+                triggerPagingOnInit: false,
+                afterPageOnClick: function() {
+                    const page = container.pagination('getSelectedPageNum');
+                    location.hash = `#/page/${page}`
+                },
+            });
+        });
+
+        sammy.before(function() {
+            const hash = location.hash;
+            const page = Number(hash.split("/")[2]);
+            [topPagination, bottomPagination].map(container => {
+                container.pagination('go', page);
+            });
+        });
+    });
 });
