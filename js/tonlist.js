@@ -55,6 +55,16 @@ let sammy;
         return entity;
     }
 
+    function showDetail(tokenId) {
+        $("#detailThumb img").attr("src", `https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/${tokenId}_512x586.png`);
+        $('#detailContent').modal('show');
+        getEntityFromTokenId(tokenId).then(entity => {
+            Object.keys(entity).map((key) => {
+                $(`#detailEntity #${key}`).html("<strong>" + key + "</strong><div>" + entity[key] + "</div>");
+            });
+        });
+    }
+
     table = new Tabulator("#dataEntity", {
         columns: [
             {title:"thumb", field:"thumb", formatter:"image", "cssClass":"col-thumb", headerSort:false},
@@ -69,14 +79,7 @@ let sammy;
             });
         },
         rowClick: function(event, row) {
-            const tokenId = row._row.data.tokenId;
-            $("#detailThumb img").attr("src", `https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/${tokenId}_512x586.png`);
-            $('#detailContent').modal('show');
-            getEntityFromTokenId(tokenId).then(entity => {
-                Object.keys(entity).map((key) => {
-                    $(`#detailEntity #${key}`).html("<strong>" + key + "</strong><div>" + entity[key] + "</div>");
-                });
-            });
+            showDetail(row._row.data.tokenId);
         },
     });
 

@@ -55,6 +55,16 @@ let sammy;
         return entity;
     }
 
+    function showDetail(tokenId) {
+        $("#detailThumb img").attr("src", `https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/${tokenId}_512x586.png`);
+        $('#detailContent').modal('show');
+        getEntityFromTokenId(id).then(entity => {
+            Object.keys(entity).map((key) => {
+                $(`#detailEntity #${key}`).html("<strong>" + key + "</strong><div>" + entity[key] + "</div>");
+            });
+        });
+    }
+
     deck = {
         addData: function(data) {
             data.filter(token => token.id > 0).map(token => {
@@ -62,16 +72,9 @@ let sammy;
                 $("#cardEntity").append(`<div class="col-6 col-sm-3 col-md-2"><div class="card"><img src="${token.thumb}" id="token${id}" />` +
                     `<div class="card-body"><div class="card-text">${id}</div></div></div></div>`);
                 $(`#token${id}`).click(event => {
-                    $("#detailThumb img").attr("src", token.thumb);
-                    $('#detailContent').modal('show');
-                    getEntityFromTokenId(id).then(entity => {
-                        Object.keys(entity).map((key) => {
-                            $(`#detailEntity #${key}`).html("<strong>" + key + "</strong><div>" + entity[key] + "</div>");
-                        });
-                    });
+                    showDetail(id);
                 });
             })
-
         },
         clearData: function() {
             $("#cardEntity").empty();
@@ -86,20 +89,6 @@ let sammy;
             context.pageSize = pageSize;
             deck.clearData();
             callback();
-        });
-
-        this.get('#/', function(context) {
-            const from = context.totalSupply;
-            const to = context.totalSupply - context.pageSize;
-            let tableData = [];
-            for (let i = from; to < i; i--) {
-                tableData.push({
-                    id: i,
-                    "tokenId": i,
-                    "thumb": `https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/${i}_512x586.png`,
-                });
-            }
-            deck.addData(tableData);
         });
 
         this.get('#/page/:page', function(context) {
@@ -120,7 +109,7 @@ let sammy;
 
 
     $(() => {
-        sammy.run('#/');
+        sammy.run('#/page/1');
 
         const topPagination = $('#topPagination');
         const bottomPagination = $('#bottomPagination');
@@ -144,7 +133,7 @@ let sammy;
                 pageSize: 1,
                 pageNumber: (function() {
                     const hash = location.hash;
-                    return hash === "#/" ? 1 : Number(hash.split("/")[2]);
+                    return Number(hash.split("/")[2]);
                 })(),
                 triggerPagingOnInit: false,
                 afterPageOnClick: function() {
@@ -156,7 +145,7 @@ let sammy;
 
         sammy.before(function() {
             const hash = location.hash;
-            const page = hash === "#/" ? 1 : Number(hash.split("/")[2]);
+            const page = Number(hash.split("/")[2]);
             [topPagination, bottomPagination].map(container => {
                 container.pagination('go', page);
             });
