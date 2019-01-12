@@ -69,22 +69,41 @@ let entity;
         }
     };
 
-    function showDetail(tokenId) {
-        $("#detailThumb img").attr("src", `https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/${tokenId}_512x586.png`);
-        $('#detailContent').modal('show');
+    function showModal(tokenId) {
+        $("#modalThumb").attr("src", `https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/${tokenId}_512x586.png`);
+        $('#modalContent').modal('show');
         entity.getEntityFromTokenId(tokenId).then(entity => {
             Object.keys(entity).map((key) => {
-                $(`#detailEntity #${key}`).html("<strong>" + key + "</strong><div>" + entity[key] + "</div>");
+                const container = $(`#modal-${key}`);
+                switch (key) {
+                    case "tokenId":
+                    case "matingWithId":
+                    case "breederId":
+                    case "seederId":
+                        const tokenId = entity[key];
+                        if (tokenId !== 0) {
+                            container.html(`<strong>${key}</strong><div><a href="ton.html#/${tokenId}">${tokenId}</a></div>`);
+                        } else {
+                            container.html(`<strong>${key}</strong><div>${tokenId}</div>`);
+                        }
+                        break;
+                    case "owner":
+                        container.html(`<strong>${key}</strong><div><a href="ownership.html#/${entity[key]}">${entity[key]}</a></div>`);
+                        break;
+                    default:
+                        container.html("<strong>" + key + "</strong><div>" + entity[key] + "</div>");
+                }
             });
         });
     }
 
     table = new Tabulator("#dataEntity", {
+        responsiveLayout: true,
         columns: [
             {title:"thumb", field:"thumb", formatter:"image", "cssClass":"col-thumb", headerSort:false},
-            {title:"id", field:"tokenId", sorter:"number", "cssClass":"col-id"},
-            {title:"gen", field:"generation", sorter:"number", headerTooltip:"generation", "cssClass":"col-gen"},
-            {title:"owner", field:"owner", sorter:"string", "cssClass":"col-owner"},
+            {title:"id", field:"tokenId", sorter:"number", "cssClass":"col8rem"},
+            {title:"gen", field:"generation", sorter:"number", headerTooltip:"generation", "cssClass":"col8rem"},
+            {title:"owner", field:"owner", sorter:"string", "cssClass":"col30rem"},
         ],
         rowAdded: function(row){
             const tokenId = row._row.data.id;
@@ -93,7 +112,7 @@ let entity;
             });
         },
         rowClick: function(event, row) {
-            showDetail(row._row.data.tokenId);
+            showModal(row._row.data.tokenId);
         },
     });
 
@@ -102,10 +121,10 @@ let entity;
             data.filter(token => token.id > 0).map(token => {
                 const id = token.id;
                 const thumb = token.thumb;
-                $("#cardEntity").append(`<div class="col-6 col-sm-3 col-md-2"><div class="card btn" id="card-token${id}"><img src="${thumb}" />` +
+                $("#cardEntity").append(`<div class="col-6 col-sm-3 col-lg-2"><div class="card btn" id="card-token${id}"><img src="${thumb}" />` +
                     `<div class="card-body"><div class="card-text">${id}</div></div></div></div>`);
                 $(`#card-token${id}`).click(event => {
-                    showDetail(id);
+                    showModal(id);
                 });
             })
         },

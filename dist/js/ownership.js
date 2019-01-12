@@ -94,7 +94,7 @@ let ownershipTokenIds;
                         triggerPagingOnInit: false,
                         afterPageOnClick: function() {
                             const page = container.pagination('getSelectedPageNum');
-                            location.hash = `#/address/${context.address}/page/${page}`
+                            location.hash = `#/${context.address}/${page}`
                         },
                     });
                 });
@@ -119,28 +119,25 @@ let ownershipTokenIds;
 
         this.around(async function(callback) {
             const context = this;
-            context.render = render;
             context.pageSize = pageSize;
             deck.clearData();
             callback();
         });
 
-        this.get('#/address/:address', function(context) {
-            context.page = 1;
-            context.address = this.params['address'].toLowerCase();
-            context.render(context);
+        this.get('#/:address', function(context) {
+            this.redirect(`#/${this.params['address']}/1`);
         });
 
-        this.get('#/address/:address/page/:page', function(context) {
+        this.get('#/:address/:page', function(context) {
             context.page = Number(this.params['page']);
             context.address = this.params['address'].toLowerCase();
-            context.render(context);
+            render(context);
         });
     });
 
 
     $(() => {
-        sammy.run('#/address/0xa2156F24711A631e92e65dC114CF172065dDd49b');
+        sammy.run('#/0xa2156F24711A631e92e65dC114CF172065dDd49b');
 
         $.getJSON(`https://cryptoinkexplorer.blob.core.windows.net/api/v1/block.json`, (json) => {
             web3.eth.getBlock(json.block, (error, result) => {
@@ -153,7 +150,7 @@ let ownershipTokenIds;
         $("#getOwner").click(async () => {
             const address = $("input[name=owner]").val();
             if (address === "") return;
-            location.hash = `#/address/${address}`
+            location.hash = `#/${address}`
         });
 
 

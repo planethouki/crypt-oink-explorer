@@ -16,22 +16,33 @@ let sammy;
     });
 
     table = new Tabulator("#dataEntity", {
+        responsiveLayout: true,
         columns:[
-            {title:"thumb", field:"thumb", formatter: "image", "cssClass":"col-thumb", headerSort:false},
-            {title:"id", field:"tokenId", sorter:"number", "cssClass":"col-id"},
-            {title:"startingPrice", field:"startingPrice", sorter:"number", "cssClass":"col-seeder"},
-            {title:"endingPrice", field:"endingPrice", sorter:"number", "cssClass":"col-gen"},
-            {title:"duration", field:"duration", sorter:"string", "cssClass":"col-gen"},
-            {title:"startedAt", field:"startedAt", sorter:"string", "cssClass":"col-gen"},
-            {title:"currentPrice", field:"currentPrice", sorter:"number", "cssClass":"col-gen"},
+            {title:"thumb", field:"thumb", formatter: "image", "cssClass":"col-thumb", responsive: 0, headerSort:false},
+            {title:"id", field:"tokenId", sorter:"number", responsive: 0},
+            {title:"startingPrice", field:"startingPrice", sorter:"number", responsive: 1},
+            {title:"endingPrice", field:"endingPrice", sorter:"number", responsive: 1},
+            {title:"duration", field:"duration", sorter:"string", responsive: 2},
+            {title:"startedAt", field:"startedAt", sorter:"string", responsive: 3},
+            {title:"currentPrice", field:"currentPrice", sorter:"number", responsive: 0},
         ],
         rowClick: function(event, row) {
             const tokenId = row._row.data.tokenId;
-            $("#detailThumb img").attr("src", `https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/${tokenId}_512x586.png`);
-            $('#detailContent').modal('show');
+            $("img#modalThumb").attr("src", `https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/${tokenId}_512x586.png`);
+            $('#modalContent').modal('show');
             getEntityFromTokenId(tokenId).then(entity => {
                 Object.keys(entity).map((key) => {
-                    $(`#detailEntity #${key}`).html("<strong>" + key + "</strong><div>" + entity[key] + "</div>");
+                    const container = $(`#modal-${key}`);
+                    switch (key) {
+                        case "tokenId":
+                            container.html(`<strong>${key}</strong><div><a href="ton.html#/${entity[key]}">${entity[key]}</a></div>`);
+                            break;
+                        case "seller":
+                            container.html(`<strong>${key}</strong><div><a href="ownership.html#/${entity[key]}">${entity[key]}</a></div>`);
+                            break;
+                        default:
+                            container.html("<strong>" + key + "</strong><div>" + entity[key] + "</div>");
+                    }
                 });
             });
         },

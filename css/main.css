@@ -4,33 +4,35 @@ body {
 
 #cardEntity img {
     width: 100%;
+    min-height: 100px;
+}
+#cardEntity .card {
+    border: none;
+}
+#cardEntity .card-body {
+    position: absolute;
+    top: 0;
 }
 
-#dataEntity .col-thumb {
-    width: 10rem;
-}
-#dataEntity .col-thumb > img {
+.col-thumb > img {
     object-fit: cover;
     height: 4rem;
     width: 6rem;
 }
-#dataEntity .col-id, #dataEntity .col-seeder, #dataEntity .col-breeder, #dataEntity  .col-gen {
+.col8rem {
     min-width: 8rem;
 }
-#dataEntity .col-owner {
+.col30rem {
     min-width: 30rem;
 }
 
-#detailContent #detailThumb {
-    text-align: center;
-}
-#detailContent #detailThumb img {
+img#modalThumb  {
     max-width: 100%;
     /*object-fit: cover;*/
     /*height: 30rem;*/
     /*width: 40rem;*/
 }
-#detailContent #detailEntity .card {
+#modalContent .card {
     padding: 1rem;
     min-height: 5rem;
 }
