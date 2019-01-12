@@ -4,17 +4,23 @@ block content
     include _header
     main.container#main
         h1.display-3
-            a.text-decoration-none(href="tonlist.html") All Ton List
+            a.text-decoration-none(href="tons.html") Tons
         .form-inline.float-sm-right
             .form-group.mx-sm-3.mb-2
                 input.form-control(name="tokenId" type="number" placeholder="ex.) 1000")
             button.btn.btn-primary.mb-2#getEntity search
         #topPagination
+        ul.nav.nav-tabs
+            li.nav-item
+                a.nav-link#btnList List
+            li.nav-item
+                a.nav-link#btnCard Card
+        .row.no-gutters#cardEntity
         #dataEntity
         #bottomPagination
     include _tonlistmodal
     include _footer
 block script
-    script(src="js/tonlist.js")
+    script(src="js/tons.js")
 
 
