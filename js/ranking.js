@@ -59,7 +59,7 @@ $(async () => {
             callback();
         });
 
-        this.get('#/page/:page', function(context) {
+        this.get('#/ranking/page/:page', function(context) {
             const page = Number(this.params['page']);
             const from = (context.pageSize * (page - 1));
             const to = (context.pageSize * (page));
@@ -68,7 +68,7 @@ $(async () => {
     });
 
     $(() => {
-        sammy.run('#/page/1');
+        sammy.run('#/ranking/page/1');
 
         const topPagination = $('#topPagination');
         const bottomPagination = $('#bottomPagination');
@@ -79,19 +79,24 @@ $(async () => {
                 pageSize: pageSize,
                 pageNumber: (function() {
                     const hash = location.hash;
-                    return Number(hash.split("/")[2]);
+                    return Number(hash.split("/")[3]);
                 })(),
                 triggerPagingOnInit: false,
-                afterPageOnClick: function() {
-                    const page = container.pagination('getSelectedPageNum');
-                    location.hash = `#/page/${page}`
+                afterPageOnClick: function(event, page) {
+                    location.hash = `#/ranking/page/${page}`
+                },
+                afterNextOnClick: function(event, page) {
+                    location.hash = `#/ranking/page/${page}`
+                },
+                afterPreviousOnClick: function(event, page) {
+                    location.hash = `#/ranking/page/${page}`
                 },
             });
         });
 
         sammy.before(function() {
             const hash = location.hash;
-            const page = Number(hash.split("/")[2]);
+            const page = Number(hash.split("/")[3]);
             [topPagination, bottomPagination].map(container => {
                 container.pagination('go', page);
             });

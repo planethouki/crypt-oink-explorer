@@ -118,7 +118,7 @@ let sammy;
             callback();
         });
 
-        this.get('#/:tokenid', function(context) {
+        this.get('#/familytree/:tokenid', function(context) {
             let token = {};
             token["id"] = Number(this.params['tokenid']);
             token["thumb"] = `https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/${token.id}_512x586.png`;
@@ -132,12 +132,12 @@ let sammy;
 
 
     $(() => {
-        sammy.run(`#/${totalSupply}`);
+        sammy.run(`#/familytree/${totalSupply}`);
 
         $("#getEntity").click(() => {
             const tokenId = $("input[name=tokenId]").val();
             if (tokenId === "" || tokenId <= 0) return;
-            location.hash = `#/${tokenId}`;
+            location.hash = `#/familytree/${tokenId}`;
         });
     });
 

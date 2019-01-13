@@ -102,16 +102,18 @@ let sammy;
             callback();
         });
 
-        this.get('#/:tokenid', function(context) {
+        this.get('#/ton/:tokenid', function(context) {
             const tokenId = Number(this.params['tokenid']);
+            const container = $("#detailEntity");
+            container.empty();
             $("img#detailThumb").attr("src", `https://s3-ap-northeast-1.amazonaws.com/crypton-live/thumbnails/${tokenId}_512x586.png`);
             getStateFromTokenId(tokenId).then(state => {
                 Object.keys(state).map(type => {
-                    $("#detailEntity").append(`<div id="${type}"><h1 class="display-4">${type}</h1><div class="row"></div></div>`);
+                    container.append(`<div id="${type}"><h1 class="display-4">${type}</h1><div class="row"></div></div>`);
                     Object.keys(state[type]).map((key) => {
                         const value = state[type][key];
-                        const colSize = value.toString().length < 30 ? "col-lg-3 col-xl-6" : "col-lg-6 col-xl-12";
-                        const container = $(`#detailEntity #${type} .row`);
+                        const colSize = value.toString().length < 30 ? "col-6" : "col-12";
+                        const row = $(`#detailEntity #${type} .row`);
                         switch (key) {
                             case "tokenId":
                             case "matingWithId":
@@ -119,20 +121,20 @@ let sammy;
                             case "seederId":
                                 const tokenId = value;
                                 if (tokenId !== 0) {
-                                    container.append(`<div class="${colSize} card"><strong>${key}</strong><div><a href="ton.html#/${tokenId}">${tokenId}</a></div></div>`);
+                                    row.append(`<div class="${colSize} card"><strong>${key}</strong><div><a href="ton.html#/ton/${tokenId}">${tokenId}</a></div></div>`);
                                 } else {
-                                    container.append(`<div class="${colSize} card"><strong>${key}</strong><div>${tokenId}</div></div>`);
+                                    row.append(`<div class="${colSize} card"><strong>${key}</strong><div>${tokenId}</div></div>`);
                                 }
                                 break;
                             case "owner":
                             case "seller":
-                                container.append(`<div class="${colSize} card"><strong>${key}</strong><div><a href="ownership.html#/${value}">${value}</a></div></div>`);
+                                row.append(`<div class="${colSize} card"><strong>${key}</strong><div><a href="ownership.html#/ownership/${value}">${value}</a></div></div>`);
                                 break;
                             default:
-                                container.append(`<div class="${colSize} card"><strong>${key}</strong><div>${value}</div></div>`);
+                                row.append(`<div class="${colSize} card"><strong>${key}</strong><div>${value}</div></div>`);
                         }
                     });
-                    $("#detailEntity").append('<div style="height:1rem;"></div>');
+                    container.append('<div style="height:1rem;"></div>');
                 });
             });
         });
@@ -140,12 +142,12 @@ let sammy;
 
 
     $(() => {
-        sammy.run(`#/${totalSupply}`);
+        sammy.run(`#/ton/${totalSupply}`);
 
         $("#getEntity").click(async () => {
             const tokenId = $("input[name=tokenId]").val();
             if (tokenId === "" || tokenId <= 0) return;
-            location.hash = `#/${tokenId}`
+            location.hash = `#/ton/${tokenId}`
         });
     });
 

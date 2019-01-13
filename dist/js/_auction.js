@@ -35,10 +35,10 @@ let sammy;
                     const container = $(`#modal-${key}`);
                     switch (key) {
                         case "tokenId":
-                            container.html(`<strong>${key}</strong><div><a href="ton.html#/${entity[key]}">${entity[key]}</a></div>`);
+                            container.html(`<strong>${key}</strong><div><a href="ton.html#/ton/${entity[key]}">${entity[key]}</a></div>`);
                             break;
                         case "seller":
-                            container.html(`<strong>${key}</strong><div><a href="ownership.html#/${entity[key]}">${entity[key]}</a></div>`);
+                            container.html(`<strong>${key}</strong><div><a href="ownership.html#/ownership/${entity[key]}">${entity[key]}</a></div>`);
                             break;
                         default:
                             container.html("<strong>" + key + "</strong><div>" + entity[key] + "</div>");
@@ -58,7 +58,7 @@ let sammy;
             callback();
         });
 
-        this.get('#/page/:page', function(context) {
+        this.get('#/auction/page/:page', function(context) {
             const page = Number(this.params['page']);
             const from = context.totalSupply - (context.pageSize * (page - 1));
             const to = context.totalSupply - (context.pageSize * (page));
@@ -71,8 +71,11 @@ let sammy;
                     return token.seller !== "0x"
                 }));
             }).then(rows => {
+                const infoBar = $("#infoBar");
                 if (rows.length === 0) {
-                    console.log(`no content at page ${page}`);
+                    infoBar.text(`no content at page ${page}`);
+                } else {
+                    infoBar.empty();
                 }
             });
         });
@@ -80,7 +83,7 @@ let sammy;
 
 
     $(() => {
-        sammy.run('#/page/1');
+        sammy.run('#/auction/page/1');
 
         const topPagination = $('#topPagination');
         const bottomPagination = $('#bottomPagination');
@@ -88,12 +91,6 @@ let sammy;
         [topPagination, bottomPagination].map(container => {
             container.pagination({
                 dataSource: async function(done) {
-                    const totalSupply = await new Promise((resolve, reject) => {
-                        contracts.EntityCore.totalSupply({}, (error, result) => {
-                            if (error) reject(error);
-                            if (result) resolve(result.toNumber());
-                        });
-                    });
                     const totalPage = Math.floor((totalSupply - 1) / pageSize + 1);
                     const page = [];
                     for (let i = 1; i <= totalPage; i++) {
@@ -104,19 +101,24 @@ let sammy;
                 pageSize: 1,
                 pageNumber: (function() {
                     const hash = location.hash;
-                    return Number(hash.split("/")[2]);
+                    return Number(hash.split("/")[3]);
                 })(),
                 triggerPagingOnInit: false,
-                afterPageOnClick: function() {
-                    const page = container.pagination('getSelectedPageNum');
-                    location.hash = `#/page/${page}`
+                afterPageOnClick: function(event, page) {
+                    location.hash = `#/auction/page/${page}`
+                },
+                afterNextOnClick: function(event, page) {
+                    location.hash = `#/auction/page/${page}`
+                },
+                afterPreviousOnClick: function(event, page) {
+                    location.hash = `#/auction/page/${page}`
                 },
             });
         });
 
         sammy.before(function() {
             const hash = location.hash;
-            const page = Number(hash.split("/")[2]);
+            const page = Number(hash.split("/")[3]);
             [topPagination, bottomPagination].map(container => {
                 container.pagination('go', page);
             });
@@ -134,7 +136,7 @@ let sammy;
             if (totalSupply < tokenId) return;
             const page = Math.floor((totalSupply - tokenId) / pageSize + 1);
             if (page < 1) return;
-            location.hash = `#/page/${page}`
+            location.hash = `#/auction/page/${page}`
         });
 
     });

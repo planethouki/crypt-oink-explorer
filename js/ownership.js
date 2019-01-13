@@ -92,9 +92,14 @@ let ownershipTokenIds;
                         pageSize: context.pageSize,
                         pageNumber: context.page,
                         triggerPagingOnInit: false,
-                        afterPageOnClick: function() {
-                            const page = container.pagination('getSelectedPageNum');
-                            location.hash = `#/${context.address}/${page}`
+                        afterPageOnClick: function(event, page) {
+                            location.hash = `#/ownership/${context.address}/${page}`
+                        },
+                        afterNextOnClick: function(event, page) {
+                            location.hash = `#/ownership/${context.address}/${page}`
+                        },
+                        afterPreviousOnClick: function(event, page) {
+                            location.hash = `#/ownership/${context.address}/${page}`
                         },
                     });
                 });
@@ -124,11 +129,11 @@ let ownershipTokenIds;
             callback();
         });
 
-        this.get('#/:address', function(context) {
-            this.redirect(`#/${this.params['address']}/1`);
+        this.get('#/ownership/:address', function(context) {
+            this.redirect(`#/ownership/${this.params['address']}/1`);
         });
 
-        this.get('#/:address/:page', function(context) {
+        this.get('#/ownership/:address/:page', function(context) {
             context.page = Number(this.params['page']);
             context.address = this.params['address'].toLowerCase();
             render(context);
@@ -137,7 +142,7 @@ let ownershipTokenIds;
 
 
     $(() => {
-        sammy.run('#/0xa2156F24711A631e92e65dC114CF172065dDd49b');
+        sammy.run('#/ownership/0xa2156F24711A631e92e65dC114CF172065dDd49b');
 
         $.getJSON(`https://cryptoinkexplorer.blob.core.windows.net/api/v1/block.json`, (json) => {
             web3.eth.getBlock(json.block, (error, result) => {
@@ -150,7 +155,7 @@ let ownershipTokenIds;
         $("#getOwner").click(async () => {
             const address = $("input[name=owner]").val();
             if (address === "") return;
-            location.hash = `#/${address}`
+            location.hash = `#/ownership/${address}`
         });
 
 

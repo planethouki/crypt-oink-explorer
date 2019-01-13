@@ -82,13 +82,13 @@ let entity;
                     case "seederId":
                         const tokenId = entity[key];
                         if (tokenId !== 0) {
-                            container.html(`<strong>${key}</strong><div><a href="ton.html#/${tokenId}">${tokenId}</a></div>`);
+                            container.html(`<strong>${key}</strong><div><a href="ton.html#/ton/${tokenId}">${tokenId}</a></div>`);
                         } else {
                             container.html(`<strong>${key}</strong><div>${tokenId}</div>`);
                         }
                         break;
                     case "owner":
-                        container.html(`<strong>${key}</strong><div><a href="ownership.html#/${entity[key]}">${entity[key]}</a></div>`);
+                        container.html(`<strong>${key}</strong><div><a href="ownership.html#/ownership/${entity[key]}">${entity[key]}</a></div>`);
                         break;
                     default:
                         container.html("<strong>" + key + "</strong><div>" + entity[key] + "</div>");
@@ -100,10 +100,12 @@ let entity;
     table = new Tabulator("#dataEntity", {
         responsiveLayout: true,
         columns: [
-            {title:"thumb", field:"thumb", formatter:"image", "cssClass":"col-thumb", headerSort:false},
-            {title:"id", field:"tokenId", sorter:"number", "cssClass":"col8rem"},
-            {title:"gen", field:"generation", sorter:"number", headerTooltip:"generation", "cssClass":"col8rem"},
-            {title:"owner", field:"owner", sorter:"string", "cssClass":"col30rem"},
+            {title:"thumb", field:"thumb", formatter:"image", responsive:0, "cssClass":"col-thumb", headerSort:false},
+            {title:"id", field:"tokenId", sorter:"number", responsive:0, "cssClass":"col6rem"},
+            {title:"gen", field:"generation", sorter:"number", responsive:0, headerTooltip:"generation", "cssClass":"col6rem"},
+            {title:"breeder", field:"breederId", sorter:"number", responsive:2, "cssClass":"col6rem"},
+            {title:"seeder", field:"seederId", sorter:"number", responsive:2, "cssClass":"col6rem"},
+            {title:"owner", field:"owner", sorter:"string", responsive:1, "cssClass":"col30rem"},
         ],
         rowAdded: function(row){
             const tokenId = row._row.data.id;
@@ -145,7 +147,7 @@ let entity;
             callback();
         });
 
-        this.get('#/:type/:page', function(context) {
+        this.get('#/tons/:type/:page', function(context) {
             const page = Number(this.params['page']);
             const from = context.totalSupply - (context.pageSize * (page - 1));
             const to = context.totalSupply - (context.pageSize * (page));
@@ -169,11 +171,11 @@ let entity;
 
         function getPageNumberFromHash() {
             const hash = location.hash;
-            return Number(hash.split("/")[2]);
+            return Number(hash.split("/")[3]);
         }
         function getTypeFromHash() {
             const hash = location.hash;
-            return hash.split("/")[1];
+            return hash.split("/")[2];
         }
 
         const topPagination = $('#topPagination');
@@ -192,9 +194,14 @@ let entity;
                 pageSize: 1,
                 pageNumber: getPageNumberFromHash(),
                 triggerPagingOnInit: false,
-                afterPageOnClick: function() {
-                    const page = container.pagination('getSelectedPageNum');
-                    location.hash = `#/${getTypeFromHash()}/${page}`
+                afterPageOnClick: function(event, page) {
+                    location.hash = `#/tons/${getTypeFromHash()}/${page}`
+                },
+                afterNextOnClick: function(event, page) {
+                    location.hash = `#/tons/${getTypeFromHash()}/${page}`
+                },
+                afterPreviousOnClick: function(event, page) {
+                    location.hash = `#/tons/${getTypeFromHash()}/${page}`
                 },
             });
         });
@@ -212,8 +219,8 @@ let entity;
             const buttonCard = $("#btnCard");
             const list = $("#dataEntity");
             const card = $("#cardEntity");
-            buttonList.attr("href", `#/list/${getPageNumberFromHash()}`);
-            buttonCard.attr("href", `#/card/${getPageNumberFromHash()}`);
+            buttonList.attr("href", `#/tons/list/${getPageNumberFromHash()}`);
+            buttonCard.attr("href", `#/tons/card/${getPageNumberFromHash()}`);
             switch (type) {
                 case "list":
                     buttonList.addClass("active");
@@ -236,7 +243,7 @@ let entity;
             updateListOrCard(getTypeFromHash());
         });
 
-        sammy.run('#/list/1');
+        sammy.run('#/tons/list/1');
 
 
         $("#getEntity").click(async () => {
@@ -251,7 +258,7 @@ let entity;
             if (totalSupply < tokenId) return;
             const page = Math.floor((totalSupply - tokenId) / pageSize + 1);
             if (page < 1) return;
-            location.hash = `#/${getTypeFromHash()}/${page}`
+            location.hash = `#/tons/${getTypeFromHash()}/${page}`
         });
     });
 

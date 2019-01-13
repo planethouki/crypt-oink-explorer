@@ -19,12 +19,9 @@ body {
     height: 4rem;
     width: 6rem;
 }
-.col8rem {
-    min-width: 8rem;
-}
-.col30rem {
-    min-width: 30rem;
-}
+.col6rem {min-width: 6rem;}
+.col8rem {min-width: 8rem;}
+.col30rem {min-width: 30rem;}
 
 img#modalThumb  {
     max-width: 100%;
