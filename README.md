@@ -1,6 +1,6 @@
 # crypton-explorer
 
-くりぷ豚（https://www.crypt-oink.io）のコントラクトを表示するWeb
+くりぷ豚（[https://www.crypt-oink.io](https://www.crypt-oink.io)）のコントラクトを表示するWeb
 
 購入とかはできない
 
