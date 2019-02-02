@@ -4,27 +4,27 @@ const superstatic = require('superstatic');
 const pug = require('pug');
 
 const files = [
-    {in:'./pug/index.pug',out:'./dist/index.html'},
-    {in:'./pug/ton.pug',out:'./dist/ton.html'},
-    {in:'./pug/tons.pug',out:'./dist/tons.html'},
-    {in:'./pug/shop.pug',out:'./dist/shop.html'},
-    {in:'./pug/breed.pug',out:'./dist/breed.html'},
-    {in:'./pug/instruction.pug',out:'./dist/instruction.html'},
-    {in:'./pug/entitydata.pug',out:'./dist/entitydata.html'},
-    {in:'./pug/familytree.pug',out:'./dist/familytree.html'},
-    {in:'./pug/ownership.pug',out:'./dist/ownership.html'},
-    {in:'./pug/ranking.pug',out:'./dist/ranking.html'},
+    {in:'./pug/index.pug',out:'index.html'},
+    {in:'./pug/ton.pug',out:'ton.html'},
+    {in:'./pug/tons.pug',out:'tons.html'},
+    {in:'./pug/shop.pug',out:'shop.html'},
+    {in:'./pug/breed.pug',out:'breed.html'},
+    {in:'./pug/instruction.pug',out:'instruction.html'},
+    {in:'./pug/entitydata.pug',out:'entitydata.html'},
+    {in:'./pug/familytree.pug',out:'familytree.html'},
+    {in:'./pug/ownership.pug',out:'ownership.html'},
+    {in:'./pug/ranking.pug',out:'ranking.html'},
 ];
 
-function copy(folder, filter) {
+function copy(type, folder, filter) {
     fs.readdir(`./${folder}`, (err, files) => {
         try {
-            fs.accessSync(`./dist/${folder}`);
+            fs.accessSync(`./${type}/${folder}`);
         } catch(e) {
-            fs.mkdirSync(`./dist/${folder}`);
+            fs.mkdirSync(`./${type}/${folder}`);
         }
         files.filter(file => file.endsWith(filter)).map((file) => {
-            fs.copyFile(`./${folder}/${file}`, `./dist/${folder}/${file}`, (err) => {
+            fs.copyFile(`./${folder}/${file}`, `./${type}/${folder}/${file}`, (err) => {
                 if(err) {console.error(err)}
             });
         });
@@ -32,12 +32,24 @@ function copy(folder, filter) {
 }
 
 gulp.task("build", function(done) {
-    copy("js", ".js");
-    copy("css", ".css");
-    copy("img", "");
+    copy("dist","js", ".js");
+    copy("dist", "css", ".css");
+    copy("dist", "img", "");
     files.map((file) => {
-        let rawHtml = pug.renderFile(file.in);
-        let outName = file.out;
+        let rawHtml = pug.renderFile(file.in, {});
+        let outName = "./dist/" + file.out;
+        fs.writeFileSync(outName, rawHtml);
+    });
+    done();
+});
+
+gulp.task("docs", function(done) {
+    copy("docs", "js", ".js");
+    copy("docs", "css", ".css");
+    copy("docs", "img", "");
+    files.map((file) => {
+        let rawHtml = pug.renderFile(file.in, { "base_href": "https://planethouki.github.io/crypton-explorer/"});
+        let outName = "./docs/" + file.out;
         fs.writeFileSync(outName, rawHtml);
     });
     done();
