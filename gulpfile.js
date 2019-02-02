@@ -48,7 +48,7 @@ gulp.task("docs", function(done) {
     copy("docs", "css", ".css");
     copy("docs", "img", "");
     files.map((file) => {
-        let rawHtml = pug.renderFile(file.in, { "base_href": "https://planethouki.github.io/crypton-explorer/"});
+        let rawHtml = pug.renderFile(file.in, {});
         let outName = "./docs/" + file.out;
         fs.writeFileSync(outName, rawHtml);
     });
