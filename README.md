@@ -1,18 +1,26 @@
-# crypton-explorer
+# crypt-oink-explorer
 
-くりぷ豚（[https://www.crypt-oink.io](https://www.crypt-oink.io)）のコントラクトを表示するWeb
+## Project setup
+```
+npm install
+```
 
-購入とかはできない
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-# powerd by
+### Compiles and minifies for production
+```
+npm run build
+```
 
-- くりぷ豚（https://www.crypt-oink.io）
-- bootstrap
-- sammy.js
-- tabulator.js
-- pagination.js
-- web3.js
-- jQuery
-- pug
-- gulp
-- infura
+### Run your tests
+```
+npm run test
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
