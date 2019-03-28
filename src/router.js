@@ -14,8 +14,13 @@ export default new Router({
     },
     {
       path: '/tons',
+      redirect: '/tons/card/1',
+    },
+    {
+      path: '/tons/:type/:page',
       name: 'tons',
       component: Tons,
+      props: route => ({ page: Number(route.params.page), type: route.params.type }),
     },
     {
       path: '/about',

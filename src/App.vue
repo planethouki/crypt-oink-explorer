@@ -14,6 +14,10 @@ export default {
   components: {
     Header,
   },
+  created() {
+    const totalSupply = this.$contracts.EntityCore.methods.totalSupply().call();
+    this.$store.dispatch('doUpdateTotalSpply', totalSupply);
+  },
 };
 </script>
 
