@@ -3,9 +3,10 @@
     h1.display-3.mb-4
       router-link.text-decoration-none(to="/tons") Tons
     .form-inline.float-sm-right
-      .form-group.mr-sm-3.mb-2
-        input.form-control(name="tokenId" type="number" placeholder="ex.) 1000")
-      button.btn.btn-primary.mb-2#getEntity search
+      b-input-group
+        b-form-input(name="tokenId" type="number" placeholder="ID" v-model="searchTokenId")
+        b-input-group-append
+          b-button(text="Search" variant="primary" @click="onSearch") Search
     b-pagination(
     v-model="currentPage"
     :total-rows="rows"
@@ -47,6 +48,7 @@ export default {
       tabs: ['Card', 'List'],
       partTons: [],
       tons: [],
+      searchTokenId: '',
     };
   },
   computed: {
@@ -138,6 +140,11 @@ export default {
     },
     onPageChange(event) {
       this.$router.push({ name: 'tons', params: { page: event } });
+    },
+    onSearch() {
+      const id = Number(this.searchTokenId);
+      const page = Math.ceil((this.rows - id) / this.perPage);
+      this.$router.push({ name: 'tons', params: { page } });
     },
   },
 };
