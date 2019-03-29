@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Tons from './views/Tons.vue';
+import Ton from './views/Ton.vue';
 
 Vue.use(Router);
 
@@ -21,6 +22,16 @@ export default new Router({
       name: 'tons',
       component: Tons,
       props: route => ({ page: Number(route.params.page), type: route.params.type }),
+    },
+    {
+      path: '/ton',
+      redirect: '/ton/0',
+    },
+    {
+      path: '/ton/:tokenId',
+      name: 'ton',
+      component: Ton,
+      props: route => ({ tokenId: Number(route.params.tokenId) }),
     },
     {
       path: '/about',
