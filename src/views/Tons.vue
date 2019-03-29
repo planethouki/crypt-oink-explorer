@@ -4,10 +4,12 @@
       router-link.text-decoration-none(to="/tons") Tons
     .form-inline.float-sm-right
       b-input-group
-        b-form-input(name="tokenId" type="number" placeholder="ID" v-model="searchTokenId")
+        b-form-input(name="inputPage" type="number" placeholder="Page No." v-model="inputPage")
         b-input-group-append
-          b-button(text="Search" variant="primary" @click="onSearch") Search
+          b-button(text="Go" variant="primary" @click="goPage") Go
     b-pagination(
+    aria-controls="tons"
+    limit="10"
     v-model="currentPage"
     :total-rows="rows"
     :per-page="perPage"
@@ -15,7 +17,15 @@
     b-nav(tabs)
       template(v-for="tab in tabs")
         b-nav-item(@click="tabClick(tab)" :active="currentTab === tab") {{ tab }}
-    component(v-bind:is="currentTabComponent" :tons="tons")
+    section#tons
+      component(v-bind:is="currentTabComponent" :tons="tons")
+    b-pagination(
+    aria-controls="tons"
+    limit="10"
+    v-model="currentPage"
+    :total-rows="rows"
+    :per-page="perPage"
+    @change="onPageChange")
 </template>
 
 <script>
@@ -48,7 +58,7 @@ export default {
       tabs: ['Card', 'List'],
       partTons: [],
       tons: [],
-      searchTokenId: '',
+      inputPage: '',
     };
   },
   computed: {
@@ -113,11 +123,13 @@ export default {
       }));
       this.partTons.map((ton, index) => {
         ton.ownerOf.then((owner) => {
+          if (ton.id !== this.tons[index].id) return;
           const tons = this.tons.slice();
           tons[index].owner = owner;
           this.tons = tons;
         });
         ton.getEntity.then((entity) => {
+          if (ton.id !== this.tons[index].id) return;
           const tons = this.tons.slice();
           tons[index].isBreeding = entity.isBreeding;
           tons[index].isReady = entity.isReady;
@@ -141,9 +153,8 @@ export default {
     onPageChange(event) {
       this.$router.push({ name: 'tons', params: { page: event } });
     },
-    onSearch() {
-      const id = Number(this.searchTokenId);
-      const page = Math.ceil((this.rows - id) / this.perPage);
+    goPage() {
+      const page = Number(this.inputPage);
       this.$router.push({ name: 'tons', params: { page } });
     },
   },
