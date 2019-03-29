@@ -36,11 +36,8 @@ export default {
         generation: {
           label: 'gen',
         },
-        breederId: {
-          label: 'breeder',
-        },
-        seederId: {
-          label: 'seeder',
+        birthTime: {
+          label: 'birthTime',
         },
         owner: {
           label: 'owner',

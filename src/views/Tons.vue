@@ -74,6 +74,11 @@ export default {
         this.calcTokensId();
       },
     },
+    type: {
+      handler(newVal) {
+        this.currentTab = newVal === 'card' ? 'Card' : 'List';
+      },
+    },
     tokensId: {
       handler() {
         this.updatePartTons();
