@@ -102,7 +102,7 @@ export default {
     this.$store.state.totalSupply.then((x) => {
       this.rows = x;
       if (this.tokenId === 0) {
-        this.$nextTick(function () {
+        this.$nextTick(() => {
           this.tokenId = x;
         });
       }

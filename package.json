@@ -11,6 +11,7 @@
     "bootstrap-vue": "^2.0.0-rc.13",
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.6",
+    "vue-google-charts": "^0.3.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
     "web3": "^1.0.0-beta.50"
@@ -22,14 +23,12 @@
     "@vue/cli-plugin-pwa": "^3.0.4",
     "@vue/cli-service": "^3.0.4",
     "@vue/eslint-config-airbnb": "^4.0.0",
-    "axios": "^0.18.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
     "lint-staged": "^8.1.4",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",
-    "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-bootstrap-vue": "^0.2.0",
     "vue-cli-plugin-pug": "^1.0.7",
     "vue-template-compiler": "^2.5.21"

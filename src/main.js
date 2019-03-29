@@ -1,6 +1,6 @@
 import '@babel/polyfill';
 import Vue from 'vue';
-import './plugins/axios';
+import './plugins/gchart';
 import './plugins/bootstrap-vue';
 import './plugins/web3';
 import App from './App.vue';

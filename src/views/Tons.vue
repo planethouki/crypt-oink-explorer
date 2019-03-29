@@ -94,7 +94,7 @@ export default {
     this.currentTab = this.type === 'card' ? 'Card' : 'List';
     this.$store.state.totalSupply.then((x) => {
       this.rows = x;
-      this.$nextTick(function () {
+      this.$nextTick(() => {
         this.currentPage = this.page;
       });
       this.calcTokensId();
