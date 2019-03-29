@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Tons from './views/Tons.vue';
 import Ton from './views/Ton.vue';
+import Tree from './views/Tree.vue';
 
 Vue.use(Router);
 
@@ -31,6 +32,16 @@ export default new Router({
       path: '/ton/:tokenId',
       name: 'ton',
       component: Ton,
+      props: route => ({ tokenId: Number(route.params.tokenId) }),
+    },
+    {
+      path: '/familytree',
+      redirect: '/familytree/0',
+    },
+    {
+      path: '/familytree/:tokenId',
+      name: 'tree',
+      component: Tree,
       props: route => ({ tokenId: Number(route.params.tokenId) }),
     },
     {
