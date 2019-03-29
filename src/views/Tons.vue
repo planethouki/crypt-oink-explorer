@@ -1,5 +1,5 @@
 <template lang="pug">
-  main.container#main
+  main.container
     h1.display-3.mb-4
       router-link.text-decoration-none(to="/tons") Tons
     .form-inline.float-sm-right
@@ -134,9 +134,9 @@ export default {
         return true;
       });
     },
-    tabClick(event) {
-      this.currentTab = event;
-      this.$router.push({ name: 'tons', params: { type: event.toLowerCase() } });
+    tabClick(tab) {
+      this.currentTab = tab;
+      this.$router.push({ name: 'tons', params: { type: tab.toLowerCase() } });
     },
     onPageChange(event) {
       this.$router.push({ name: 'tons', params: { page: event } });

@@ -1,13 +1,19 @@
 <template lang="pug">
-  div
-    b-table(striped hover :items="tons" :fields="fields")
+  div.overflow-auto
+    b-table(striped hover :items="tons" :fields="fields" @row-clicked="showModal")
       template(slot="thumb" slot-scope="data")
         img(:src="data.item.imgSrc" style="height: 45px;")
+    EntityModal(:ton="ton" @emitHiddenModal="hiddenModal")
 </template>
 
 <script>
+import EntityModal from '@/components/EntityModal.vue';
+
 export default {
   name: 'EntityList',
+  components: {
+    EntityModal,
+  },
   props: {
     tons: {
       type: Array,
@@ -18,6 +24,7 @@ export default {
   },
   data() {
     return {
+      ton: {},
       fields: {
         thumb: {
           label: '',
@@ -46,6 +53,12 @@ export default {
   watch: {
   },
   methods: {
+    showModal(ton) {
+      this.ton = ton;
+    },
+    hiddenModal() {
+      this.ton = {};
+    },
   },
 };
 </script>
