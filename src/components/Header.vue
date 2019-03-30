@@ -8,19 +8,18 @@
         b-nav-item
           router-link(to="/tons") All
         b-nav-item
-          router-link(to="/shop") Shop
+          router-link(to="/ton") Detail
         b-nav-item
-          router-link(to="/breed") Breed
-        b-nav-item-dropdown(text="Detail")
-          b-dropdown-item
-            router-link(to="/ton") Detail
-          b-dropdown-item
-            router-link(to="/familytree") Tree
+          router-link(to="/familytree") Tree
         b-nav-item-dropdown(text="Other")
           b-dropdown-item
             router-link(to="/ranking") Ranking
           b-dropdown-item
             router-link(to="/ownership") Ownership
+          b-dropdown-item
+            router-link(to="/shop") Shop
+          b-dropdown-item
+            router-link(to="/breed") Breed
 </template>
 
 <script>
