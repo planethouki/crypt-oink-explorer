@@ -10,7 +10,7 @@
     b-pagination(
     aria-controls="tons"
     limit="1"
-    v-model="tokenId"
+    v-model="currentPage"
     :total-rows="rows"
     :per-page="perPage"
     @change="onPageChange")
@@ -76,6 +76,7 @@ export default {
   },
   data() {
     return {
+      currentPage: 1,
       perPage: 1,
       rows: 0,
       partTon: {},
@@ -90,6 +91,9 @@ export default {
     tokenId: {
       handler() {
         this.updatePartTon();
+        this.$nextTick(() => {
+          this.updatePartTon();
+        });
       },
     },
     partTon: {
@@ -101,17 +105,16 @@ export default {
   mounted() {
     this.$store.state.totalSupply.then((x) => {
       this.rows = x;
-      if (this.tokenId === 0) {
-        this.$nextTick(() => {
-          this.tokenId = x;
-        });
-      }
+      this.$nextTick(() => {
+        this.updatePartTon();
+      });
     });
   },
   methods: {
     updatePartTon() {
-      const { tokenId } = this;
-      if (tokenId === 0) return;
+      if (this.rows === 0) return;
+      const tokenId = this.tokenId === 0 ? this.rows : this.tokenId;
+      this.currentPage = tokenId;
       this.partTon = {
         id: tokenId,
         tokenId,
