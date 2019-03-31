@@ -5,6 +5,7 @@ import Tons from './views/Tons.vue';
 import Ton from './views/Ton.vue';
 import Tree from './views/Tree.vue';
 import Ranking from './views/Ranking.vue';
+import Ownership from './views/Ownership.vue';
 
 Vue.use(Router);
 
@@ -54,6 +55,18 @@ export default new Router({
       name: 'ranking',
       component: Ranking,
       props: route => ({ page: Number(route.params.page) }),
+    },
+    {
+      path: '/ownership',
+      redirect: '/ownership/0xa2156f24711a631e92e65dc114cf172065ddd49b/card/1',
+    },
+    {
+      path: '/ownership/:address/:type/:page',
+      name: 'ownership',
+      component: Ownership,
+      props: route => ({
+        page: Number(route.params.page), type: route.params.type, address: route.params.address
+      }),
     },
     {
       path: '/about',
