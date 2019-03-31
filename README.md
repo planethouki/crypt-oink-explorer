@@ -1,5 +1,9 @@
 # crypt-oink-explorer
 
+くりぷ豚（[https://www.crypt-oink.io](https://www.crypt-oink.io)）のコントラクトを表示するWeb
+
+購入とかはできない
+
 ## Project setup
 ```
 npm install
@@ -24,3 +28,17 @@ npm run test
 ```
 npm run lint
 ```
+
+
+## Powered By
+
+- くりぷ豚（https://www.crypt-oink.io）
+- vue.js
+- web3.js
+- axios
+- scroll booster (https://ilyashubin.github.io/scrollbooster/)
+- pug
+- bootstrap-vue
+- Google Charts
+- sass
+- INFURA
