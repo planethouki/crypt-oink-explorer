@@ -1,18 +1,22 @@
 <template lang="pug">
-  main.container
-    h1.display-3.mb-4
-      router-link.text-decoration-none(to="/familytree/0") Family Tree
-    section
-      .form-inline
-        b-input-group
-          b-form-input(name="inputTokenId" type="number" placeholder="ID" v-model="inputTokenId")
-          b-input-group-append
-            b-button(text="Go" variant="primary" @click="goTokenId") Go
-    section#chart
-      p {{ progressText }}
+  main
+    section.container
+      h1.display-3.mb-4
+        router-link.text-decoration-none(to="/familytree/0") Family Tree
+      section
+        .form-inline
+          b-input-group
+            b-form-input(name="inputTokenId" type="number" placeholder="ID" v-model="inputTokenId")
+            b-input-group-append
+              b-button(text="Go" variant="primary" @click="goTokenId") Go
+      section
+        p {{ progressText }}
+    section#chart.container-fulid
       GChart#family-tree-chart(
       :settings="{ packages: ['orgchart'] }"
       :events="chartEvents"
+      :options="chartOptions"
+      :data="chartData"
       type="OrgChart"
       @ready="onChartReady")
 </template>
@@ -20,7 +24,7 @@
 <script>
 // @ is an alias to /src
 import { GChart } from 'vue-google-charts';
-
+import ScrollBooster from 'scrollbooster';
 
 export default {
   name: 'tree',
@@ -41,13 +45,21 @@ export default {
       chartEvents: {
         select: () => {
           if (this.chartData === null) return;
-          const { row } = this.chart.getSelection()[0];
+          const selected = this.chart.getSelection();
+          if (!selected) return;
+          const { row } = selected[0];
           const tokenId = this.chartData.getValue(row, 0).split('-')[1];
           this.inputTokenId = tokenId;
         },
       },
+      chartOptions: {
+        allowHtml: true,
+        nodeClass: 'myNodeClass',
+        selectedNodeClass: 'mySelectedNodeClass',
+      },
       chart: null,
       google: null,
+      scrollBooster: null,
     };
   },
   computed: {
@@ -80,12 +92,15 @@ export default {
         generation: Number(getEntity.generation),
       };
     },
-    async onChartReady(chart, google) {
+    onChartReady(chart, google) {
+      // eslint-disable-next-line
+      chart.clearChart = () => { console.log('clear chart'); };
       this.chart = chart;
       this.google = google;
       this.reDrawChart();
     },
     async reDrawChart() {
+      this.clearScrollBooster();
       const getRandomPrefix = () => Math.floor(Math.random() * Math.floor(10000)).toString();
       const fTag = tokenId => `<div><div class="token-title">${tokenId}</div><img src="${this.$tonImg(tokenId)}" class="token-image"></div>`;
       console.log('drawing start');
@@ -93,11 +108,6 @@ export default {
       data.addColumn('string', 'Name');
       data.addColumn('string', 'Manager');
       data.addColumn('string', 'ToolTip');
-      const options = {
-        allowHtml: true,
-        nodeClass: 'myNodeClass',
-        selectedNodeClass: 'mySelectedNodeClass',
-      };
       const totalSupply = await this.$store.state.totalSupply;
       const rootTokenId = this.tokenId === 0 ? totalSupply : this.tokenId;
       // console.log('draw', rootTokenId);
@@ -114,15 +124,15 @@ export default {
             [
               { v: `${breederRandomId}-${r.breederId}`, f: fTag(r.breederId) },
               `${randomId}-${r.tokenId}`,
-              '',
+              `#${r.breederId}`,
             ],
             [
               { v: `${seederRandomId}-${r.seederId}`, f: fTag(r.seederId) },
               `${randomId}-${r.tokenId}`,
-              '',
+              `#${r.seederId}`,
             ],
           ]);
-          this.chart.draw(data, options);
+          this.chart.draw(data, this.chartOptions);
           if (level < 4) {
             await recu(r.breederId, level + 1, breederRandomId);
             await recu(r.seederId, level + 1, seederRandomId);
@@ -131,12 +141,29 @@ export default {
         } else if (acceptableMaxLevel < level) acceptableMaxLevel = level;
       };
       data.addRows([
-        [{ v: `${'0-'}${rootTokenId}`, f: fTag(rootTokenId) }, '', ''],
+        [{ v: `${'0-'}${rootTokenId}`, f: fTag(rootTokenId) }, '', `#${rootTokenId}`],
       ]);
-      this.chart.draw(data, options);
+      this.chart.draw(data, this.chartOptions);
       await recu(rootTokenId, 1, '0');
       this.progressText = '';
       this.chartData = data;
+      this.updateScrollBooster();
+    },
+    clearScrollBooster() {
+      if (this.scrollBooster === null) return;
+      this.scrollBooster.destroy();
+    },
+    updateScrollBooster() {
+      const viewport = document.querySelector('#chart');
+      const content = viewport.querySelector('#family-tree-chart');
+      this.scrollBooster = new ScrollBooster({
+        viewport,
+        content,
+        mode: 'x',
+        onUpdate: (data) => {
+          viewport.scrollLeft = data.position.x;
+        },
+      });
     },
   },
 };
@@ -146,6 +173,7 @@ export default {
   #chart {
     overflow-y: hidden;
     overflow-x: auto;
+    cursor: all-scroll;
   }
   #family-tree-chart {
     & /deep/ .myNodeClass > div {

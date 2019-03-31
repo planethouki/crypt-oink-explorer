@@ -10,6 +10,7 @@
   "dependencies": {
     "bootstrap-vue": "^2.0.0-rc.13",
     "register-service-worker": "^1.6.2",
+    "scrollbooster": "^1.1.0",
     "vue": "^2.6.6",
     "vue-google-charts": "^0.3.2",
     "vue-router": "^3.0.1",
