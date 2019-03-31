@@ -2,18 +2,17 @@
   main.container
     h1.display-3.mb-4
       router-link.text-decoration-none(to="/ton/0") Ton
-    .form-inline.float-sm-right
-      b-input-group
-        b-form-input(name="inputTokenId" type="number" placeholder="ID" v-model="inputTokenId")
-        b-input-group-append
-          b-button(text="Go" variant="primary" @click="goTokenId") Go
-    b-pagination(
-    aria-controls="tons"
-    limit="1"
-    v-model="currentPage"
-    :total-rows="rows"
-    :per-page="perPage"
-    @change="onPageChange")
+    section.row
+      .col-12.col-sm-6.order-sm-2
+        SearchTokenId(:routeName="'ton'")
+      .col-12.col-sm-6.order-sm-1
+        b-pagination(
+        aria-controls="tons"
+        limit="1"
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        @change="onPageChange")
     section#ton
       .row
         .col-lg-12.col-xl-6.text-center
@@ -65,9 +64,11 @@
 
 <script>
 // @ is an alias to /src
+import SearchTokenId from '@/components/SearchTokenId.vue';
 
 export default {
   name: 'ton',
+  components: { SearchTokenId },
   props: {
     tokenId: {
       type: Number,
@@ -82,7 +83,6 @@ export default {
       partTon: {},
       ton: {},
       tonField: ['tokenId'],
-      inputTokenId: '',
     };
   },
   computed: {
@@ -198,10 +198,6 @@ export default {
     },
     onPageChange(event) {
       this.$router.push({ name: 'ton', params: { tokenId: event } });
-    },
-    goTokenId() {
-      const tokenId = Number(this.inputTokenId);
-      this.$router.push({ name: 'ton', params: { tokenId } });
     },
   },
 };

@@ -3,12 +3,9 @@
     section.container
       h1.display-3.mb-4
         router-link.text-decoration-none(to="/familytree/0") Family Tree
-      section
-        .form-inline
-          b-input-group
-            b-form-input(name="inputTokenId" type="number" placeholder="ID" v-model="inputTokenId")
-            b-input-group-append
-              b-button(text="Go" variant="primary" @click="goTokenId") Go
+      section.row
+        .col-12.col-sm-6.offset-sm-6
+          SearchTokenId(:routeName="'tree'" :input="inputTokenId")
       section
         p {{ progressText }}
     section#chart.container-fulid
@@ -25,10 +22,12 @@
 // @ is an alias to /src
 import { GChart } from 'vue-google-charts';
 import ScrollBooster from 'scrollbooster';
+import SearchTokenId from '@/components/SearchTokenId.vue';
 
 export default {
   name: 'tree',
   components: {
+    SearchTokenId,
     GChart,
   },
   props: {
@@ -75,13 +74,6 @@ export default {
   mounted() {
   },
   methods: {
-    onPageChange(event) {
-      this.$router.push({ name: 'tree', params: { tokenId: event } });
-    },
-    goTokenId() {
-      const tokenId = Number(this.inputTokenId);
-      this.$router.push({ name: 'tree', params: { tokenId } });
-    },
     async getEntityFromTokenId(tokenId) {
       const getEntity = await this.$contracts.EntityCore.methods.getEntity(tokenId).call();
       return {
