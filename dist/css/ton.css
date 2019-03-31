@@ -1,9 +1,0 @@
-img#detailThumb {
-    width: 100%;
-    max-width: 512px;
-}
-
-#detailEntity .card {
-    padding: 1rem;
-    min-height: 5rem;
-}

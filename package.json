@@ -1,20 +1,48 @@
 {
-  "name": "crypton-explorer",
-  "version": "0.0.1",
-  "description": "",
+  "name": "crypt-oink-explorer",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "docs": "gulp docs",
-    "build": "gulp build",
-    "serve": "gulp serve",
-    "watch": "gulp watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
-  "author": "planethouki",
-  "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "bootstrap-vue": "^2.0.0-rc.13",
+    "register-service-worker": "^1.6.2",
+    "scrollbooster": "^1.1.0",
+    "vue": "^2.6.6",
+    "vue-google-charts": "^0.3.2",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1",
+    "web3": "^1.0.0-beta.50"
+  },
   "devDependencies": {
-    "gulp": "^4.0.0",
-    "pug": "^2.0.3",
-    "superstatic": "^6.0.1"
+    "@babel/polyfill": "^7.2.5",
+    "@vue/cli-plugin-babel": "^3.0.4",
+    "@vue/cli-plugin-eslint": "^3.0.4",
+    "@vue/cli-plugin-pwa": "^3.0.4",
+    "@vue/cli-service": "^3.0.4",
+    "@vue/eslint-config-airbnb": "^4.0.0",
+    "axios": "^0.18.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "lint-staged": "^8.1.4",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.1.0",
+    "vue-cli-plugin-axios": "0.0.4",
+    "vue-cli-plugin-bootstrap-vue": "^0.2.0",
+    "vue-cli-plugin-pug": "^1.0.7",
+    "vue-template-compiler": "^2.5.21"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
   }
 }

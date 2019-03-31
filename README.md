@@ -1,18 +1,44 @@
-# crypton-explorer
+# crypt-oink-explorer
 
 くりぷ豚（[https://www.crypt-oink.io](https://www.crypt-oink.io)）のコントラクトを表示するWeb
 
 購入とかはできない
 
-# powerd by
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Run your tests
+```
+npm run test
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+
+## Powered By
 
 - くりぷ豚（https://www.crypt-oink.io）
-- bootstrap
-- sammy.js
-- tabulator.js
-- pagination.js
+- vue.js
 - web3.js
-- jQuery
+- axios
+- scroll booster (https://ilyashubin.github.io/scrollbooster/)
 - pug
-- gulp
-- infura
+- bootstrap-vue
+- Google Charts
+- sass
+- INFURA
