@@ -4,6 +4,7 @@ import Home from './views/Home.vue';
 import Tons from './views/Tons.vue';
 import Ton from './views/Ton.vue';
 import Tree from './views/Tree.vue';
+import Ranking from './views/Ranking.vue';
 
 Vue.use(Router);
 
@@ -43,6 +44,16 @@ export default new Router({
       name: 'tree',
       component: Tree,
       props: route => ({ tokenId: Number(route.params.tokenId) }),
+    },
+    {
+      path: '/ranking',
+      redirect: '/ranking/1',
+    },
+    {
+      path: '/ranking/:page',
+      name: 'ranking',
+      component: Ranking,
+      props: route => ({ page: Number(route.params.page) }),
     },
     {
       path: '/about',
