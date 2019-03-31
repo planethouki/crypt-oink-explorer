@@ -48,6 +48,7 @@ export default {
   },
   methods: {
     showModal(ton) {
+      if (ton.hidden) return;
       this.ton = ton;
     },
     hiddenModal() {

@@ -18,7 +18,8 @@
       :items="items"
       :fields="fields")
         template(slot="owner" slot-scope="data")
-          a(:href="data.item.etherscan" target="_blank") {{ data.value }}
+          router-link(:to="{ name: 'ownership', params: { address: data.value, type: 'card', page: 1 } }") {{ data.value }}
+          <!--a(:href="data.item.etherscan" target="_blank") {{ data.value }}-->
         template(slot="count" slot-scope="data")
           .d-flex.align-items-center
             .d-flex.mr-3 {{ data.item.count }}
@@ -105,3 +106,4 @@ export default {
   },
 };
 </script>
+

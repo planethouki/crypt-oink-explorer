@@ -1,7 +1,7 @@
 <template lang="pug">
   .d-flex.flex-wrap
     template(v-for="ton in tons")
-      .card(:key="ton.id" @click="showModal(ton)" v-if="ton.shown === true")
+      .card(:key="ton.id" @click="showModal(ton)" v-if="ton.shown")
         .p-3.position-absolute {{ ton.tokenId }}
         img.w-100(:src="ton.imgSrc")
     AuctionModal(:ton="ton" @emitHiddenModal="hiddenModal")
@@ -34,7 +34,6 @@ export default {
   },
   methods: {
     showModal(ton) {
-      if (ton.hidden) return;
       this.ton = ton;
     },
     hiddenModal() {

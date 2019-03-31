@@ -15,7 +15,11 @@
     b-nav(tabs)
       template(v-for="tab in tabs")
         b-nav-item(@click="tabClick(tab)" :active="currentTab === tab") {{ tab }}
-    section#tons
+      li.nav-item
+        .px-3.py-2
+          .spinner-border.spinner-border-sm(role="status" v-show="!tonsLoaded")
+            span.sr-only Loading...
+    section#tons.mb-5
       component(v-bind:is="currentTabComponent" :tons="tons")
     b-pagination(
     aria-controls="tons"
@@ -64,6 +68,7 @@ export default {
       tabs: ['Card', 'List'],
       partTons: [],
       tons: [],
+      tonsLoaded: false,
       inputPage: '',
     };
   },
@@ -127,13 +132,15 @@ export default {
       }));
     },
     updateTons() {
+      this.tonsLoaded = false;
       this.tons = this.partTons.map(ton => ({
         id: ton.id,
         tokenId: ton.tokenId,
         imgSrc: ton.imgSrc,
       }));
+      const allPromise = [];
       this.partTons.map((ton, index) => {
-        ton.getCurrentPrice.then((price) => {
+        const promiseCp = ton.getCurrentPrice.then((price) => {
           if (ton.id !== this.tons[index].id) return;
           const tons = this.tons.slice();
           tons[index].price = price;
@@ -144,7 +151,7 @@ export default {
           const tons = this.tons.slice();
           tons[index].price = '-';
         });
-        ton.getAuction.then((entity) => {
+        const promiseAc = ton.getAuction.then((entity) => {
           if (ton.id !== this.tons[index].id) return;
           const tons = this.tons.slice();
           tons[index].seller = entity.seller;
@@ -152,14 +159,18 @@ export default {
           tons[index].endingPrice = entity.endingPrice;
           tons[index].duration = entity.duration;
           tons[index].startedAt = entity.startedAt;
+          tons[index].shown = true;
           this.tons = tons;
         }).catch(() => {
           console.log('not in auction', ton.id);
           if (ton.id !== this.tons[index].id) return;
           const tons = this.tons.slice();
           tons[index].hidden = true;
-          tons[index].shown = true;
           tons[index].seller = '-';
+        });
+        allPromise.push(promiseCp, promiseAc);
+        Promise.all(allPromise).then(() => {
+          this.tonsLoaded = true;
         });
         return true;
       });
