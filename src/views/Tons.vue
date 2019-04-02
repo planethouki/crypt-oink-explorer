@@ -96,8 +96,8 @@ export default {
       this.rows = x;
       this.$nextTick(() => {
         this.currentPage = this.page;
+        this.calcTokensId();
       });
-      this.calcTokensId();
     });
   },
   methods: {

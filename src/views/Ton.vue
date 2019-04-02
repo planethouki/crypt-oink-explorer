@@ -152,7 +152,7 @@ export default {
         newTon.breederId = entity.breederId;
         newTon.seederId = entity.seederId;
         newTon.generation = entity.generation;
-        newTon.dna = entity.dna;
+        newTon.dna = this.$web3.utils.toHex(entity.dna);
         this.ton = newTon;
       });
       this.partTon.getCurrentPriceSell.then((price) => {
