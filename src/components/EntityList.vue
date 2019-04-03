@@ -4,9 +4,28 @@
       template(slot="thumb" slot-scope="data")
         img(:src="data.item.imgSrc" style="height: 45px;")
       template(slot="id" slot-scope="data")
-        router-link(:to="`/ton/${data.item.tokenId}`") {{ data.item.tokenId }}
+        router-link(
+        v-if="data.value"
+        :to="{ name: 'ton', params: { tokenId: data.value } }") {{ data.value }}
+      template(slot="seederId" slot-scope="data")
+        router-link(
+        v-if="data.value && data.value !== '0'"
+        :to="{ name: 'ton', params: { tokenId: data.value } }") {{ data.value }}
+        span(v-if="data.value === '0'") {{ data.value }}
+      template(slot="breederId" slot-scope="data")
+        router-link(
+        v-if="data.value && data.value !== '0'"
+        :to="{ name: 'ton', params: { tokenId: data.value } }") {{ data.value }}
+        span(v-if="data.value === '0'") {{ data.value }}
+      template(slot="generation" slot-scope="data")
+        router-link(
+        v-if="data.value && data.value !== '0'"
+        :to="{ name: 'tree', params: { tokenId: data.item.tokenId } }") {{ data.item.generation }}
+        span(v-if="data.value === '0'") {{ data.item.generation }}
       template(slot="owner" slot-scope="data")
-        router-link(:to="`/ownership/${data.item.owner}/card/1`") {{ data.item.owner }}
+        router-link(
+        v-if="data.value"
+        :to="{ name: 'ownership', params: { address: data.value } }") {{ data.value }}
 </template>
 
 <script>
@@ -20,27 +39,32 @@ export default {
         return [];
       },
     },
+    fields: {
+      type: Object,
+      default() {
+        return {
+          thumb: {
+            label: '',
+            class: 'p-0',
+          },
+          id: {
+            label: 'id',
+          },
+          generation: {
+            label: 'gen',
+          },
+          birthTime: {
+            label: 'birthTime',
+          },
+          owner: {
+            label: 'owner',
+          },
+        };
+      },
+    },
   },
   data() {
     return {
-      fields: {
-        thumb: {
-          label: '',
-          class: 'p-0',
-        },
-        id: {
-          label: 'id',
-        },
-        generation: {
-          label: 'gen',
-        },
-        birthTime: {
-          label: 'birthTime',
-        },
-        owner: {
-          label: 'owner',
-        },
-      },
     };
   },
   mounted() {
@@ -53,7 +77,4 @@ export default {
 </script>
 
 <style scoped>
-  .card {
-    width: 200px;
-  }
 </style>

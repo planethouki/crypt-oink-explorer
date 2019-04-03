@@ -18,8 +18,9 @@
       :items="items"
       :fields="fields")
         template(slot="owner" slot-scope="data")
-          router-link(:to="{ name: 'ownership', params: { address: data.value, type: 'card', page: 1 } }") {{ data.value }}
-          <!--a(:href="data.item.etherscan" target="_blank") {{ data.value }}-->
+          router-link(
+          :to="{ name: 'ownership', params: { address: data.value, type: type, page: 1 } }"
+          ) {{ data.value }}
         template(slot="count" slot-scope="data")
           .d-flex.align-items-center
             .d-flex.mr-3 {{ data.item.count }}
@@ -70,6 +71,9 @@ export default {
     rows() {
       return this.items.length;
     },
+    type() {
+      return this.$store.state.type;
+    },
   },
   watch: {
     page: {
@@ -91,7 +95,6 @@ export default {
       this.items = rank.data.map((item, index, items) => ({
         order: item.order,
         owner: item.owner,
-        etherscan: `https://etherscan.io/address/${item.owner}`,
         count: item.count,
         bar: Math.floor(item.count / items[0].count * 100),
       }));

@@ -145,7 +145,7 @@ export default {
           tons[index].breederId = entity.breederId;
           tons[index].seederId = entity.seederId;
           tons[index].generation = entity.generation;
-          tons[index].dna = entity.dna;
+          tons[index].dna = this.$web3.utils.toHex(entity.dna);
           this.tons = tons;
         });
         return true;
@@ -153,6 +153,7 @@ export default {
     },
     tabClick(tab) {
       this.currentTab = tab;
+      this.$store.dispatch('doUpdateType', tab.toLowerCase());
       this.$router.push({ name: 'tons', params: { type: tab.toLowerCase() } });
     },
     onPageChange(event) {

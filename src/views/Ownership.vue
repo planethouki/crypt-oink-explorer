@@ -29,7 +29,7 @@
       template(v-for="tab in tabs")
         b-nav-item(@click="tabClick(tab)" :active="currentTab === tab") {{ tab }}
     section#tons
-      component(v-bind:is="currentTabComponent" :tons="tons")
+      component(v-bind:is="currentTabComponent" :tons="tons" :fields="fields")
     b-pagination(
     aria-controls="tons"
     limit="10"
@@ -75,6 +75,27 @@ export default {
       tons: [],
       lastMod: '',
       inputAddress: '',
+      fields: {
+        thumb: {
+          label: '',
+          class: 'p-0',
+        },
+        id: {
+          label: 'id',
+        },
+        generation: {
+          label: 'gen',
+        },
+        birthTime: {
+          label: 'birthTime',
+        },
+        breederId: {
+          label: 'breederId',
+        },
+        seederId: {
+          label: 'seederId',
+        },
+      },
     };
   },
   computed: {
@@ -126,7 +147,7 @@ export default {
       this.$axios.get('https://cryptoinkexplorer.blob.core.windows.net/api/v1/block.json').then((result) => {
         this.lastMod = `Last Modified: ${result.data.block}`;
       });
-      const tokens = await this.$axios.get(`https://cryptoinkexplorer.blob.core.windows.net/api/v1/ownertotokens/${this.address}.json`);
+      const tokens = await this.$axios.get(`https://cryptoinkexplorer.blob.core.windows.net/api/v1/ownertotokens/${this.address.toLowerCase()}.json`);
       this.allTokensId = tokens.data.reverse();
       this.$nextTick(() => {
         this.currentPage = this.page;
@@ -174,7 +195,7 @@ export default {
           tons[index].breederId = entity.breederId;
           tons[index].seederId = entity.seederId;
           tons[index].generation = entity.generation;
-          tons[index].dna = entity.dna;
+          tons[index].dna = this.$web3.utils.toHex(entity.dna);
           this.tons = tons;
         });
         return true;
@@ -182,6 +203,7 @@ export default {
     },
     tabClick(tab) {
       this.currentTab = tab;
+      this.$store.dispatch('doUpdateType', tab.toLowerCase());
       this.$router.push({ name: 'ownership', params: { type: tab.toLowerCase() } });
     },
     onPageChange(event) {

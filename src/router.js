@@ -87,7 +87,7 @@ export default new Router({
       name: 'ownership',
       component: Ownership,
       props: route => ({
-        page: Number(route.params.page), type: route.params.type, address: route.params.address.toLowerCase()
+        page: Number(route.params.page), type: route.params.type, address: route.params.address,
       }),
     },
   ],

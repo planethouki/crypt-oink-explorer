@@ -177,6 +177,7 @@ export default {
     },
     tabClick(tab) {
       this.currentTab = tab;
+      this.$store.dispatch('doUpdateType', tab.toLowerCase());
       this.$router.push({ name: this.name, params: { type: tab.toLowerCase() } });
     },
     onPageChange(event) {

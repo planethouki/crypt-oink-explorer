@@ -174,8 +174,4 @@ contracts.AuctionSeed = new web3.eth.Contract(abis.Auction.abi, auctionSeedAddre
 
 
 Vue.prototype.$contracts = contracts;
-Vue.prototype.$web3 = {
-  utils: {
-    toHex: web3.utils.toHex,
-  },
-};
+Vue.prototype.$web3 = web3;

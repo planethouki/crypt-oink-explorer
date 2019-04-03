@@ -1,20 +1,15 @@
 <template lang="pug">
   .d-flex.flex-wrap
     template(v-for="ton in tons")
-      .card(:key="ton.id" @click="showModal(ton)" v-if="ton.shown")
+      .card(:key="ton.id" v-if="ton.shown")
         .p-3.position-absolute {{ ton.tokenId }}
         img.w-100(:src="ton.imgSrc")
-    AuctionModal(:ton="ton" @emitHiddenModal="hiddenModal")
 </template>
 
 <script>
-import AuctionModal from '@/components/AuctionModal.vue';
 
 export default {
   name: 'AuctionCard',
-  components: {
-    AuctionModal,
-  },
   props: {
     tons: {
       type: Array,
@@ -33,12 +28,6 @@ export default {
   watch: {
   },
   methods: {
-    showModal(ton) {
-      this.ton = ton;
-    },
-    hiddenModal() {
-      this.ton = {};
-    },
   },
 };
 </script>

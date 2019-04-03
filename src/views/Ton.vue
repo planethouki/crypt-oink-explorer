@@ -19,34 +19,60 @@
           img.w-100(:src="ton.imgSrc" style="max-width:512px;")
         .col-lg-12.col-xl-6
           mixin item(key)
-            .col-lg-3.col-xl-6(v-show="ton." + key)
+            .col-lg-3.col-xl-6(v-show=`ton.${key}`)
               dl
                 dt= key
                 dd= "{{ ton." + key + " }}"
           mixin itemLg(key)
-            .col-lg-12.col-xl-12(v-show="ton." + key)
+            .col-lg-12.col-xl-12(v-show=`ton.${key}`)
               dl
                 dt= key
                 dd.text-break= "{{ ton." + key + " }}"
+          mixin itemAddress(key, to)
+            .col-lg-12.col-xl-12(v-if=`ton.${key}`)
+              dl
+                dt= key
+                dd.text-break
+                  router-link(:to=to)= "{{ ton." + key + " }}"
+          mixin itemTokenId(key, to)
+            .col-lg-3.col-xl-6(v-if=`ton.${key}`)
+              dl
+                dt= key
+                dd.text-break
+                  router-link(:to=to v-if=`ton.${key} !== '0'`)= "{{ ton." + key + " }}"
+                  span(v-if=`ton.${key} === '0'`)= "{{ ton." + key + " }}"
+          mixin itemGen(key)
+            .col-lg-3.col-xl-6(v-if=`ton.${key}`)
+              dl
+                dt= key
+                dd.text-break
+                  router-link(
+                  :to="{ name: 'tree', params: { address: ton.generation } }"
+                  v-if="ton.generation !== '0'") {{ ton.generation }}
+                  span(v-if="ton.generation === '0'") {{ ton.generation }}
           h3.mb-3 Entity
           .row.mb-5
-            +itemLg("owner")
+            +itemAddress(
+            "owner",
+            "{ name: 'ownership', params: { address: ton.owner, type: type, page: 1 } }")
             +item("tokenId")
             +item("isBreeding")
             +item("isReady")
             +item("cooldownIndex")
             +item("nextActionAt")
-            +item("matingWithId")
+            +itemTokenId("matingWithId", "{ name: 'ton', params: { tokenId: ton.matingWithId } }")
             +item("birthTime")
-            +item("breederId")
-            +item("seederId")
-            +item("generation")
+            +itemTokenId("breederId", "{ name: 'ton', params: { tokenId: ton.breederId } }")
+            +itemTokenId("seederId", "{ name: 'ton', params: { tokenId: ton.seederId } }")
+            +itemGen("generation")
             +itemLg("dna")
           h3.mb-3 Auction Sell
           span(v-show="!ton.sellPrice") None
           .row.mb-5
             +itemLg("sellPrice")
-            +itemLg("sellSeller")
+            +itemAddress(
+            "sellSeller",
+            "{ name: 'ownership', params: { address: ton.sellSeller, type: type, page: 1 } }")
             +item("sellSstartingPrice")
             +item("sellEndingPrice")
             +item("sellDuration")
@@ -55,7 +81,9 @@
           span(v-show="!ton.seedPrice") None
           .row.mb-5
             +itemLg("seedPrice")
-            +itemLg("seedSeller")
+            +itemAddress(
+            "seedSeller",
+            "{ name: 'ownership', params: { address: ton.seedSeller, type: type, page: 1 } }")
             +item("seedSstartingPrice")
             +item("seedEndingPrice")
             +item("seedDuration")
@@ -86,6 +114,9 @@ export default {
     };
   },
   computed: {
+    type() {
+      return this.$store.state.type;
+    },
   },
   watch: {
     tokenId: {
@@ -161,7 +192,7 @@ export default {
         newTon.sellPrice = price;
         this.ton = newTon;
       }).catch((e) => {
-        console.log('not in auction sell', e);
+        console.log('not in auction sell', this.partTon.id, ':', e);
       });
       this.partTon.getAuctionSell.then((auction) => {
         if (this.partTon.id !== this.ton.id) return;
@@ -173,7 +204,7 @@ export default {
         newTon.sellStartedAt = auction.startedAt;
         this.ton = newTon;
       }).catch((e) => {
-        console.log('not in auction sell', e);
+        console.log('not in auction sell', this.partTon.id, ':', e);
       });
       this.partTon.getCurrentPriceSeed.then((price) => {
         if (this.partTon.id !== this.ton.id) return;
@@ -181,7 +212,7 @@ export default {
         newTon.seedPrice = price;
         this.ton = newTon;
       }).catch((e) => {
-        console.log('not in auction seed', e);
+        console.log('not in auction seed', this.partTon.id, ':', e);
       });
       this.partTon.getAuctionSeed.then((auction) => {
         if (this.partTon.id !== this.ton.id) return;
@@ -193,7 +224,7 @@ export default {
         newTon.seedStartedAt = auction.startedAt;
         this.ton = newTon;
       }).catch((e) => {
-        console.log('not in auction sell', e);
+        console.log('not in auction seed', this.partTon.id, ':', e);
       });
     },
     onPageChange(event) {
