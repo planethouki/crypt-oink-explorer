@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.80271664e61c33896ac1c5917a5c524c.js"
+  "precache-manifest.0a96487b05bd1340e16dff01296a0bb8.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "crypt-oink-explorer"});
