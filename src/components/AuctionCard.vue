@@ -2,7 +2,8 @@
   .d-flex.flex-wrap
     template(v-for="ton in tons")
       .card(:key="ton.id" v-if="ton.shown")
-        .p-3.position-absolute {{ ton.tokenId }}
+        .p-3.position-absolute
+          router-link(:to="`/ton/${ton.tokenId}`") {{ ton.tokenId }}
         img.w-100(:src="ton.imgSrc")
 </template>
 

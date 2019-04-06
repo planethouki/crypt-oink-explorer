@@ -39,8 +39,8 @@
               dl
                 dt= key
                 dd.text-break
-                  router-link(:to=to v-if=`ton.${key} !== '0'`)= "{{ ton." + key + " }}"
-                  span(v-if=`ton.${key} === '0'`)= "{{ ton." + key + " }}"
+                  router-link(:to=to v-if=`ton.${key}.toString() !== '0'`)= "{{ ton." + key + " }}"
+                  span(v-else)= "{{ ton." + key + " }}"
           mixin itemGen(key)
             .col-lg-3.col-xl-6(v-if=`ton.${key}`)
               dl
@@ -48,8 +48,8 @@
                 dd.text-break
                   router-link(
                   :to="{ name: 'tree', params: { address: ton.generation } }"
-                  v-if="ton.generation !== '0'") {{ ton.generation }}
-                  span(v-if="ton.generation === '0'") {{ ton.generation }}
+                  v-if="ton.generation.toString() !== '0'") {{ ton.generation }}
+                  span(v-else) {{ ton.generation }}
           h3.mb-3 Entity
           .row.mb-5
             +itemAddress(
@@ -183,7 +183,7 @@ export default {
         newTon.breederId = entity.breederId;
         newTon.seederId = entity.seederId;
         newTon.generation = entity.generation;
-        newTon.dna = this.$web3.utils.toHex(entity.dna);
+        newTon.dna = this.$web3.utils.toHex(entity.dna.toString());
         this.ton = newTon;
       });
       this.partTon.getCurrentPriceSell.then((price) => {

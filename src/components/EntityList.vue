@@ -9,23 +9,24 @@
         :to="{ name: 'ton', params: { tokenId: data.value } }") {{ data.value }}
       template(slot="seederId" slot-scope="data")
         router-link(
-        v-if="data.value && data.value !== '0'"
+        v-if="data.value && data.value.toString() !== '0'"
         :to="{ name: 'ton', params: { tokenId: data.value } }") {{ data.value }}
-        span(v-if="data.value === '0'") {{ data.value }}
+        span(v-else) {{ data.value }}
       template(slot="breederId" slot-scope="data")
         router-link(
-        v-if="data.value && data.value !== '0'"
+        v-if="data.value && data.value.toString() !== '0'"
         :to="{ name: 'ton', params: { tokenId: data.value } }") {{ data.value }}
-        span(v-if="data.value === '0'") {{ data.value }}
+        span(v-else) {{ data.value }}
       template(slot="generation" slot-scope="data")
         router-link(
-        v-if="data.value && data.value !== '0'"
-        :to="{ name: 'tree', params: { tokenId: data.item.tokenId } }") {{ data.item.generation }}
-        span(v-if="data.value === '0'") {{ data.item.generation }}
+        v-if="data.value && data.value.toString() !== '0'"
+        :to="{ name: 'tree', params: { tokenId: data.item.tokenId } }") {{ data.value }}
+        span(v-else) {{ data.value }}
       template(slot="owner" slot-scope="data")
         router-link(
         v-if="data.value"
         :to="{ name: 'ownership', params: { address: data.value } }") {{ data.value }}
+        span(v-else) {{ data.value }}
 </template>
 
 <script>
