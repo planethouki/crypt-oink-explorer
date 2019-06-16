@@ -1,6 +1,6 @@
 <template lang="pug">
   div.overflow-auto
-    b-table(striped hover :items="currentTons" :fields="fields")
+    b-table(striped hover :items="currentTons" :fields="fields" foot-clone)
       template(slot="thumb" slot-scope="data")
         img(:src="data.item.imgSrc" style="height: 45px;")
       template(slot="id" slot-scope="data")
@@ -46,9 +46,11 @@ export default {
             label: 'Gen'
           },
           birthTime: {
+            class: 'd-none d-md-table-cell',
             label: 'BirthTime (JST)'
           },
           owner: {
+            class: 'd-none d-md-table-cell',
             label: 'Owner'
           }
         }

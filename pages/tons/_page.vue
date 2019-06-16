@@ -1,20 +1,14 @@
 <template lang="pug">
-  section
-    h1.display-3.mb-4
-      nuxt-link.text-decoration-none(to="/tons") Tons
-    .form-inline.float-sm-right
-      b-input-group
-        b-form-input(name="inputPage" type="number" placeholder="Page No." v-model="inputPage")
-        b-input-group-append
-          b-button(text="Go" variant="primary" @click="goPage") Go
-    b-pagination-nav(
-      :link-gen="linkGen"
-      :number-of-pages="Math.ceil(this.totalSupply / this.perPage)"
-      :value="page"
-      limit="10"
-      use-router)
-    section#tons
-      nuxt-child
+  section.mb-4
+    .d-flex.align-items-center.justify-content-between.mb-3
+      .display-4
+        nuxt-link.text-decoration-none(to="/tons") Tons
+      div.ml-4
+        b-input-group
+          b-form-input(name="inputPage" type="number" placeholder="Page No." v-model="inputPage")
+          b-input-group-append
+            b-button(text="Go" variant="primary" @click="goPage") Go
+    nuxt-child
 </template>
 
 <script>
@@ -59,12 +53,6 @@ export default {
         name: 'tons-page-type',
         params: { page, type: this.type }
       })
-    },
-    linkGen(pageNum) {
-      return {
-        name: 'tons-page-type',
-        params: { page: pageNum, type: this.type }
-      }
     }
   }
 }

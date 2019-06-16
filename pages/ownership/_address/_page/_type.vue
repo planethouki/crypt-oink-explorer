@@ -3,11 +3,11 @@
     b-nav(tabs)
       template(v-for="tab in tabs")
         b-nav-item(
-          :to="{ name: 'ownership-address-page-type', params: { type: tab.toLowerCase(), page, address } }"
-          :active="type === tab.toLowerCase()") {{ tab }}
+          :to="{ name: 'ownership-address-page-type', params: { type: tab.id, page, address } }"
+          :active="type === tab.id") {{ tab.text }}
     section#tons
       template(v-for="tab in tabs")
-        component(:is="`Entity${tab}`" v-if="type === tab.toLowerCase()" :fields="fields")
+        component(:is="`Entity${tab.text}`" v-if="type === tab.id" :fields="fields")
 </template>
 
 <script>

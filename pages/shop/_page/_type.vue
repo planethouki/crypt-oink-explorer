@@ -3,15 +3,15 @@
     b-nav(tabs)
       template(v-for="tab in tabs")
         b-nav-item(
-          :to="{ name: 'shop-page-type', params: { type: tab.toLowerCase(), page } }"
-          :active="type === tab.toLowerCase()") {{ tab }}
+          :to="{ name: 'shop-page-type', params: { type: tab.id, page } }"
+          :active="type === tab.id") {{ tab.text }}
       li.nav-item
         .px-3.py-2
           .spinner-border.spinner-border-sm(role="status" v-show="!tonsLoaded")
             span.sr-only Loading...
     section#tons
       template(v-for="tab in tabs")
-        component(:is="`Auction${tab}`" v-if="type === tab.toLowerCase()" name="sell")
+        component(:is="`Auction${tab.text}`" v-if="type === tab.id" name="sell")
 </template>
 
 <script>
