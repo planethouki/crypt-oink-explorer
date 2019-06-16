@@ -6,92 +6,161 @@
       .col-12.col-sm-6.order-sm-2
         SearchTokenId(:routeName="'ton'")
       .col-12.col-sm-6.order-sm-1
-        b-pagination(
-        aria-controls="tons"
-        limit="1"
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        @change="onPageChange")
+        b-pagination-nav(
+          :link-gen="linkGen"
+          :number-of-pages="this.totalSupply"
+          :value="ton.id"
+          limit="1"
+          use-router)
     section#ton
-      .row
-        .col-lg-12.col-xl-6.text-center
+      b-row
+        b-col(lg="12" xl="6").text-center
           img.w-100(:src="ton.imgSrc" style="max-width:512px;")
-        .col-lg-12.col-xl-6
-          mixin item(key)
-            .col-lg-3.col-xl-6(v-show=`ton.${key}`)
-              dl
-                dt= key
-                dd= "{{ ton." + key + " }}"
-          mixin itemLg(key)
-            .col-lg-12.col-xl-12(v-show=`ton.${key}`)
-              dl
-                dt= key
-                dd.text-break= "{{ ton." + key + " }}"
-          mixin itemAddress(key, to)
-            .col-lg-12.col-xl-12(v-if=`ton.${key}`)
-              dl
-                dt= key
-                dd.text-break
-                  nuxt-link(:to=to)= "{{ ton." + key + " }}"
-          mixin itemTokenId(key, to)
-            .col-lg-3.col-xl-6(v-if=`ton.${key}`)
-              dl
-                dt= key
-                dd.text-break
-                  nuxt-link(:to=to v-if=`ton.${key}.toString() !== '0'`)= "{{ ton." + key + " }}"
-                  span(v-else)= "{{ ton." + key + " }}"
-          mixin itemGen(key)
-            .col-lg-3.col-xl-6(v-if=`ton.${key}`)
-              dl
-                dt= key
-                dd.text-break
-                  nuxt-link(
-                  :to="{ name: 'tree', params: { address: ton.generation } }"
-                  v-if="ton.generation.toString() !== '0'") {{ ton.generation }}
-                  span(v-else) {{ ton.generation }}
+        b-col(lg="12" xl="6")
           h3.mb-3 Entity
-          .row.mb-5
-            +itemAddress(
-            "owner",
-            "{ name: 'ownership', params: { address: ton.owner, type: type, page: 1 } }")
-            +item("tokenId")
-            +item("isBreeding")
-            +item("isReady")
-            +item("cooldownIndex")
-            +item("nextActionAt")
-            +itemTokenId("matingWithId", "{ name: 'ton', params: { tokenId: ton.matingWithId } }")
-            +item("birthTime")
-            +itemTokenId("breederId", "{ name: 'ton', params: { tokenId: ton.breederId } }")
-            +itemTokenId("seederId", "{ name: 'ton', params: { tokenId: ton.seederId } }")
-            +itemGen("generation")
-            +itemLg("dna")
-          h3.mb-3 Auction Sell
-          span(v-show="!ton.sellPrice") None
-          .row.mb-5
-            +itemLg("sellPrice")
-            +itemAddress(
-            "sellSeller",
-            "{ name: 'ownership', params: { address: ton.sellSeller, type: type, page: 1 } }")
-            +item("sellSstartingPrice")
-            +item("sellEndingPrice")
-            +item("sellDuration")
-            +item("sellStartedAt")
-          h3.mb-3 Auction Seed
-          span(v-show="!ton.seedPrice") None
-          .row.mb-5
-            +itemLg("seedPrice")
-            +itemAddress(
-            "seedSeller",
-            "{ name: 'ownership', params: { address: ton.seedSeller, type: type, page: 1 } }")
-            +item("seedSstartingPrice")
-            +item("seedEndingPrice")
-            +item("seedDuration")
-            +item("seedStartedAt")
+          b-row.mb-5
+            b-col(lg="12" xl="6")
+              dl
+                dt Id
+                dd
+                  nuxt-link(:to="`/ton/${ton.id}`") {{ ton.id }}
+            template(v-if="asyncTonsCache[ton.id]")
+              b-col(lg="12" xl="12")
+                dl
+                  dt Owner
+                  dd(v-if="asyncTonsCache[ton.id]").text-break
+                    nuxt-link(:to="`/ownership/${asyncTonsCache[ton.id].owner}`") {{ asyncTonsCache[ton.id].owner }}
+              b-col(lg="12" xl="6")
+                dl
+                  dt isBreeding
+                  dd(v-if="asyncTonsCache[ton.id]") {{ asyncTonsCache[ton.id].isBreeding }}
+              b-col(lg="12" xl="6")
+                dl
+                  dt isReady
+                  dd(v-if="asyncTonsCache[ton.id]") {{ asyncTonsCache[ton.id].isReady }}
+              b-col(lg="12" xl="6")
+                dl
+                  dt cooldownIndex
+                  dd(v-if="asyncTonsCache[ton.id]") {{ asyncTonsCache[ton.id].cooldownIndex }}
+              b-col(lg="12" xl="6")
+                dl
+                  dt nextActionAt
+                  template(v-if="asyncTonsCache[ton.id]")
+                    dd(v-if="asyncTonsCache[ton.id].nextActionAt !== '0'") {{ asyncTonsCache[ton.id].nextActionAt }}
+                    dd(v-else) -
+              b-col(lg="12" xl="6")
+                dl
+                  dt matingWithId
+                  template(v-if="asyncTonsCache[ton.id]")
+                    dd(v-if="asyncTonsCache[ton.id].matingWithId !== '0'")
+                      nuxt-link(:to="`/ton/${asyncTonsCache[ton.id].matingWithId}`") {{ asyncTonsCache[ton.id].matingWithId }}
+                    dd(v-else) -
+              b-col(lg="12" xl="6")
+                dl
+                  dt birthTime
+                  dd(v-if="asyncTonsCache[ton.id]") {{ $unixtimeFormat(asyncTonsCache[ton.id].birthTime) }}
+              b-col(lg="12" xl="6")
+                dl
+                  dt breederId
+                  template(v-if="asyncTonsCache[ton.id]")
+                    dd(v-if="asyncTonsCache[ton.id].breederId !== '0'")
+                      nuxt-link(:to="`/ton/${asyncTonsCache[ton.id].breederId}`") {{ asyncTonsCache[ton.id].breederId }}
+                    dd(v-else) -
+              b-col(lg="12" xl="6")
+                dl
+                  dt seederId
+                  template(v-if="asyncTonsCache[ton.id]")
+                    dd(v-if="asyncTonsCache[ton.id].seederId !== '0'")
+                      nuxt-link(:to="`/ton/${asyncTonsCache[ton.id].seederId}`") {{ asyncTonsCache[ton.id].seederId }}
+                    dd(v-else) -
+              b-col(lg="12" xl="6")
+                dl
+                  dt generation
+                  template(v-if="asyncTonsCache[ton.id]")
+                    dd(v-if="asyncTonsCache[ton.id].generation !== '0'")
+                      nuxt-link(:to="`/familytree/${ton.id}`") {{ asyncTonsCache[ton.id].generation }}
+                    dd(v-else) -
+              b-col(lg="12" xl="12")
+                dl
+                  dt dna
+                  template(v-if="asyncTonsCache[ton.id]")
+                    dd.text-break {{ asyncTonsCache[ton.id].dna }}
+            template(v-else)
+              .spinner-border.spinner-border(role="status")
+                span.sr-only Loading...
+          h3.mb-3 Shop
+          b-row.mb-5
+            template(v-if="asyncTonsCache[ton.id]")
+              template(v-if="asyncTonsCache[ton.id].sell.shown")
+                b-col(lg="12" xl="6")
+                  dl
+                    dt Price
+                    dd {{ $web3.utils.fromWei(asyncTonsCache[ton.id].sell.price) }}
+                b-col(lg="12" xl="12")
+                  dl
+                    dt Seller
+                    dd(v-if="asyncTonsCache[ton.id]").text-break
+                      nuxt-link(:to="`/ownership/${asyncTonsCache[ton.id].sell.seller}`") {{ asyncTonsCache[ton.id].sell.seller }}
+                b-col(lg="12" xl="6")
+                  dl
+                    dt Starting Price
+                    dd {{ $web3.utils.fromWei(asyncTonsCache[ton.id].sell.startingPrice) }}
+                b-col(lg="12" xl="6")
+                  dl
+                    dt Ending Price
+                    dd {{ $web3.utils.fromWei(asyncTonsCache[ton.id].sell.endingPrice) }}
+                b-col(lg="12" xl="6")
+                  dl
+                    dt Duration
+                    dd {{ $secondsFormat(asyncTonsCache[ton.id].sell.duration) }}
+                b-col(lg="12" xl="6")
+                  dl
+                    dt startedAt
+                    dd(v-if="asyncTonsCache[ton.id]") {{ $unixtimeFormat(asyncTonsCache[ton.id].sell.startedAt) }}
+              template(v-else)
+                b-col None
+            template(v-else)
+              .spinner-border.spinner-border(role="status")
+                span.sr-only Loading...
+          h3.mb-3 Seed
+          b-row.mb-5
+            template(v-if="asyncTonsCache[ton.id]")
+              template(v-if="asyncTonsCache[ton.id].seed.shown")
+                b-col(lg="12" xl="6")
+                  dl
+                    dt Price
+                    dd {{ $web3.utils.fromWei(asyncTonsCache[ton.id].seed.price) }}
+                b-col(lg="12" xl="12")
+                  dl
+                    dt Seller
+                    dd(v-if="asyncTonsCache[ton.id]").text-break
+                      nuxt-link(:to="`/ownership/${asyncTonsCache[ton.id].seed.seller}`") {{ asyncTonsCache[ton.id].seed.seller }}
+                b-col(lg="12" xl="6")
+                  dl
+                    dt Starting Price
+                    dd {{ $web3.utils.fromWei(asyncTonsCache[ton.id].seed.startingPrice) }}
+                b-col(lg="12" xl="6")
+                  dl
+                    dt Ending Price
+                    dd {{ $web3.utils.fromWei(asyncTonsCache[ton.id].seed.endingPrice) }}
+                b-col(lg="12" xl="6")
+                  dl
+                    dt Duration
+                    dd {{ $secondsFormat(asyncTonsCache[ton.id].seed.duration) }}
+                b-col(lg="12" xl="6")
+                  dl
+                    dt startedAt
+                    dd(v-if="asyncTonsCache[ton.id]") {{ $unixtimeFormat(asyncTonsCache[ton.id].seed.startedAt) }}
+              template(v-else)
+                b-col None
+            template(v-else)
+              .spinner-border.spinner-border(role="status")
+                span.sr-only Loading...
+
 </template>
 
 <script>
-// @ is an alias to /src
+import { mapGetters } from 'vuex'
 import SearchTokenId from '@/components/SearchTokenId.vue'
 
 export default {
@@ -106,147 +175,35 @@ export default {
     }
   },
   data() {
-    return {
-      currentPage: 1,
-      perPage: 1,
-      rows: 0,
-      partTon: {},
-      ton: {},
-      tonField: ['tokenId']
-    }
+    return {}
   },
   computed: {
-    type() {
-      return this.$store.state.type
+    ...mapGetters('tons', ['currentTons', 'asyncTonsCache']),
+    ...mapGetters(['totalSupply']),
+    ton() {
+      return this.currentTons[0]
     }
   },
-  watch: {
-    tokenId: {
-      handler() {
-        this.updatePartTon()
-        this.$nextTick(() => {
-          this.updatePartTon()
-        })
-      }
-    },
-    partTon: {
-      handler() {
-        this.updateTon()
-      }
+  watch: {},
+  async asyncData({ params, store }) {
+    await store.dispatch('doUpdateTotalSupplyIfNotSet')
+    let tokenId
+    if (params.id) {
+      tokenId = params.id === '0' ? store.getters.totalSupply : params.id
+    } else {
+      tokenId = store.getters.totalSupply
     }
-  },
-  mounted() {
-    this.$store.state.totalSupply.then(x => {
-      this.rows = x
-      this.$nextTick(() => {
-        this.updatePartTon()
-      })
+    store.dispatch('tons/updateTonsFromTokenIds', {
+      tokenIds: [tokenId]
     })
   },
+  mounted() {},
   methods: {
-    updatePartTon() {
-      if (this.rows === 0) return
-      const tokenId = this.tokenId === 0 ? this.rows : this.tokenId
-      this.currentPage = tokenId
-      this.partTon = {
-        id: tokenId,
-        tokenId,
-        imgSrc: this.$tonImg(tokenId),
-        getEntity: this.$contracts.EntityCore.methods.getEntity(tokenId).call(),
-        ownerOf: this.$contracts.EntityCore.methods.ownerOf(tokenId).call(),
-        getAuctionSell: this.$contracts.AuctionSell.methods
-          .getAuction(tokenId)
-          .call(),
-        getCurrentPriceSell: this.$contracts.AuctionSell.methods
-          .getCurrentPrice(tokenId)
-          .call(),
-        getAuctionSeed: this.$contracts.AuctionSeed.methods
-          .getAuction(tokenId)
-          .call(),
-        getCurrentPriceSeed: this.$contracts.AuctionSeed.methods
-          .getCurrentPrice(tokenId)
-          .call()
+    linkGen(pageNum) {
+      return {
+        name: 'ton-id',
+        params: { id: pageNum }
       }
-    },
-    updateTon() {
-      if (Object.keys(this.partTon).length === 0) return
-      this.ton = {
-        id: this.partTon.id,
-        tokenId: this.partTon.tokenId,
-        imgSrc: this.partTon.imgSrc
-      }
-      this.partTon.ownerOf.then(owner => {
-        if (this.partTon.id !== this.ton.id) return
-        const newTon = Object.assign({}, this.ton)
-        newTon.owner = owner
-        this.ton = newTon
-      })
-      this.partTon.getEntity.then(entity => {
-        if (this.partTon.id !== this.ton.id) return
-        const newTon = Object.assign({}, this.ton)
-        newTon.isBreeding = entity.isBreeding
-        newTon.isReady = entity.isReady
-        newTon.cooldownIndex = entity.cooldownIndex
-        newTon.nextActionAt = entity.nextActionAt
-        newTon.matingWithId = entity.matingWithId
-        newTon.birthTime = entity.birthTime
-        newTon.breederId = entity.breederId
-        newTon.seederId = entity.seederId
-        newTon.generation = entity.generation
-        newTon.dna = this.$web3.utils.toHex(entity.dna.toString())
-        this.ton = newTon
-      })
-      this.partTon.getCurrentPriceSell
-        .then(price => {
-          if (this.partTon.id !== this.ton.id) return
-          const newTon = Object.assign({}, this.ton)
-          newTon.sellPrice = price
-          this.ton = newTon
-        })
-        .catch(e => {
-          console.log('not in auction sell', this.partTon.id, ':', e)
-        })
-      this.partTon.getAuctionSell
-        .then(auction => {
-          if (this.partTon.id !== this.ton.id) return
-          const newTon = Object.assign({}, this.ton)
-          newTon.sellSeller = auction.seller
-          newTon.sellSstartingPrice = auction.startingPrice
-          newTon.sellEndingPrice = auction.endingPrice
-          newTon.sellDuration = auction.duration
-          newTon.sellStartedAt = auction.startedAt
-          this.ton = newTon
-        })
-        .catch(e => {
-          console.log('not in auction sell', this.partTon.id, ':', e)
-        })
-      this.partTon.getCurrentPriceSeed
-        .then(price => {
-          if (this.partTon.id !== this.ton.id) return
-          const newTon = Object.assign({}, this.ton)
-          newTon.seedPrice = price
-          this.ton = newTon
-        })
-        .catch(e => {
-          console.log('not in auction seed', this.partTon.id, ':', e)
-        })
-      this.partTon.getAuctionSeed
-        .then(auction => {
-          if (this.partTon.id !== this.ton.id) return
-          const newTon = Object.assign({}, this.ton)
-          newTon.seedSeller = auction.seller
-          newTon.seedSstartingPrice = auction.startingPrice
-          newTon.seedEndingPrice = auction.endingPrice
-          newTon.seedDuration = auction.duration
-          newTon.seedStartedAt = auction.startedAt
-          this.ton = newTon
-        })
-        .catch(e => {
-          console.log('not in auction seed', this.partTon.id, ':', e)
-        })
-    },
-    onPageChange(event) {
-      this.$router.push({ name: 'ton', params: { tokenId: event } })
     }
   }
 }
