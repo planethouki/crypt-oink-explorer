@@ -57,10 +57,7 @@ export default {
       await store.dispatch('ownership/doUpdate', { address })
       const allTokenIds = store.getters['ownership/tokens'](address)
       const perPage = store.getters.perPage
-      const tokenIds = allTokenIds
-        .slice()
-        .reverse()
-        .slice((page - 1) * perPage, page * perPage)
+      const tokenIds = allTokenIds.slice((page - 1) * perPage, page * perPage)
       balanceOf = allTokenIds.length
       store.dispatch('tons/updateTonsFromTokenIds', { tokenIds })
     } catch (e) {

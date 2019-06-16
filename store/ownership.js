@@ -35,7 +35,7 @@ export const actions = {
       const tokens = await this.$axios.$get(
         `https://cryptoinkexplorer.blob.core.windows.net/api/v1/ownertotokens/${address.toLowerCase()}.json`
       )
-      commit('addOwnership', { address, tokenIds: tokens })
+      commit('addOwnership', { address, tokenIds: tokens.reverse() })
     }
   }
 }
