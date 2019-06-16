@@ -11,6 +11,12 @@
             span {{ asyncTonsCache[data.item.id].generation }}
           template(v-else)
             nuxt-link(:to="`/tree/${data.item.id}`") {{ asyncTonsCache[data.item.id].generation }}
+      template(slot="isBreeding" slot-scope="data")
+        span(v-if="asyncTonsCache[data.item.id]")
+          span {{ asyncTonsCache[data.item.id].isBreeding }}
+      template(slot="isReady" slot-scope="data")
+        span(v-if="asyncTonsCache[data.item.id]")
+          span {{ asyncTonsCache[data.item.id].isReady }}
       template(slot="birthTime" slot-scope="data")
         span(v-if="asyncTonsCache[data.item.id]")
           span {{ $unixtimeFormat(asyncTonsCache[data.item.id].birthTime) }}
