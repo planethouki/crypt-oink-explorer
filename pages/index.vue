@@ -1,10 +1,11 @@
 <template lang="pug">
   div
     .jumbotron
-      h1.display-4 Crypt-Oink-Explorer
-      p.lead Powered by&nbsp;
-        a(href="https://www.crypt-oink.io/") Crypt-Oink
-      b-button(variant="primary" size="lg" :to="toTons") See Anyway
+      .container
+        h1.display-4 Crypt-Oink-Explorer
+        p.lead Powered by&nbsp;
+          a(href="https://www.crypt-oink.io/") Crypt-Oink
+        b-button(variant="primary" size="lg" :to="toTons") See Anyway
     .container
       .row.mb-4
         .col-sm-4
@@ -31,6 +32,7 @@
 
 export default {
   name: 'Home',
+  layout: 'top',
   components: {},
   computed: {
     toTons() {

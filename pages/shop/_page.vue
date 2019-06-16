@@ -1,7 +1,7 @@
 <template lang="pug">
   section
     h1.display-3.mb-4
-      nuxt-link.text-decoration-none(to="/tons") Tons
+      nuxt-link.text-decoration-none(to="/shop") Shop
     .form-inline.float-sm-right
       b-input-group
         b-form-input(name="inputPage" type="number" placeholder="Page No." v-model="inputPage")
@@ -13,7 +13,7 @@
       :value="page"
       limit="10"
       use-router)
-    section#tons
+    section#tons.mb-5
       nuxt-child
 </template>
 
@@ -21,17 +21,13 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Tons',
+  name: 'Shop',
   components: {},
   data() {
     return {
       inputPage: ''
     }
   },
-  computed: {
-    ...mapGetters(['totalSupply', 'perPage', 'type'])
-  },
-  watch: {},
   async asyncData({ params, store }) {
     console.log(params)
     await store.dispatch('doUpdateTotalSupplyIfNotSet')
@@ -51,18 +47,22 @@ export default {
       tokenIds
     }
   },
+  computed: {
+    ...mapGetters(['totalSupply', 'perPage', 'tabs', 'type'])
+  },
+  watch: {},
   mounted() {},
   methods: {
     goPage() {
       const page = Number(this.inputPage)
       this.$router.push({
-        name: 'tons-page-type',
+        name: 'shop-page-type',
         params: { page, type: this.type }
       })
     },
     linkGen(pageNum) {
       return {
-        name: 'tons-page-type',
+        name: 'shop-page-type',
         params: { page: pageNum, type: this.type }
       }
     }

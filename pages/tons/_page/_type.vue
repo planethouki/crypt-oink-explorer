@@ -16,7 +16,6 @@ import EntityList from '@/components/EntityList.vue'
 import EntityCard from '@/components/EntityCard.vue'
 
 export default {
-  name: 'Tons',
   components: {
     EntityList,
     EntityCard
@@ -24,14 +23,15 @@ export default {
   data() {
     return {}
   },
-  computed: {
-    ...mapGetters(['tabs'])
-  },
-  asyncData({ params }) {
+  asyncData({ params, store }) {
+    const type = params.type || store.getters.type || 'card'
+    store.dispatch('doUpdateType', type)
     return {
-      type: params.type || 'card',
       page: params.page || 1
     }
+  },
+  computed: {
+    ...mapGetters(['tabs', 'type'])
   },
   methods: {}
 }

@@ -1,9 +1,7 @@
 <template>
   <div>
     <Header />
-    <main class="container-fluid">
-      <nuxt />
-    </main>
+    <nuxt />
   </div>
 </template>
 <script>

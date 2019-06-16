@@ -1,10 +1,13 @@
+const routerBase =
+  process.env.DEPLOY_ENV === 'GH_PAGES' ? '/crypt-oink-explorer/' : '/'
+
 export default {
   mode: 'spa',
   /*
    ** Headers of the page
    */
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'Crypt-Oink-Explorer',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -65,8 +68,7 @@ export default {
   },
 
   router: {
-    base: '/docs/',
-    mode: 'hash',
-    props: true
+    base: routerBase,
+    mode: 'hash'
   }
 }

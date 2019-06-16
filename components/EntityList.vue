@@ -6,17 +6,17 @@
       template(slot="id" slot-scope="data")
         nuxt-link(:to="`/ton/${data.value}`") {{ data.value }}
       template(slot="generation" slot-scope="data")
-        span(v-if="asyncTonsCache.find(t => t.id === data.item.id)")
-          template(v-if="asyncTonsCache.find(t => t.id === data.item.id).generation === '0'")
-            span {{ asyncTonsCache.find(t => t.id === data.item.id).generation }}
+        span(v-if="asyncTonsCache[data.item.id]")
+          template(v-if="asyncTonsCache[data.item.id].generation === '0'")
+            span {{ asyncTonsCache[data.item.id].generation }}
           template(v-else)
-            nuxt-link(:to="`/tree/${data.item.id}`") {{ asyncTonsCache.find(t => t.id === data.item.id).generation }}
+            nuxt-link(:to="`/tree/${data.item.id}`") {{ asyncTonsCache[data.item.id].generation }}
       template(slot="birthTime" slot-scope="data")
-        span(v-if="asyncTonsCache.find(t => t.id === data.item.id)")
-          span {{ $unixtimeFormat(asyncTonsCache.find(t => t.id === data.item.id).birthTime) }}
+        span(v-if="asyncTonsCache[data.item.id]")
+          span {{ $unixtimeFormat(asyncTonsCache[data.item.id].birthTime) }}
       template(slot="owner" slot-scope="data")
-        span(v-if="asyncTonsCache.find(t => t.id === data.item.id)")
-          nuxt-link(:to="`/ownership/${asyncTonsCache.find(t => t.id === data.item.id).owner}`") {{ asyncTonsCache.find(t => t.id === data.item.id).owner }}
+        span(v-if="asyncTonsCache[data.item.id]")
+          nuxt-link(:to="`/ownership/${asyncTonsCache[data.item.id].owner}`") {{ asyncTonsCache[data.item.id].owner }}
 </template>
 
 <script>

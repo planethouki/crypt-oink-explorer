@@ -5,13 +5,12 @@
         b-form-input(name="inputPage" type="number" placeholder="Page No." v-model="inputPage")
         b-input-group-append
           b-button(text="Go" variant="primary" @click="goPage") Go
-    b-pagination(
-    aria-controls="tons"
-    limit="10"
-    v-model="currentPage"
-    :total-rows="rows"
-    :per-page="perPage"
-    @change="onPageChange")
+    b-pagination-nav(
+      :link-gen="linkGen"
+      :number-of-pages="Math.ceil(this.totalSupply / this.perPage)"
+      :value="page"
+      limit="10"
+      use-router)
     b-nav(tabs)
       template(v-for="tab in tabs")
         b-nav-item(@click="tabClick(tab)" :active="currentTab === tab") {{ tab }}
@@ -20,27 +19,15 @@
           .spinner-border.spinner-border-sm(role="status" v-show="!tonsLoaded")
             span.sr-only Loading...
     section#tons.mb-5
-      component(v-bind:is="currentTabComponent" :tons="tons")
-    b-pagination(
-    aria-controls="tons"
-    limit="10"
-    v-model="currentPage"
-    :total-rows="rows"
-    :per-page="perPage"
-    @change="onPageChange")
+      nuxt-child
 </template>
 
 <script>
-// @ is an alias to /src
-import AuctionList from '@/components/AuctionList.vue'
-import AuctionCard from '@/components/AuctionCard.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Auction',
-  components: {
-    AuctionList,
-    AuctionCard
-  },
+  components: {},
   props: {
     name: {
       type: String,
@@ -65,23 +52,21 @@ export default {
       default() {
         return ''
       }
+    },
+    tokenIds: {
+      type: Array,
+      default() {
+        return []
+      }
     }
   },
   data() {
     return {
-      perPage: 50,
-      currentPage: 1,
-      rows: 0,
-      tokensId: [],
-      currentTab: 'Card',
-      tabs: ['Card', 'List'],
-      partTons: [],
-      tons: [],
-      tonsLoaded: false,
       inputPage: ''
     }
   },
   computed: {
+    ...mapGetters(['totalSupply', 'perPage', 'tabs']),
     currentTabComponent() {
       return `Auction${this.currentTab}`
     }
