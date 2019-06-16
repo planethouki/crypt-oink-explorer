@@ -4,7 +4,7 @@
       nuxt-link.text-decoration-none(to="/ton/0") Ton
     section.row
       .col-12.col-sm-6.order-sm-2
-        SearchTokenId(:routeName="'ton'")
+        SearchTokenId(:routeName="'ton-id'")
       .col-12.col-sm-6.order-sm-1
         b-pagination-nav(
           :link-gen="linkGen"

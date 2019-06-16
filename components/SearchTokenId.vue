@@ -38,7 +38,7 @@ export default {
   methods: {
     goTokenId() {
       const tokenId = Number(this.inputTokenId)
-      this.$router.push({ name: this.routeName, params: { tokenId } })
+      this.$router.push({ name: this.routeName, params: { id: tokenId } })
     }
   }
 }

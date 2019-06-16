@@ -5,7 +5,7 @@
         nuxt-link.text-decoration-none(to="/familytree/0") Family Tree
       section.row
         .col-12.col-sm-6.offset-sm-6
-          SearchTokenId(:routeName="'tree'" :input="inputTokenId")
+          SearchTokenId(:routeName="'familytree-id'" :input="inputTokenId")
       section
         p {{ progressText }}
     section#chart.container-fulid
@@ -19,7 +19,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import { GChart } from 'vue-google-charts'
 import ScrollBooster from 'scrollbooster'
 import SearchTokenId from '@/components/SearchTokenId.vue'
@@ -29,14 +28,6 @@ export default {
   components: {
     SearchTokenId,
     GChart
-  },
-  props: {
-    tokenId: {
-      type: Number,
-      default() {
-        return 0
-      }
-    }
   },
   data() {
     return {
@@ -64,12 +55,16 @@ export default {
     }
   },
   computed: {},
-  watch: {
-    tokenId: {
-      handler(newVal, oldVal) {
-        if (newVal === 0 && oldVal === 0) return
-        this.reDrawChart()
-      }
+  async asyncData({ store, params }) {
+    await store.dispatch('doUpdateTotalSupplyIfNotSet')
+    let tokenId
+    if (params.id) {
+      tokenId = params.id === '0' ? store.getters.totalSupply : params.id
+    } else {
+      tokenId = store.getters.totalSupply
+    }
+    return {
+      tokenId
     }
   },
   mounted() {},
@@ -87,8 +82,9 @@ export default {
       }
     },
     onChartReady(chart, google) {
-      // eslint-disable-next-line
-      chart.clearChart = () => { console.log('clear chart'); };
+      chart.clearChart = () => {
+        console.log('clear chart')
+      }
       this.chart = chart
       this.google = google
       this.reDrawChart()
