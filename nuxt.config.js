@@ -26,7 +26,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['~/assets/common.scss'],
   /*
    ** Plugins to load before mounting the App
    */
@@ -44,7 +44,8 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    'nuxt-fontawesome'
   ],
   /*
    ** Axios module configuration
@@ -70,5 +71,14 @@ export default {
   router: {
     base: routerBase,
     mode: 'hash'
+  },
+
+  fontawesome: {
+    imports: [
+      {
+        set: '@fortawesome/free-solid-svg-icons',
+        icons: ['fas']
+      }
+    ]
   }
 }

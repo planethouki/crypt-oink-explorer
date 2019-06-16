@@ -2,7 +2,18 @@ export const state = () => ({
   totalSupply: 0,
   type: 'card',
   perPage: 50,
-  tabs: ['Card', 'List']
+  tabs: [
+    {
+      id: 'card',
+      text: 'Card',
+      icon: 'th-large'
+    },
+    {
+      id: 'list',
+      text: 'List',
+      icon: 'th-list'
+    }
+  ]
 })
 
 export const getters = {
