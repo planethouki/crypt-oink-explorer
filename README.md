@@ -1,44 +1,22 @@
 # crypt-oink-explorer
 
-くりぷ豚（[https://www.crypt-oink.io](https://www.crypt-oink.io)）のコントラクトを表示するWeb
+> Crypt-Oink explorer
 
-購入とかはできない
+## Build Setup
 
-## Project setup
-```
-npm install
-```
+``` bash
+# install dependencies
+$ npm install
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+# serve with hot reload at localhost:3000
+$ npm run dev
 
-### Compiles and minifies for production
-```
-npm run build
-```
+# build for production and launch server
+$ npm run build
+$ npm start
 
-### Run your tests
-```
-npm run test
+# generate static project
+$ npm run generate
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-
-## Powered By
-
-- くりぷ豚（https://www.crypt-oink.io）
-- vue.js
-- web3.js
-- axios
-- scroll booster (https://ilyashubin.github.io/scrollbooster/)
-- pug
-- bootstrap-vue
-- Google Charts
-- sass
-- INFURA
+For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
