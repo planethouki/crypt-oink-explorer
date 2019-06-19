@@ -10,7 +10,7 @@
           template(v-if="asyncTonsCache[data.item.id].generation === '0'")
             span {{ asyncTonsCache[data.item.id].generation }}
           template(v-else)
-            nuxt-link(:to="`/tree/${data.item.id}`") {{ asyncTonsCache[data.item.id].generation }}
+            nuxt-link(:to="`/familytree/${data.item.id}`") {{ asyncTonsCache[data.item.id].generation }}
       template(slot="isBreeding" slot-scope="data")
         span(v-if="asyncTonsCache[data.item.id]")
           span {{ asyncTonsCache[data.item.id].isBreeding }}
