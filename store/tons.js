@@ -66,7 +66,7 @@ export const actions = {
             breederId: entity.breederId.toString(),
             seederId: entity.seederId.toString(),
             generation: entity.generation.toString(),
-            dna: this.$web3.utils.toHex(entity.dna).toString(),
+            dna: this.$web3.utils.toHex(entity.dna.toString()),
             owner: owner
           }
           if (sellPrice) {
