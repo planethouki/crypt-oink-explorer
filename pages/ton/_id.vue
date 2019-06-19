@@ -22,8 +22,7 @@
             b-col(lg="12" xl="6")
               dl
                 dt Id
-                dd
-                  nuxt-link(:to="`/ton/${ton.id}`") {{ ton.id }}
+                dd {{ ton.id }}
             template(v-if="asyncTonsCache[ton.id]")
               b-col(lg="12" xl="12")
                 dl
