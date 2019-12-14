@@ -28,7 +28,7 @@
                 dl
                   dt Owner
                   dd(v-if="asyncTonsCache[ton.id]").text-break
-                    nuxt-link(:to="`/ownership/${asyncTonsCache[ton.id].owner}`") {{ asyncTonsCache[ton.id].owner }}
+                    account-link-facade(:account="asyncTonsCache[ton.id].owner")
               b-col(lg="12" xl="6")
                 dl
                   dt isBreeding
@@ -99,7 +99,7 @@
                   dl
                     dt Seller
                     dd(v-if="asyncTonsCache[ton.id]").text-break
-                      nuxt-link(:to="`/ownership/${asyncTonsCache[ton.id].sell.seller}`") {{ asyncTonsCache[ton.id].sell.seller }}
+                      account-link-facade(:account="asyncTonsCache[ton.id].sell.seller")
                 b-col(lg="12" xl="6")
                   dl
                     dt Starting Price
@@ -133,7 +133,7 @@
                   dl
                     dt Seller
                     dd(v-if="asyncTonsCache[ton.id]").text-break
-                      nuxt-link(:to="`/ownership/${asyncTonsCache[ton.id].seed.seller}`") {{ asyncTonsCache[ton.id].seed.seller }}
+                      account-link-facade(:account="asyncTonsCache[ton.id].seed.seller")
                 b-col(lg="12" xl="6")
                   dl
                     dt Starting Price
@@ -161,10 +161,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import SearchTokenId from '@/components/SearchTokenId.vue'
+import AccountLinkFacade from '@/components/facade/AccountLinkFacade'
 
 export default {
   name: 'Ton',
-  components: { SearchTokenId },
+  components: { AccountLinkFacade, SearchTokenId },
   props: {
     tokenId: {
       type: Number,

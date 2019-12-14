@@ -22,14 +22,16 @@
           span {{ $unixtimeFormat(asyncTonsCache[data.item.id].birthTime) }}
       template(slot="owner" slot-scope="data")
         span(v-if="asyncTonsCache[data.item.id]")
-          nuxt-link(:to="`/ownership/${asyncTonsCache[data.item.id].owner}`") {{ asyncTonsCache[data.item.id].owner }}
+          account-link-facade(:account="asyncTonsCache[data.item.id].owner")
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import AccountLinkFacade from '@/components/facade/AccountLinkFacade'
 
 export default {
   name: 'EntityList',
+  components: { AccountLinkFacade },
   props: {
     fields: {
       type: Object,

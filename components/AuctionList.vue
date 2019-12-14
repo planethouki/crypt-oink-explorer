@@ -14,16 +14,18 @@
       template(slot="seller" slot-scope="data")
         template(v-if="asyncTonsCache[data.item.id]")
           template(v-if="asyncTonsCache[data.item.id][name].shown")
-            nuxt-link(:to="`/ownership/${asyncTonsCache[data.item.id][name].seller}`") {{ asyncTonsCache[data.item.id][name].seller }}
+            account-link-facade(:account="asyncTonsCache[data.item.id][name].seller")
           template(v-else)
             span -
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import AccountLinkFacade from '@/components/facade/AccountLinkFacade'
 
 export default {
   name: 'AuctionList',
+  components: { AccountLinkFacade },
   props: {
     name: {
       type: String,

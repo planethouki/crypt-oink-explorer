@@ -12,9 +12,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import AccountLinkFacade from '@/components/facade/AccountLinkFacade'
 
 export default {
   name: 'AuctionCard',
+  components: { AccountLinkFacade },
   props: {
     name: {
       type: String,
