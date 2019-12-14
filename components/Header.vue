@@ -6,16 +6,16 @@
     b-collapse#navbarSupportedContent(is-nav)
       b-navbar-nav
         b-nav-item
-          nuxt-link(:to="toTons") All
+          nuxt-link(:to="toTons") Tons
         b-nav-item
           nuxt-link(:to="toShop") Shop
         b-nav-item
           nuxt-link(:to="toBreed") Breed
         b-nav-item
           nuxt-link(to="/ton") Detail
-        b-nav-item-dropdown(text="Other")
-          b-dropdown-item
-            nuxt-link(to="/familytree") Tree
+        b-nav-item
+          nuxt-link(to="/familytree") Tree
+
 </template>
 
 <script>
