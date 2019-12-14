@@ -15,10 +15,6 @@
           nuxt-link(to="/ton") Detail
         b-nav-item-dropdown(text="Other")
           b-dropdown-item
-            nuxt-link(:to="toOwner") Ownership
-          b-dropdown-item
-            nuxt-link(to="/ranking") Ranking
-          b-dropdown-item
             nuxt-link(to="/familytree") Tree
 </template>
 
