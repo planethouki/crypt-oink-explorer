@@ -1,17 +1,43 @@
 <template lang="pug">
-  div
-    b-nav(tabs)
-      template(v-for="tab in tabs")
-        b-nav-item(
-          :to="{ name: 'shop-page-type', params: { type: tab.id, page } }"
-          :active="type === tab.id") {{ tab.text }}
-      li.nav-item
-        .px-3.py-2
-          .spinner-border.spinner-border-sm(role="status" v-show="!tonsLoaded")
-            span.sr-only Loading...
+  section
+    .d-flex.d-md-none.align-items-end.justify-content-between
+      b-pagination-nav(
+        :link-gen="linkGen"
+        :number-of-pages="Math.ceil(this.totalSupply / this.perPage)"
+        :value="page"
+        limit=10
+        prev-text="prev"
+        next-text="next"
+        use-router
+        hide-goto-end-buttons)
+      b-nav(tabs)
+        template(v-for="tab in tabs")
+          b-nav-item(
+            v-if="type !== tab.id"
+            :to="{ name: 'shop-page-type', params: { type: tab.id, page } }"
+            active)
+            font-awesome-icon(:icon="['fas', tab.icon]")
+    .d-none.d-md-flex.align-items-end.justify-content-between
+      b-pagination-nav(
+        :link-gen="linkGen"
+        :number-of-pages="Math.ceil(this.totalSupply / this.perPage)"
+        :value="page"
+        limit=10
+        use-router)
+      b-nav(tabs)
+        template(v-for="tab in tabs")
+          b-nav-item(
+            :to="{ name: 'shop-page-type', params: { type: tab.id, page } }"
+            :active="type === tab.id")
+            font-awesome-icon(:icon="['fas', tab.icon]")
     section#tons
       template(v-for="tab in tabs")
-        component(:is="`Auction${tab.text}`" v-if="type === tab.id" name="sell")
+        component(
+          :is="`Auction${tab.text}`"
+          v-if="type === tab.id"
+          name="sell"
+          :currentTons="currentTons"
+          :asyncTonsCache="asyncTonsCache")
 </template>
 
 <script>
@@ -28,16 +54,27 @@ export default {
     return {}
   },
   computed: {
-    ...mapGetters(['tabs', 'type']),
-    ...mapGetters('tons', ['tonsLoaded'])
+    ...mapGetters(['tabs', 'totalSupply', 'perPage']),
+    ...mapGetters('tons', ['currentTons', 'asyncTonsCache'])
   },
   asyncData({ params, store }) {
     const type = params.type || store.getters.type || 'card'
     store.dispatch('doUpdateType', type)
     return {
-      page: params.page || 1
+      page: params.page,
+      type
     }
   },
-  methods: {}
+  methods: {
+    linkGen(pageNum) {
+      return {
+        name: 'shop-page-type',
+        params: {
+          page: pageNum,
+          type: this.type
+        }
+      }
+    }
+  }
 }
 </script>

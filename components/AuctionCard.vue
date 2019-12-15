@@ -8,10 +8,14 @@
           .p-3.position-absolute
             nuxt-link(:to="`/ton/${ton.id}`") {{ ton.id }}
           img.w-100(:src="ton.imgSrc")
+    template(v-if="tonsLoaded")
+      span(v-if="nothingToShow") Nothing to show
+    template(v-else)
+      b-spinner(label="Spinning")
+
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import AccountLinkFacade from '@/components/facade/AccountLinkFacade'
 
 export default {
@@ -20,20 +24,32 @@ export default {
   props: {
     name: {
       type: String,
-      default() {
-        return ''
-      }
+      required: true
+    },
+    currentTons: {
+      type: Array,
+      required: true
+    },
+    asyncTonsCache: {
+      type: Object,
+      required: true
     }
   },
-  data() {
-    return {}
-  },
   computed: {
-    ...mapGetters('tons', ['currentTons', 'asyncTonsCache'])
-  },
-  watch: {},
-  mounted() {},
-  methods: {}
+    tonsLoaded() {
+      const tonsPending = this.currentTons.filter(
+        ton => !this.asyncTonsCache[ton.id]
+      )
+      return tonsPending.length === 0
+    },
+    nothingToShow() {
+      const tonsShown = this.currentTons
+        .filter(ton => this.asyncTonsCache[ton.id])
+        .filter(ton => this.asyncTonsCache[ton.id][this.name])
+        .filter(ton => this.asyncTonsCache[ton.id][this.name].shown)
+      return tonsShown.length === 0
+    }
+  }
 }
 </script>
 

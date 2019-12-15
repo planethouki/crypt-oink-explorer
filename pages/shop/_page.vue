@@ -1,36 +1,35 @@
 <template lang="pug">
-  section
-    h1.display-3.mb-4
-      nuxt-link.text-decoration-none(to="/shop") Shop
-    .form-inline.float-sm-right
-      b-input-group
-        b-form-input(name="inputPage" type="number" placeholder="Page No." v-model="inputPage")
-        b-input-group-append
-          b-button(text="Go" variant="primary" @click="goPage") Go
-    b-pagination-nav(
-      :link-gen="linkGen"
-      :number-of-pages="Math.ceil(this.totalSupply / this.perPage)"
-      :value="page"
-      limit="10"
-      use-router)
+  section.mb-4
+    .d-flex.align-items-center.justify-content-between.mb-3
+      .display-4
+        nuxt-link.text-decoration-none(to="/shop") Shop
+      div.ml-4
+        search-token-id-page(
+          :totalSupply="totalSupply"
+          :perPage="perPage"
+          @click="onClickPageJump")
     section#tons.mb-5
       nuxt-child
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import SearchTokenIdPage from '@/components/facade/SearchTokenIdPage'
 
 export default {
   name: 'Shop',
-  components: {},
-  data() {
-    return {
-      inputPage: ''
-    }
-  },
-  async asyncData({ params, store }) {
+  components: { SearchTokenIdPage },
+  async asyncData({ params, redirect, store }) {
     console.log(params)
     await store.dispatch('doUpdateTotalSupplyIfNotSet')
+    if (!(params.type && params.page)) {
+      redirect(
+        `/tons/${params.page || '1'}/${params.type ||
+          store.getters.type ||
+          'card'}`
+      )
+      return
+    }
     const type = params.type || store.getters.type || 'card'
     const page = params.page || 1
     store.dispatch('doUpdateType', type)
@@ -42,29 +41,19 @@ export default {
       tokenIds.push(fromId - i)
     }
     store.dispatch('tons/updateTonsFromTokenIds', { tokenIds })
-    return {
-      page,
-      tokenIds
-    }
+    return {}
   },
   computed: {
-    ...mapGetters(['totalSupply', 'perPage', 'tabs', 'type'])
+    ...mapGetters(['totalSupply', 'perPage'])
   },
-  watch: {},
-  mounted() {},
   methods: {
-    goPage() {
-      const page = Number(this.inputPage)
+    onClickPageJump(page) {
+      const params = this.$route.params
+      params.page = page
       this.$router.push({
         name: 'shop-page-type',
-        params: { page, type: this.type }
+        params
       })
-    },
-    linkGen(pageNum) {
-      return {
-        name: 'shop-page-type',
-        params: { page: pageNum, type: this.type }
-      }
     }
   }
 }

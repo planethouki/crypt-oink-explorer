@@ -4,7 +4,7 @@
       target="_blank"
       rel="noreferrer noopener"
       :href="`https://opensea.io/accounts/${account}`"
-      >{{ account }}</a
+      >{{ account }}&#x279A;</a
     >
   </div>
 </template>

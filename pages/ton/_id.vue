@@ -1,7 +1,7 @@
 <template lang="pug">
   main.container
     h1.display-3.mb-4
-      nuxt-link.text-decoration-none(to="/ton/0") Ton
+      nuxt-link.text-decoration-none(to="/ton") Ton
     section.row
       .col-12.col-sm-6.order-sm-2
         SearchTokenId(:routeName="'ton-id'")
@@ -166,14 +166,6 @@ import AccountLinkFacade from '@/components/facade/AccountLinkFacade'
 export default {
   name: 'Ton',
   components: { AccountLinkFacade, SearchTokenId },
-  props: {
-    tokenId: {
-      type: Number,
-      default() {
-        return 0
-      }
-    }
-  },
   data() {
     return {}
   },
@@ -185,17 +177,15 @@ export default {
     }
   },
   watch: {},
-  async asyncData({ params, store }) {
+  async asyncData({ params, store, redirect }) {
     await store.dispatch('doUpdateTotalSupplyIfNotSet')
-    let tokenId
     if (params.id) {
-      tokenId = params.id === '0' ? store.getters.totalSupply : params.id
+      store.dispatch('tons/updateTonsFromTokenIds', {
+        tokenIds: [params.id]
+      })
     } else {
-      tokenId = store.getters.totalSupply
+      redirect(`/ton/${store.getters.totalSupply}`)
     }
-    store.dispatch('tons/updateTonsFromTokenIds', {
-      tokenIds: [tokenId]
-    })
   },
   mounted() {},
   methods: {

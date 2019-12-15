@@ -11,16 +11,19 @@
             span {{ $web3.utils.fromWei(asyncTonsCache[data.item.id][name].price.toString()) }}
           template(v-else)
             span -
+        template(v-else)
+          b-spinner(small type="grow")
       template(slot="seller" slot-scope="data")
         template(v-if="asyncTonsCache[data.item.id]")
           template(v-if="asyncTonsCache[data.item.id][name].shown")
             account-link-facade(:account="asyncTonsCache[data.item.id][name].seller")
           template(v-else)
             span -
+        template(v-else)
+          b-spinner(small type="grow")
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import AccountLinkFacade from '@/components/facade/AccountLinkFacade'
 
 export default {
@@ -29,9 +32,15 @@ export default {
   props: {
     name: {
       type: String,
-      default() {
-        return ''
-      }
+      required: true
+    },
+    currentTons: {
+      type: Array,
+      required: true
+    },
+    asyncTonsCache: {
+      type: Object,
+      required: true
     },
     fields: {
       type: Object,
@@ -53,16 +62,7 @@ export default {
         }
       }
     }
-  },
-  data() {
-    return {}
-  },
-  computed: {
-    ...mapGetters('tons', ['currentTons', 'asyncTonsCache'])
-  },
-  watch: {},
-  mounted() {},
-  methods: {}
+  }
 }
 </script>
 

@@ -26,13 +26,20 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import AccountLinkFacade from '@/components/facade/AccountLinkFacade'
 
 export default {
   name: 'EntityList',
   components: { AccountLinkFacade },
   props: {
+    currentTons: {
+      type: Array,
+      required: true
+    },
+    asyncTonsCache: {
+      type: Object,
+      required: true
+    },
     fields: {
       type: Object,
       default() {
@@ -58,15 +65,7 @@ export default {
         }
       }
     }
-  },
-  data() {
-    return {}
-  },
-  computed: {
-    ...mapGetters('tons', ['currentTons', 'asyncTonsCache'])
-  },
-  mounted() {},
-  methods: {}
+  }
 }
 </script>
 
