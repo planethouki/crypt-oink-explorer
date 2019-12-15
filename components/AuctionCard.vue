@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import AccountLinkFacade from '@/components/facade/AccountLinkFacade'
 
 export default {
@@ -20,20 +19,19 @@ export default {
   props: {
     name: {
       type: String,
+      required: true
+    },
+    currentTons: {
+      type: Array,
+      required: true
+    },
+    asyncTonsCache: {
+      type: Object,
       default() {
-        return ''
+        return {}
       }
     }
-  },
-  data() {
-    return {}
-  },
-  computed: {
-    ...mapGetters('tons', ['currentTons', 'asyncTonsCache'])
-  },
-  watch: {},
-  mounted() {},
-  methods: {}
+  }
 }
 </script>
 
