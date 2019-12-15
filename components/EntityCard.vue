@@ -9,15 +9,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'EntityCard',
-  data() {
-    return {}
-  },
-  computed: {
-    ...mapGetters('tons', ['currentTons'])
+  props: {
+    currentTons: {
+      type: Array,
+      required: true
+    }
   },
   watch: {},
   mounted() {},

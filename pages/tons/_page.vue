@@ -4,34 +4,40 @@
       .display-4
         nuxt-link.text-decoration-none(to="/tons") Tons
       div.ml-4
-        b-input-group
-          b-form-input(name="inputPage" type="number" placeholder="Page No." v-model="inputPage")
-          b-input-group-append
-            b-button(text="Go" variant="primary" @click="goPage") Go
+        search-token-id-page(
+          :totalSupply="totalSupply"
+          :perPage="perPage"
+          @click="onClickPageJump")
     nuxt-child
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import SearchTokenIdPage from '@/components/facade/SearchTokenIdPage'
 
 export default {
   name: 'Tons',
-  components: {},
+  components: { SearchTokenIdPage },
   data() {
     return {
       inputPage: ''
     }
   },
   computed: {
-    ...mapGetters(['totalSupply', 'perPage', 'type'])
+    ...mapGetters(['totalSupply', 'perPage'])
   },
   watch: {},
-  async asyncData({ params, store }) {
-    console.log(params)
+  async asyncData({ params, redirect, store }) {
     await store.dispatch('doUpdateTotalSupplyIfNotSet')
-    const type = params.type || store.getters.type || 'card'
-    const page = params.page || 1
-    store.dispatch('doUpdateType', type)
+    if (!(params.type && params.page)) {
+      redirect(
+        `/tons/${params.page || '1'}/${params.type ||
+          store.getters.type ||
+          'card'}`
+      )
+      return
+    }
+    const page = params.page
     const perPage = store.getters.perPage
     const fromId = store.getters.totalSupply - perPage * (page - 1)
     const tokenIds = []
@@ -40,18 +46,16 @@ export default {
       tokenIds.push(fromId - i)
     }
     store.dispatch('tons/updateTonsFromTokenIds', { tokenIds })
-    return {
-      page,
-      tokenIds
-    }
+    return {}
   },
   mounted() {},
   methods: {
-    goPage() {
-      const page = Number(this.inputPage)
+    onClickPageJump(page) {
+      const params = this.$route.params
+      params.page = page
       this.$router.push({
         name: 'tons-page-type',
-        params: { page, type: this.type }
+        params
       })
     }
   }

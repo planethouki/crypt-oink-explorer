@@ -5,7 +5,7 @@
         :link-gen="linkGen"
         :number-of-pages="Math.ceil(this.totalSupply / this.perPage)"
         :value="page"
-        limit="0"
+        limit=10
         prev-text="prev"
         next-text="next"
         use-router
@@ -32,7 +32,7 @@
             font-awesome-icon(:icon="['fas', tab.icon]")
     section
       template(v-for="tab in tabs")
-        component(:is="`Entity${tab.text}`" v-if="type === tab.id")
+        component(:is="`Entity${tab.text}`" v-if="type === tab.id" :currentTons="currentTons" :asyncTonsCache="asyncTonsCache")
 </template>
 
 <script>
@@ -49,20 +49,25 @@ export default {
     return {}
   },
   computed: {
-    ...mapGetters(['tabs', 'type', 'totalSupply', 'perPage'])
+    ...mapGetters(['tabs', 'totalSupply', 'perPage']),
+    ...mapGetters('tons', ['currentTons', 'asyncTonsCache'])
   },
   asyncData({ params, store }) {
     const type = params.type || store.getters.type || 'card'
     store.dispatch('doUpdateType', type)
     return {
-      page: params.page || 1
+      page: params.page,
+      type
     }
   },
   methods: {
     linkGen(pageNum) {
       return {
         name: 'tons-page-type',
-        params: { page: pageNum, type: this.type }
+        params: {
+          page: pageNum,
+          type: this.type
+        }
       }
     }
   }
