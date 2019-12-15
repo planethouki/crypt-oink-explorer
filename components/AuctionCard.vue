@@ -8,6 +8,11 @@
           .p-3.position-absolute
             nuxt-link(:to="`/ton/${ton.id}`") {{ ton.id }}
           img.w-100(:src="ton.imgSrc")
+    template(v-if="tonsLoaded")
+      span(v-if="nothingToShow") Nothing to show
+    template(v-else)
+      b-spinner(label="Spinning")
+
 </template>
 
 <script>
@@ -27,9 +32,22 @@ export default {
     },
     asyncTonsCache: {
       type: Object,
-      default() {
-        return {}
-      }
+      required: true
+    }
+  },
+  computed: {
+    tonsLoaded() {
+      const tonsPending = this.currentTons.filter(
+        ton => !this.asyncTonsCache[ton.id]
+      )
+      return tonsPending.length === 0
+    },
+    nothingToShow() {
+      const tonsShown = this.currentTons
+        .filter(ton => this.asyncTonsCache[ton.id])
+        .filter(ton => this.asyncTonsCache[ton.id][this.name])
+        .filter(ton => this.asyncTonsCache[ton.id][this.name].shown)
+      return tonsShown.length === 0
     }
   }
 }
