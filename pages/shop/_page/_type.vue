@@ -27,7 +27,7 @@
       b-nav(tabs)
         template(v-for="tab in tabs")
           b-nav-item(
-            :to="{ name: 'tons-page-type', params: { type: tab.id, page } }"
+            :to="{ name: 'shop-page-type', params: { type: tab.id, page } }"
             :active="type === tab.id")
             font-awesome-icon(:icon="['fas', tab.icon]")
     section#tons
