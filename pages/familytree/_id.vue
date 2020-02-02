@@ -19,15 +19,27 @@
 </template>
 
 <script>
+import SearchTokenId from '@/components/SearchTokenId.vue'
 import { GChart } from 'vue-google-charts'
 import ScrollBooster from 'scrollbooster'
-import SearchTokenId from '@/components/SearchTokenId.vue'
 
 export default {
   name: 'Tree',
   components: {
     SearchTokenId,
     GChart
+  },
+  async asyncData({ store, params }) {
+    await store.dispatch('doUpdateTotalSupplyIfNotSet')
+    let tokenId
+    if (params.id) {
+      tokenId = params.id === '0' ? store.getters.totalSupply : params.id
+    } else {
+      tokenId = store.getters.totalSupply
+    }
+    return {
+      tokenId
+    }
   },
   data() {
     return {
@@ -55,18 +67,6 @@ export default {
     }
   },
   computed: {},
-  async asyncData({ store, params }) {
-    await store.dispatch('doUpdateTotalSupplyIfNotSet')
-    let tokenId
-    if (params.id) {
-      tokenId = params.id === '0' ? store.getters.totalSupply : params.id
-    } else {
-      tokenId = store.getters.totalSupply
-    }
-    return {
-      tokenId
-    }
-  },
   mounted() {},
   methods: {
     async getEntityFromTokenId(tokenId) {

@@ -36,21 +36,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import EntityList from '@/components/EntityList.vue'
 import EntityCard from '@/components/EntityCard.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
     EntityList,
     EntityCard
-  },
-  data() {
-    return {}
-  },
-  computed: {
-    ...mapGetters(['tabs', 'totalSupply', 'perPage']),
-    ...mapGetters('tons', ['currentTons', 'asyncTonsCache'])
   },
   asyncData({ params, store }) {
     const type = params.type || store.getters.type || 'card'
@@ -59,6 +52,13 @@ export default {
       page: params.page,
       type
     }
+  },
+  data() {
+    return {}
+  },
+  computed: {
+    ...mapGetters(['tabs', 'totalSupply', 'perPage']),
+    ...mapGetters('tons', ['currentTons', 'asyncTonsCache'])
   },
   methods: {
     linkGen(pageNum) {

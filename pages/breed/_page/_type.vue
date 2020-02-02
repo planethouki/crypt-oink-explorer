@@ -41,21 +41,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import AuctionList from '@/components/AuctionList.vue'
 import AuctionCard from '@/components/AuctionCard.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
     AuctionList,
     AuctionCard
-  },
-  data() {
-    return {}
-  },
-  computed: {
-    ...mapGetters(['tabs', 'totalSupply', 'perPage']),
-    ...mapGetters('tons', ['currentTons', 'asyncTonsCache'])
   },
   asyncData({ params, store }) {
     const type = params.type || store.getters.type || 'card'
@@ -64,6 +57,13 @@ export default {
       page: params.page,
       type
     }
+  },
+  data() {
+    return {}
+  },
+  computed: {
+    ...mapGetters(['tabs', 'totalSupply', 'perPage']),
+    ...mapGetters('tons', ['currentTons', 'asyncTonsCache'])
   },
   methods: {
     linkGen(pageNum) {

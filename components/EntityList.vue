@@ -1,26 +1,26 @@
 <template lang="pug">
   div.overflow-auto
     b-table(striped hover :items="currentTons" :fields="fields" foot-clone)
-      template(slot="thumb" slot-scope="data")
+      template(v-slot:cell(thumb)="data")
         img(:src="data.item.imgSrc" style="height: 45px;")
-      template(slot="id" slot-scope="data")
+      template(v-slot:cell(id)="data")
         nuxt-link(:to="`/ton/${data.value}`") {{ data.value }}
-      template(slot="generation" slot-scope="data")
+      template(v-slot:cell(generation)="data")
         span(v-if="asyncTonsCache[data.item.id]")
           template(v-if="asyncTonsCache[data.item.id].generation === '0'")
             span {{ asyncTonsCache[data.item.id].generation }}
           template(v-else)
             nuxt-link(:to="`/familytree/${data.item.id}`") {{ asyncTonsCache[data.item.id].generation }}
-      template(slot="isBreeding" slot-scope="data")
+      template(v-slot:cell(isBreeding)="data")
         span(v-if="asyncTonsCache[data.item.id]")
           span {{ asyncTonsCache[data.item.id].isBreeding }}
-      template(slot="isReady" slot-scope="data")
+      template(v-slot:cell(isReady)="data")
         span(v-if="asyncTonsCache[data.item.id]")
           span {{ asyncTonsCache[data.item.id].isReady }}
-      template(slot="birthTime" slot-scope="data")
+      template(v-slot:cell(birthTime)="data")
         span(v-if="asyncTonsCache[data.item.id]")
           span {{ $unixtimeFormat(asyncTonsCache[data.item.id].birthTime) }}
-      template(slot="owner" slot-scope="data")
+      template(v-slot:cell(owner)="data")
         span(v-if="asyncTonsCache[data.item.id]")
           account-link-facade(:account="asyncTonsCache[data.item.id].owner")
 </template>
@@ -41,28 +41,19 @@ export default {
       required: true
     },
     fields: {
-      type: Object,
+      type: Array,
       default() {
-        return {
-          thumb: {
-            label: '',
-            class: 'p-0'
-          },
-          id: {
-            label: 'Id'
-          },
-          generation: {
-            label: 'Gen'
-          },
-          birthTime: {
+        return [
+          { key: 'thumb', label: '', class: 'p-0' },
+          { key: 'id', label: 'Id' },
+          { key: 'generation', label: 'Gen' },
+          {
+            key: 'birthTime',
             class: 'd-none d-md-table-cell',
             label: 'BirthTime (JST)'
           },
-          owner: {
-            class: 'd-none d-md-table-cell',
-            label: 'Owner'
-          }
-        }
+          { key: 'owner', class: 'd-none d-md-table-cell', label: 'Owner' }
+        ]
       }
     }
   }

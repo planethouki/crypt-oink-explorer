@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 export const state = () => ({
   currentTons: [],
   asyncTonsCache: {}
@@ -41,14 +42,22 @@ export const actions = {
         return state.asyncTonsCache[ton.id] === undefined
       })
       .map(ton => {
-        Promise.all([
-          this.$contracts.EntityCore.methods.getEntity(ton.id).call(),
-          this.$contracts.EntityCore.methods.ownerOf(ton.id).call(),
-          this.$contracts.AuctionSell.methods.getAuction(ton.id).call(),
-          this.$contracts.AuctionSell.methods.getCurrentPrice(ton.id).call(),
-          this.$contracts.AuctionSeed.methods.getAuction(ton.id).call(),
-          this.$contracts.AuctionSeed.methods.getCurrentPrice(ton.id).call()
-        ]).then(results => {
+        const contractMethods = [
+          this.$contracts.EntityCore.methods.getEntity(ton.id),
+          this.$contracts.EntityCore.methods.ownerOf(ton.id),
+          this.$contracts.AuctionSell.methods.getAuction(ton.id),
+          this.$contracts.AuctionSell.methods.getCurrentPrice(ton.id),
+          this.$contracts.AuctionSeed.methods.getAuction(ton.id),
+          this.$contracts.AuctionSeed.methods.getCurrentPrice(ton.id)
+        ]
+        Promise.all(
+          contractMethods.map((method) => {
+            return method.call().catch((e) => {
+              if (e.message.startsWith('Returned values aren\'t valid')) return null
+              throw e
+            })
+          })
+        ).then(results => {
           const entity = results[0]
           const owner = results[1]
           const sell = results[2]
@@ -67,7 +76,7 @@ export const actions = {
             seederId: entity.seederId.toString(),
             generation: entity.generation.toString(),
             dna: this.$web3.utils.toHex(entity.dna.toString()),
-            owner: owner
+            owner
           }
           if (sellPrice) {
             asyncTon.sell = {

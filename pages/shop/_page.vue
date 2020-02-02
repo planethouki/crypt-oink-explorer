@@ -13,14 +13,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import SearchTokenIdPage from '@/components/facade/SearchTokenIdPage'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Shop',
   components: { SearchTokenIdPage },
   async asyncData({ params, redirect, store }) {
-    console.log(params)
     await store.dispatch('doUpdateTotalSupplyIfNotSet')
     if (!(params.type && params.page)) {
       redirect(
