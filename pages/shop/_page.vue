@@ -20,7 +20,6 @@ export default {
   name: 'Shop',
   components: { SearchTokenIdPage },
   async asyncData({ params, redirect, store }) {
-    console.log(params)
     await store.dispatch('doUpdateTotalSupplyIfNotSet')
     if (!(params.type && params.page)) {
       redirect(

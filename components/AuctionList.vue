@@ -1,11 +1,11 @@
 <template lang="pug">
   div.overflow-auto
     b-table(striped hover :items="currentTons" :fields="fields")
-      template(slot="thumb" slot-scope="data")
+      template(v-slot:cell(thumb)="data")
         img(:src="data.item.imgSrc" style="height: 45px;")
-      template(slot="id" slot-scope="data")
+      template(v-slot:cell(id)="data")
         nuxt-link(:to="`/ton/${data.value}`") {{ data.value }}
-      template(slot="price" slot-scope="data")
+      template(v-slot:cell(price)="data")
         template(v-if="asyncTonsCache[data.item.id]")
           template(v-if="asyncTonsCache[data.item.id][name].shown")
             span {{ $web3.utils.fromWei(asyncTonsCache[data.item.id][name].price.toString()) }}
@@ -13,7 +13,7 @@
             span -
         template(v-else)
           b-spinner(small type="grow")
-      template(slot="seller" slot-scope="data")
+      template(v-slot:cell(seller)="data")
         template(v-if="asyncTonsCache[data.item.id]")
           template(v-if="asyncTonsCache[data.item.id][name].shown")
             account-link-facade(:account="asyncTonsCache[data.item.id][name].seller")
@@ -43,23 +43,14 @@ export default {
       required: true
     },
     fields: {
-      type: Object,
+      type: Array,
       default() {
-        return {
-          thumb: {
-            label: '',
-            class: 'p-0'
-          },
-          id: {
-            label: 'Id'
-          },
-          price: {
-            label: 'Price'
-          },
-          seller: {
-            label: 'Seller'
-          }
-        }
+        return [
+          { key: 'thumb', label: '', class: 'p-0' },
+          { key: 'id', label: 'Id' },
+          { key: 'price', label: 'Price' },
+          { key: 'seller', label: 'Seller' }
+        ]
       }
     }
   }
