@@ -4,8 +4,6 @@ const host = 'https://mainnet.infura.io/v3/6d6832b8808346ab82226925aac5509d'
 
 const provider = new Web3.providers.HttpProvider(host)
 
-process.versions = { node: '10.8.0' }
-
 const web3 = new Web3(provider)
 // const web3 = new Web3(host);
 

@@ -166,6 +166,16 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Ton',
   components: { AccountLinkFacade, SearchTokenId },
+  async asyncData({ params, store, redirect }) {
+    await store.dispatch('doUpdateTotalSupplyIfNotSet')
+    if (params.id) {
+      store.dispatch('tons/updateTonsFromTokenIds', {
+        tokenIds: [params.id]
+      })
+    } else {
+      redirect(`/ton/${store.getters.totalSupply}`)
+    }
+  },
   data() {
     return {}
   },
@@ -177,16 +187,6 @@ export default {
     }
   },
   watch: {},
-  async asyncData({ params, store, redirect }) {
-    await store.dispatch('doUpdateTotalSupplyIfNotSet')
-    if (params.id) {
-      store.dispatch('tons/updateTonsFromTokenIds', {
-        tokenIds: [params.id]
-      })
-    } else {
-      redirect(`/ton/${store.getters.totalSupply}`)
-    }
-  },
   mounted() {},
   methods: {
     linkGen(pageNum) {

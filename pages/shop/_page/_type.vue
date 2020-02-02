@@ -50,13 +50,6 @@ export default {
     AuctionList,
     AuctionCard
   },
-  data() {
-    return {}
-  },
-  computed: {
-    ...mapGetters(['tabs', 'totalSupply', 'perPage']),
-    ...mapGetters('tons', ['currentTons', 'asyncTonsCache'])
-  },
   asyncData({ params, store }) {
     const type = params.type || store.getters.type || 'card'
     store.dispatch('doUpdateType', type)
@@ -64,6 +57,13 @@ export default {
       page: params.page,
       type
     }
+  },
+  data() {
+    return {}
+  },
+  computed: {
+    ...mapGetters(['tabs', 'totalSupply', 'perPage']),
+    ...mapGetters('tons', ['currentTons', 'asyncTonsCache'])
   },
   methods: {
     linkGen(pageNum) {

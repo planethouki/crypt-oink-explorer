@@ -18,15 +18,6 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Tons',
   components: { SearchTokenIdPage },
-  data() {
-    return {
-      inputPage: ''
-    }
-  },
-  computed: {
-    ...mapGetters(['totalSupply', 'perPage'])
-  },
-  watch: {},
   async asyncData({ params, redirect, store }) {
     await store.dispatch('doUpdateTotalSupplyIfNotSet')
     if (!(params.type && params.page)) {
@@ -48,6 +39,15 @@ export default {
     store.dispatch('tons/updateTonsFromTokenIds', { tokenIds })
     return {}
   },
+  data() {
+    return {
+      inputPage: ''
+    }
+  },
+  computed: {
+    ...mapGetters(['totalSupply', 'perPage'])
+  },
+  watch: {},
   mounted() {},
   methods: {
     onClickPageJump(page) {
