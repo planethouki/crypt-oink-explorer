@@ -41,9 +41,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import AuctionList from '@/components/AuctionList.vue'
 import AuctionCard from '@/components/AuctionCard.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {

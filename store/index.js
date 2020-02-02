@@ -57,7 +57,7 @@ export const actions = {
       .totalSupply()
       .call()
       .then(result => {
-        return result.toNumber()
+        return Number(result)
       })
     console.log('totalSupply: ', totalSupply)
     commit('setTotalSupply', { totalSupply })

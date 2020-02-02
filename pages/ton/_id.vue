@@ -159,9 +159,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import SearchTokenId from '@/components/SearchTokenId.vue'
 import AccountLinkFacade from '@/components/facade/AccountLinkFacade'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Ton',

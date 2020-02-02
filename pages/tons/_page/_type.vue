@@ -36,9 +36,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import EntityList from '@/components/EntityList.vue'
 import EntityCard from '@/components/EntityCard.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {

@@ -67,7 +67,7 @@ export const actions = {
             seederId: entity.seederId.toString(),
             generation: entity.generation.toString(),
             dna: this.$web3.utils.toHex(entity.dna.toString()),
-            owner: owner
+            owner
           }
           if (sellPrice) {
             asyncTon.sell = {
