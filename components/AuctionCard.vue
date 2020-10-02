@@ -38,15 +38,15 @@ export default {
   computed: {
     tonsLoaded() {
       const tonsPending = this.currentTons.filter(
-        ton => !this.asyncTonsCache[ton.id]
+        (ton) => !this.asyncTonsCache[ton.id]
       )
       return tonsPending.length === 0
     },
     nothingToShow() {
       const tonsShown = this.currentTons
-        .filter(ton => this.asyncTonsCache[ton.id])
-        .filter(ton => this.asyncTonsCache[ton.id][this.name])
-        .filter(ton => this.asyncTonsCache[ton.id][this.name].shown)
+        .filter((ton) => this.asyncTonsCache[ton.id])
+        .filter((ton) => this.asyncTonsCache[ton.id][this.name])
+        .filter((ton) => this.asyncTonsCache[ton.id][this.name].shown)
       return tonsShown.length === 0
     }
   }

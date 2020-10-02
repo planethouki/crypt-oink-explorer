@@ -7,7 +7,7 @@ export const getters = {
   lastModBlockHeight(state) {
     return state.lastModBlockHeight
   },
-  tokens: state => address => {
+  tokens: (state) => (address) => {
     return state.addressToTokens[address]
   }
 }

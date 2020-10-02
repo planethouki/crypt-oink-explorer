@@ -29,18 +29,6 @@ export default {
     SearchTokenId,
     GChart
   },
-  async asyncData({ store, params }) {
-    await store.dispatch('doUpdateTotalSupplyIfNotSet')
-    let tokenId
-    if (params.id) {
-      tokenId = params.id === '0' ? store.getters.totalSupply : params.id
-    } else {
-      tokenId = store.getters.totalSupply
-    }
-    return {
-      tokenId
-    }
-  },
   data() {
     return {
       inputTokenId: '',
@@ -67,6 +55,18 @@ export default {
     }
   },
   computed: {},
+  async asyncData({ store, params }) {
+    await store.dispatch('doUpdateTotalSupplyIfNotSet')
+    let tokenId
+    if (params.id) {
+      tokenId = params.id === '0' ? store.getters.totalSupply : params.id
+    } else {
+      tokenId = store.getters.totalSupply
+    }
+    return {
+      tokenId
+    }
+  },
   mounted() {},
   methods: {
     async getEntityFromTokenId(tokenId) {
@@ -93,7 +93,7 @@ export default {
       this.clearScrollBooster()
       const getRandomPrefix = () =>
         Math.floor(Math.random() * Math.floor(10000)).toString()
-      const fTag = tokenId =>
+      const fTag = (tokenId) =>
         `<div><div class="token-title">${tokenId}</div><img src="${this.$tonImg(
           tokenId
         )}" class="token-image"></div>`
@@ -158,7 +158,7 @@ export default {
         viewport,
         content,
         mode: 'x',
-        onUpdate: data => {
+        onUpdate: (data) => {
           viewport.scrollLeft = data.position.x
         }
       })

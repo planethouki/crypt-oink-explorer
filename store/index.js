@@ -45,7 +45,7 @@ export const actions = {
     const totalSupply = await this.$contracts.EntityCore.methods
       .totalSupply()
       .call()
-      .then(result => {
+      .then((result) => {
         return result.toNumber()
       })
     console.log('totalSupply: ', totalSupply)
@@ -56,7 +56,7 @@ export const actions = {
     const totalSupply = await this.$contracts.EntityCore.methods
       .totalSupply()
       .call()
-      .then(result => {
+      .then((result) => {
         return Number(result)
       })
     console.log('totalSupply: ', totalSupply)

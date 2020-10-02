@@ -1,7 +1,6 @@
 const routerBase =
   process.env.DEPLOY_ENV === 'GH_PAGES' ? '/crypt-oink-explorer/' : '/'
-const generateDir =
-  process.env.DEPLOY_ENV === 'GH_PAGES' ? 'docs' : 'dist'
+const generateDir = process.env.DEPLOY_ENV === 'GH_PAGES' ? 'docs' : 'dist'
 
 export default {
   mode: 'spa',
@@ -38,15 +37,21 @@ export default {
     '~/plugins/web3'
   ],
   /*
+   ** Nuxt.js dev-modules
+   */
+  buildModules: [
+    // Doc: https://github.com/nuxt-community/eslint-module
+    '@nuxtjs/eslint-module'
+  ],
+  /*
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://bootstrap-vue.js.org/docs/
+    // Doc: https://bootstrap-vue.js.org
     'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    '@nuxtjs/eslint-module',
     'nuxt-fontawesome'
   ],
   /*
