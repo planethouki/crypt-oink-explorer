@@ -58,7 +58,9 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: 'https://www.crypt-oink-explorer.info/api'
+  },
   /*
    ** Build configuration
    */

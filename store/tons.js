@@ -42,66 +42,55 @@ export const actions = {
         return state.asyncTonsCache[ton.id] === undefined
       })
       .map(ton => {
-        const contractMethods = [
-          this.$contracts.EntityCore.methods.getEntity(ton.id),
-          this.$contracts.EntityCore.methods.ownerOf(ton.id),
-          this.$contracts.AuctionSell.methods.getAuction(ton.id),
-          this.$contracts.AuctionSell.methods.getCurrentPrice(ton.id),
-          this.$contracts.AuctionSeed.methods.getAuction(ton.id),
-          this.$contracts.AuctionSeed.methods.getCurrentPrice(ton.id)
-        ]
-        Promise.all(
-          contractMethods.map((method) => {
-            return method.call().catch((e) => {
-              if (e.message.startsWith('Returned values aren\'t valid')) return null
-              throw e
-            })
+        const apiCalls = [
+          this.$axios.$get(`/tons/${ton.id}`),
+          this.$axios.$get(`/shop/${ton.id}`),
+          this.$axios.$get(`/breed/${ton.id}`)
+        ].map((call) => {
+          return call.then((data) => {
+            return Object.keys(data).length === 0 ? null : data
           })
-        ).then(results => {
-          const entity = results[0]
-          const owner = results[1]
-          const sell = results[2]
-          const sellPrice = results[3]
-          const seed = results[4]
-          const seedPrice = results[5]
+        })
+        Promise.all(apiCalls)
+          .then(([tons, shop, breed]) => {
           const asyncTon = {
             id: ton.id,
-            isBreeding: entity.isBreeding,
-            isReady: entity.isReady,
-            cooldownIndex: entity.cooldownIndex.toString(),
-            nextActionAt: entity.nextActionAt.toString(),
-            matingWithId: entity.matingWithId.toString(),
-            birthTime: entity.birthTime.toString(),
-            breederId: entity.breederId.toString(),
-            seederId: entity.seederId.toString(),
-            generation: entity.generation.toString(),
-            dna: this.$web3.utils.toHex(entity.dna.toString()),
-            owner
+            isBreeding: tons.isBreeding,
+            isReady: tons.isReady,
+            cooldownIndex: tons.cooldownIndex,
+            nextActionAt: tons.nextActionAt,
+            matingWithId: tons.matingWithId,
+            birthTime: tons.birthTime,
+            breederId: tons.breederId,
+            seederId: tons.seederId,
+            generation: tons.generation,
+            dna: tons.dna,
+            owner: tons.owner
           }
-          if (sellPrice) {
+          if (shop) {
             asyncTon.sell = {
-              seller: sell.seller,
-              startingPrice: sell.startingPrice.toString(),
-              endingPrice: sell.endingPrice.toString(),
-              duration: sell.duration.toString(),
-              startedAt: sell.startedAt.toString(),
+              seller: shop.seller,
+              startingPrice: shop.startingPrice,
+              endingPrice: shop.endingPrice,
+              duration: shop.duration,
+              startedAt: shop.startedAt,
               shown: true,
-              price: sellPrice.toString()
+              price: shop.price
             }
           } else {
             asyncTon.sell = {
               shown: false
             }
           }
-          if (seedPrice) {
+          if (breed) {
             asyncTon.seed = {
-              seller: seed.seller,
-              startingPrice: seed.startingPrice.toString(),
-              endingPrice: seed.endingPrice.toString(),
-              duration: seed.duration.toString(),
-              startedAt: seed.startedAt.toString(),
+              seller: breed.seller,
+              startingPrice: breed.startingPrice,
+              endingPrice: breed.endingPrice,
+              duration: breed.duration,
+              startedAt: breed.startedAt,
               shown: true,
-              price: seedPrice.toString()
+              price: breed.price
             }
           } else {
             asyncTon.seed = {

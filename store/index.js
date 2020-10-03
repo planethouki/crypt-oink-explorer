@@ -42,23 +42,13 @@ export const mutations = {
 
 export const actions = {
   async doUpdateTotalSupply({ commit }) {
-    const totalSupply = await this.$contracts.EntityCore.methods
-      .totalSupply()
-      .call()
-      .then((result) => {
-        return result.toNumber()
-      })
+    const { totalSupply } = await this.$axios.$get('/totalSupply')
     console.log('totalSupply: ', totalSupply)
     commit('setTotalSupply', { totalSupply })
   },
   async doUpdateTotalSupplyIfNotSet({ commit, state }) {
     if (state.totalSupply > 0) return
-    const totalSupply = await this.$contracts.EntityCore.methods
-      .totalSupply()
-      .call()
-      .then((result) => {
-        return Number(result)
-      })
+    const { totalSupply } = await this.$axios.$get('/totalSupply')
     console.log('totalSupply: ', totalSupply)
     commit('setTotalSupply', { totalSupply })
   },
