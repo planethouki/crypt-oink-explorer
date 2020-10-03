@@ -4,7 +4,7 @@
       nuxt-link.text-decoration-none(to="/ton") Ton
     section.row
       .col-12.col-sm-6.order-sm-2
-        SearchTokenId(:routeName="'ton-id'")
+        SearchTokenId(@click="onClickSearch")
       .col-12.col-sm-6.order-sm-1
         b-pagination-nav(
           :link-gen="linkGen"
@@ -183,13 +183,15 @@ export default {
       redirect(`/ton/${store.getters.totalSupply}`)
     }
   },
-  mounted() {},
   methods: {
     linkGen(pageNum) {
       return {
         name: 'ton-id',
         params: { id: pageNum }
       }
+    },
+    onClickSearch(tokenId) {
+      this.$router.push({ name: 'ton-id', params: { id: tokenId } })
     }
   }
 }

@@ -2,7 +2,7 @@
   b-input-group
     b-form-input(name="inputTokenId" type="number" placeholder="ID" v-model="inputTokenId")
     b-input-group-append
-      b-button(text="Go" variant="primary" @click="goTokenId") Go
+      b-button(text="Go" variant="primary" @click="click") Go
 </template>
 
 <script>
@@ -35,9 +35,9 @@ export default {
     }
   },
   methods: {
-    goTokenId() {
+    click() {
       const tokenId = Number(this.inputTokenId)
-      this.$router.push({ name: this.routeName, params: { id: tokenId } })
+      this.$emit('click', tokenId)
     }
   }
 }

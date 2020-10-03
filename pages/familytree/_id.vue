@@ -5,7 +5,7 @@
         nuxt-link.text-decoration-none(to="/familytree/0") Family Tree
       section.row
         .col-12.col-sm-6.offset-sm-6
-          SearchTokenId(:routeName="'familytree-id'" :input="inputTokenId")
+          SearchTokenId(:input="inputTokenId" @click="onClickSearch")
       section
         p {{ progressText }}
     section#chart.container-fulid
@@ -54,7 +54,6 @@ export default {
       scrollBooster: null
     }
   },
-  computed: {},
   async asyncData({ store, params }) {
     await store.dispatch('doUpdateTotalSupplyIfNotSet')
     let tokenId
@@ -67,7 +66,6 @@ export default {
       tokenId
     }
   },
-  mounted() {},
   methods: {
     async getEntityFromTokenId(tokenId) {
       const tons = await this.$axios.$get(`/tons/${tokenId}`)
@@ -160,6 +158,9 @@ export default {
           viewport.scrollLeft = data.position.x
         }
       })
+    },
+    onClickSearch(tokenId) {
+      this.$router.push({ name: 'familytree-id', params: { id: tokenId } })
     }
   }
 }
