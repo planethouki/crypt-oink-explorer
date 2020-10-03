@@ -34,7 +34,6 @@ export default {
       }
     }
   },
-  mounted() {},
   methods: {
     goTokenId() {
       const tokenId = Number(this.inputTokenId)
