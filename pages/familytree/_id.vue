@@ -70,15 +70,13 @@ export default {
   mounted() {},
   methods: {
     async getEntityFromTokenId(tokenId) {
-      const getEntity = await this.$contracts.EntityCore.methods
-        .getEntity(tokenId)
-        .call()
+      const tons = await this.$axios.$get(`/tons/${tokenId}`)
       return {
         id: Number(tokenId),
         tokenId: Number(tokenId),
-        breederId: Number(getEntity.breederId),
-        seederId: Number(getEntity.seederId),
-        generation: Number(getEntity.generation)
+        breederId: tons.breederId,
+        seederId: tons.seederId,
+        generation: tons.generation
       }
     },
     onChartReady(chart, google) {
