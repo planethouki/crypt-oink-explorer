@@ -24,26 +24,24 @@ export default {
   },
   async asyncData({ params, redirect, store }) {
     await store.dispatch('doUpdateTotalSupplyIfNotSet')
-    if (!(params.type && params.page)) {
-      redirect(
-        `/tons/${params.page || '1'}/${params.type ||
-          store.getters.type ||
-          'card'}`
-      )
+    return {}
+  },
+  mounted() {
+    const { type, page } = this.$route.params
+    if (!(type && page)) {
+      const goPage = page || '1'
+      const goType = type || this.$store.getters.type || 'card'
+      this.$router.push(`/breed/${goPage}/${goType}`)
       return
     }
-    const type = params.type || store.getters.type || 'card'
-    const page = params.page || 1
-    store.dispatch('doUpdateType', type)
-    const perPage = store.getters.perPage
-    const fromId = store.getters.totalSupply - perPage * (page - 1)
+    const perPage = this.$store.getters.perPage
+    const fromId = this.$store.getters.totalSupply - perPage * (page - 1)
     const tokenIds = []
     for (let i = 0; i < perPage; i += 1) {
       if (fromId - i < 1) break
       tokenIds.push(fromId - i)
     }
-    store.dispatch('tons/updateTonsFromTokenIds', { tokenIds })
-    return {}
+    this.$store.dispatch('tons/updateTonsFromTokenIds', { tokenIds })
   },
   methods: {
     onClickPageJump(page) {
