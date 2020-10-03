@@ -94,7 +94,7 @@
                 b-col(lg="12" xl="6")
                   dl
                     dt Price
-                    dd {{ $web3.utils.fromWei(asyncTonsCache[ton.id].sell.price) }}
+                    dd {{ asyncTonsCache[ton.id].sell.price }}
                 b-col(lg="12" xl="12")
                   dl
                     dt Seller
@@ -103,11 +103,11 @@
                 b-col(lg="12" xl="6")
                   dl
                     dt Starting Price
-                    dd {{ $web3.utils.fromWei(asyncTonsCache[ton.id].sell.startingPrice) }}
+                    dd {{ asyncTonsCache[ton.id].sell.startingPrice }}
                 b-col(lg="12" xl="6")
                   dl
                     dt Ending Price
-                    dd {{ $web3.utils.fromWei(asyncTonsCache[ton.id].sell.endingPrice) }}
+                    dd {{ asyncTonsCache[ton.id].sell.endingPrice }}
                 b-col(lg="12" xl="6")
                   dl
                     dt Duration
@@ -128,7 +128,7 @@
                 b-col(lg="12" xl="6")
                   dl
                     dt Price
-                    dd {{ $web3.utils.fromWei(asyncTonsCache[ton.id].seed.price) }}
+                    dd {{ asyncTonsCache[ton.id].seed.price }}
                 b-col(lg="12" xl="12")
                   dl
                     dt Seller
@@ -137,11 +137,11 @@
                 b-col(lg="12" xl="6")
                   dl
                     dt Starting Price
-                    dd {{ $web3.utils.fromWei(asyncTonsCache[ton.id].seed.startingPrice) }}
+                    dd {{ asyncTonsCache[ton.id].seed.startingPrice }}
                 b-col(lg="12" xl="6")
                   dl
                     dt Ending Price
-                    dd {{ $web3.utils.fromWei(asyncTonsCache[ton.id].seed.endingPrice) }}
+                    dd {{ asyncTonsCache[ton.id].seed.endingPrice }}
                 b-col(lg="12" xl="6")
                   dl
                     dt Duration

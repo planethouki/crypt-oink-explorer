@@ -8,7 +8,7 @@
       template(v-slot:cell(price)="data")
         template(v-if="asyncTonsCache[data.item.id]")
           template(v-if="asyncTonsCache[data.item.id][name].shown")
-            span {{ $web3.utils.fromWei(asyncTonsCache[data.item.id][name].price.toString()) }}
+            span {{ asyncTonsCache[data.item.id][name].price }}
           template(v-else)
             span -
         template(v-else)

@@ -31,11 +31,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    '~/plugins/vue-inject',
-    '~/plugins/combined-inject',
-    '~/plugins/web3'
-  ],
+  plugins: ['~/plugins/vue-inject', '~/plugins/combined-inject'],
   /*
    ** Nuxt.js dev-modules
    */
