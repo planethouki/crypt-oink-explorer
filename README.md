@@ -1,8 +1,23 @@
 # crypt-oink-explorer
 
+Web: https://www.crypt-oink-explorer.info
+
 くりぷ豚（[https://www.crypt-oink.io](https://www.crypt-oink.io)）のコントラクトを表示するWeb
 
-購入とかはできない
+## Powered By
+
+- くりぷ豚（https://www.crypt-oink.io）
+- vue.js
+- nuxt.js
+- web3.js
+- axios
+- scroll booster (https://ilyashubin.github.io/scrollbooster/)
+- pug
+- bootstrap-vue
+- Google Charts
+- sass
+- INFURA
+
 
 ## Build Setup
 
@@ -22,17 +37,3 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
-
-## Powered By
-
-- くりぷ豚（https://www.crypt-oink.io）
-- vue.js
-- nuxt.js
-- web3.js
-- axios
-- scroll booster (https://ilyashubin.github.io/scrollbooster/)
-- pug
-- bootstrap-vue
-- Google Charts
-- sass
-- INFURA
