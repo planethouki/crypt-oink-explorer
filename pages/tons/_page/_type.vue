@@ -45,8 +45,9 @@ export default {
     EntityList,
     EntityCard
   },
-  data() {
-    return {}
+  computed: {
+    ...mapGetters(['tabs', 'totalSupply', 'perPage']),
+    ...mapGetters('tons', ['currentTons', 'asyncTonsCache'])
   },
   asyncData({ params, store }) {
     const type = params.type || store.getters.type || 'card'
@@ -55,10 +56,6 @@ export default {
       page: params.page,
       type
     }
-  },
-  computed: {
-    ...mapGetters(['tabs', 'totalSupply', 'perPage']),
-    ...mapGetters('tons', ['currentTons', 'asyncTonsCache'])
   },
   methods: {
     linkGen(pageNum) {

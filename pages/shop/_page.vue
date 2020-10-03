@@ -19,6 +19,9 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Shop',
   components: { SearchTokenIdPage },
+  computed: {
+    ...mapGetters(['totalSupply', 'perPage'])
+  },
   async asyncData({ params, redirect, store }) {
     await store.dispatch('doUpdateTotalSupplyIfNotSet')
     if (!(params.type && params.page)) {
@@ -41,9 +44,6 @@ export default {
     }
     store.dispatch('tons/updateTonsFromTokenIds', { tokenIds })
     return {}
-  },
-  computed: {
-    ...mapGetters(['totalSupply', 'perPage'])
   },
   methods: {
     onClickPageJump(page) {

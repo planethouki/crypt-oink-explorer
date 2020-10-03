@@ -1,9 +1,9 @@
 <template>
   <div>
     <a
+      :href="`https://opensea.io/accounts/${account}`"
       target="_blank"
       rel="noreferrer noopener"
-      :href="`https://opensea.io/accounts/${account}`"
       >{{ account }}&#x279A;</a
     >
   </div>

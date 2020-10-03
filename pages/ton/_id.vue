@@ -166,6 +166,13 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Ton',
   components: { AccountLinkFacade, SearchTokenId },
+  computed: {
+    ...mapGetters('tons', ['currentTons', 'asyncTonsCache']),
+    ...mapGetters(['totalSupply']),
+    ton() {
+      return this.currentTons[0]
+    }
+  },
   async asyncData({ params, store, redirect }) {
     await store.dispatch('doUpdateTotalSupplyIfNotSet')
     if (params.id) {
@@ -176,17 +183,6 @@ export default {
       redirect(`/ton/${store.getters.totalSupply}`)
     }
   },
-  data() {
-    return {}
-  },
-  computed: {
-    ...mapGetters('tons', ['currentTons', 'asyncTonsCache']),
-    ...mapGetters(['totalSupply']),
-    ton() {
-      return this.currentTons[0]
-    }
-  },
-  watch: {},
   mounted() {},
   methods: {
     linkGen(pageNum) {
