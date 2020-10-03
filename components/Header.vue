@@ -30,9 +30,6 @@ export default {
     },
     toBreed() {
       return `/breed/1/${this.$store.state.type}`
-    },
-    toOwner() {
-      return `/ownership/0xa2156f24711a631e92e65dc114cf172065ddd49b/1/${this.$store.state.type}`
     }
   }
 }
