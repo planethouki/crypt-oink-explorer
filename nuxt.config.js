@@ -55,7 +55,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'https://www.crypt-oink-explorer.info/api'
+    baseURL: 'https://d7z2qp33qjdd8.cloudfront.net/api'
   },
   /*
    ** Build configuration
@@ -64,7 +64,9 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) {},
+
+    publicPath: '/n/'
   },
 
   generate: {
