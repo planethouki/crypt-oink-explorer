@@ -1,25 +1,25 @@
 # crypt-oink-explorer
 
-Web: https://www.crypt-oink-explorer.info
+Web: https://planethouki.github.io/crypt-oink-explorer/
 
-くりぷ豚（[https://www.crypt-oink.io](https://www.crypt-oink.io)）のコントラクトを表示するWeb
+[くりぷ豚](https://www.crypt-oink.io)のコントラクトを表示するWeb
 
 ## Powered By
 
 - くりぷ豚（https://www.crypt-oink.io）
 - vue.js
 - nuxt.js
-- web3.js
 - axios
 - scroll booster (https://ilyashubin.github.io/scrollbooster/)
 - pug
 - bootstrap-vue
 - Google Charts
 - sass
-- INFURA
 
 
 ## Build Setup
+
+[API](https://github.com/planethouki/crypt-oink-explorer-api/) が必要
 
 ``` bash
 # install dependencies
