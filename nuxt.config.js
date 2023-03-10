@@ -3,7 +3,10 @@ const routerBase =
 const generateDir = process.env.DEPLOY_ENV === 'GH_PAGES' ? 'docs' : 'dist'
 
 export default {
-  mode: 'spa',
+  ssr: false,
+
+  target: 'static',
+
   /*
    ** Headers of the page
    */
