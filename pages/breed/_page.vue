@@ -1,15 +1,17 @@
-<template lang="pug">
-  section.mb-4
-    .d-flex.align-items-center.justify-content-between.mb-3
-      .display-4
-        nuxt-link.text-decoration-none(to="/shop") Breed
-      div.ml-4
-        search-token-id-page(
-          :totalSupply="totalSupply"
-          :perPage="perPage"
-          @click="onClickPageJump")
-    section#tons.mb-5
-      nuxt-child
+<template>
+  <section class="mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div class="display-4">
+        <nuxt-link class="text-decoration-none" to="/shop">Breed</nuxt-link>
+      </div>
+      <div class="ml-4">
+        <search-token-id-page :totalSupply="totalSupply" :perPage="perPage" @click="onClickPageJump"></search-token-id-page>
+      </div>
+    </div>
+    <section class="mb-5" id="tons">
+      <nuxt-child></nuxt-child>
+    </section>
+  </section>
 </template>
 
 <script>

@@ -1,38 +1,31 @@
-<template lang="pug">
-  section
-    .d-flex.d-md-none.align-items-end.justify-content-between
-      b-pagination-nav(
-        :link-gen="linkGen"
-        :number-of-pages="Math.ceil(this.totalSupply / this.perPage)"
-        :value="page"
-        limit=10
-        prev-text="prev"
-        next-text="next"
-        use-router
-        hide-goto-end-buttons)
-      b-nav(tabs)
-        template(v-for="tab in tabs")
-          b-nav-item(
-            v-if="type !== tab.id"
-            :to="{ name: 'tons-page-type', params: { type: tab.id, page } }"
-            active)
-            font-awesome-icon(:icon="['fas', tab.icon]")
-    .d-none.d-md-flex.align-items-end.justify-content-between
-      b-pagination-nav(
-        :link-gen="linkGen"
-        :number-of-pages="Math.ceil(this.totalSupply / this.perPage)"
-        :value="page"
-        limit="10"
-        use-router)
-      b-nav(tabs)
-        template(v-for="tab in tabs")
-          b-nav-item(
-            :to="{ name: 'tons-page-type', params: { type: tab.id, page } }"
-            :active="type === tab.id")
-            font-awesome-icon(:icon="['fas', tab.icon]")
-    section
-      template(v-for="tab in tabs")
-        component(:is="`Entity${tab.text}`" v-if="type === tab.id" :currentTons="currentTons" :asyncTonsCache="asyncTonsCache")
+<template>
+  <section>
+    <div class="d-flex d-md-none align-items-end justify-content-between">
+      <b-pagination-nav :link-gen="linkGen" :number-of-pages="Math.ceil(this.totalSupply / this.perPage)" :value="page" limit="10" prev-text="prev" next-text="next" use-router="use-router" hide-goto-end-buttons="hide-goto-end-buttons"></b-pagination-nav>
+      <b-nav tabs="tabs">
+        <template v-for="tab in tabs">
+          <b-nav-item v-if="type !== tab.id" :to="{ name: 'tons-page-type', params: { type: tab.id, page } }" active="active">
+            <font-awesome-icon :icon="['fas', tab.icon]"></font-awesome-icon>
+          </b-nav-item>
+        </template>
+      </b-nav>
+    </div>
+    <div class="d-none d-md-flex align-items-end justify-content-between">
+      <b-pagination-nav :link-gen="linkGen" :number-of-pages="Math.ceil(this.totalSupply / this.perPage)" :value="page" limit="10" use-router="use-router"></b-pagination-nav>
+      <b-nav tabs="tabs">
+        <template v-for="tab in tabs">
+          <b-nav-item :to="{ name: 'tons-page-type', params: { type: tab.id, page } }" :active="type === tab.id">
+            <font-awesome-icon :icon="['fas', tab.icon]"></font-awesome-icon>
+          </b-nav-item>
+        </template>
+      </b-nav>
+    </div>
+    <section>
+      <template v-for="tab in tabs">
+        <component :is="`Entity${tab.text}`" v-if="type === tab.id" :currentTons="currentTons" :asyncTonsCache="asyncTonsCache"></component>
+      </template>
+    </section>
+  </section>
 </template>
 
 <script>

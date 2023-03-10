@@ -1,21 +1,35 @@
-<template lang="pug">
-  main
-    section.container
-      h1.display-3.mb-4
-        nuxt-link.text-decoration-none(to="/familytree/0") Family Tree
-      section.row
-        .col-12.col-sm-6.offset-sm-6
-          SearchTokenId(:input="inputTokenId" @click="onClickSearch")
-      section
-        p {{ progressText }}
-    section#chart.container-fulid
-      GChart#family-tree-chart(
-      :settings="{ packages: ['orgchart'] }"
-      :events="chartEvents"
-      :options="chartOptions"
-      :data="chartData"
-      type="OrgChart"
-      @ready="onChartReady")
+<template>
+  <main>
+    <section class="container">
+      <h1 class="display-3 mb-4">
+        <nuxt-link class="text-decoration-none" to="/familytree/0">
+          Family Tree
+        </nuxt-link>
+      </h1>
+      <section class="row">
+        <div class="col-12 col-sm-6 offset-sm-6">
+          <SearchTokenId
+            :input="inputTokenId"
+            @click="onClickSearch"
+          ></SearchTokenId>
+        </div>
+      </section>
+      <section>
+        <p>{{ progressText }}</p>
+      </section>
+    </section>
+    <section id="chart" class="container-fulid">
+      <GChart
+        id="family-tree-chart"
+        :settings="{ packages: ['orgchart'] }"
+        :events="chartEvents"
+        :options="chartOptions"
+        :data="chartData"
+        @ready="onChartReady"
+        type="OrgChart"
+      ></GChart>
+    </section>
+  </main>
 </template>
 
 <script>

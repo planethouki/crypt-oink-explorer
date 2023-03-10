@@ -1,161 +1,233 @@
-<template lang="pug">
-  main.container
-    h1.display-3.mb-4
-      nuxt-link.text-decoration-none(to="/ton") Ton
-    section.row
-      .col-12.col-sm-6.order-sm-2
-        SearchTokenId(@click="onClickSearch")
-      .col-12.col-sm-6.order-sm-1
-        b-pagination-nav(
-          :link-gen="linkGen"
-          :number-of-pages="this.totalSupply"
-          :value="ton.id"
-          limit="1"
-          use-router)
-    section#ton
-      b-row
-        b-col(lg="12" xl="6").text-center
-          img.w-100(:src="ton.imgSrc" style="max-width:512px;")
-        b-col(lg="12" xl="6")
-          h3.mb-3 Entity
-          b-row.mb-5
-            b-col(lg="12" xl="6")
-              dl
-                dt Id
-                dd {{ ton.id }}
-            template(v-if="asyncTonsCache[ton.id]")
-              b-col(lg="12" xl="12")
-                dl
-                  dt Owner
-                  dd(v-if="asyncTonsCache[ton.id]").text-break
-                    account-link-facade(:account="asyncTonsCache[ton.id].owner")
-              b-col(lg="12" xl="6")
-                dl
-                  dt isBreeding
-                  dd(v-if="asyncTonsCache[ton.id]") {{ asyncTonsCache[ton.id].isBreeding }}
-              b-col(lg="12" xl="6")
-                dl
-                  dt isReady
-                  dd(v-if="asyncTonsCache[ton.id]") {{ asyncTonsCache[ton.id].isReady }}
-              b-col(lg="12" xl="6")
-                dl
-                  dt cooldownIndex
-                  dd(v-if="asyncTonsCache[ton.id]") {{ asyncTonsCache[ton.id].cooldownIndex }}
-              b-col(lg="12" xl="6")
-                dl
-                  dt nextActionAt
-                  template(v-if="asyncTonsCache[ton.id]")
-                    dd(v-if="asyncTonsCache[ton.id].nextActionAt !== '0'") {{ asyncTonsCache[ton.id].nextActionAt }}
-                    dd(v-else) -
-              b-col(lg="12" xl="6")
-                dl
-                  dt matingWithId
-                  template(v-if="asyncTonsCache[ton.id]")
-                    dd(v-if="asyncTonsCache[ton.id].matingWithId !== '0'")
-                      nuxt-link(:to="`/ton/${asyncTonsCache[ton.id].matingWithId}`") {{ asyncTonsCache[ton.id].matingWithId }}
-                    dd(v-else) -
-              b-col(lg="12" xl="6")
-                dl
-                  dt birthTime
-                  dd(v-if="asyncTonsCache[ton.id]") {{ $unixtimeFormat(asyncTonsCache[ton.id].birthTime) }}
-              b-col(lg="12" xl="6")
-                dl
-                  dt breederId
-                  template(v-if="asyncTonsCache[ton.id]")
-                    dd(v-if="asyncTonsCache[ton.id].breederId !== '0'")
-                      nuxt-link(:to="`/ton/${asyncTonsCache[ton.id].breederId}`") {{ asyncTonsCache[ton.id].breederId }}
-                    dd(v-else) -
-              b-col(lg="12" xl="6")
-                dl
-                  dt seederId
-                  template(v-if="asyncTonsCache[ton.id]")
-                    dd(v-if="asyncTonsCache[ton.id].seederId !== '0'")
-                      nuxt-link(:to="`/ton/${asyncTonsCache[ton.id].seederId}`") {{ asyncTonsCache[ton.id].seederId }}
-                    dd(v-else) -
-              b-col(lg="12" xl="6")
-                dl
-                  dt generation
-                  template(v-if="asyncTonsCache[ton.id]")
-                    dd(v-if="asyncTonsCache[ton.id].generation !== '0'")
-                      nuxt-link(:to="`/familytree/${ton.id}`") {{ asyncTonsCache[ton.id].generation }}
-                    dd(v-else) -
-              b-col(lg="12" xl="12")
-                dl
-                  dt dna
-                  template(v-if="asyncTonsCache[ton.id]")
-                    dd.text-break {{ asyncTonsCache[ton.id].dna }}
-            template(v-else)
-              .spinner-border.spinner-border(role="status")
-                span.sr-only Loading...
-          h3.mb-3 Shop
-          b-row.mb-5
-            template(v-if="asyncTonsCache[ton.id]")
-              template(v-if="asyncTonsCache[ton.id].sell.shown")
-                b-col(lg="12" xl="6")
-                  dl
-                    dt Price
-                    dd {{ asyncTonsCache[ton.id].sell.price }}
-                b-col(lg="12" xl="12")
-                  dl
-                    dt Seller
-                    dd(v-if="asyncTonsCache[ton.id]").text-break
-                      account-link-facade(:account="asyncTonsCache[ton.id].sell.seller")
-                b-col(lg="12" xl="6")
-                  dl
-                    dt Starting Price
-                    dd {{ asyncTonsCache[ton.id].sell.startingPrice }}
-                b-col(lg="12" xl="6")
-                  dl
-                    dt Ending Price
-                    dd {{ asyncTonsCache[ton.id].sell.endingPrice }}
-                b-col(lg="12" xl="6")
-                  dl
-                    dt Duration
-                    dd {{ $secondsFormat(asyncTonsCache[ton.id].sell.duration) }}
-                b-col(lg="12" xl="6")
-                  dl
-                    dt startedAt
-                    dd(v-if="asyncTonsCache[ton.id]") {{ $unixtimeFormat(asyncTonsCache[ton.id].sell.startedAt) }}
-              template(v-else)
-                b-col None
-            template(v-else)
-              .spinner-border.spinner-border(role="status")
-                span.sr-only Loading...
-          h3.mb-3 Seed
-          b-row.mb-5
-            template(v-if="asyncTonsCache[ton.id]")
-              template(v-if="asyncTonsCache[ton.id].seed.shown")
-                b-col(lg="12" xl="6")
-                  dl
-                    dt Price
-                    dd {{ asyncTonsCache[ton.id].seed.price }}
-                b-col(lg="12" xl="12")
-                  dl
-                    dt Seller
-                    dd(v-if="asyncTonsCache[ton.id]").text-break
-                      account-link-facade(:account="asyncTonsCache[ton.id].seed.seller")
-                b-col(lg="12" xl="6")
-                  dl
-                    dt Starting Price
-                    dd {{ asyncTonsCache[ton.id].seed.startingPrice }}
-                b-col(lg="12" xl="6")
-                  dl
-                    dt Ending Price
-                    dd {{ asyncTonsCache[ton.id].seed.endingPrice }}
-                b-col(lg="12" xl="6")
-                  dl
-                    dt Duration
-                    dd {{ $secondsFormat(asyncTonsCache[ton.id].seed.duration) }}
-                b-col(lg="12" xl="6")
-                  dl
-                    dt startedAt
-                    dd(v-if="asyncTonsCache[ton.id]") {{ $unixtimeFormat(asyncTonsCache[ton.id].seed.startedAt) }}
-              template(v-else)
-                b-col None
-            template(v-else)
-              .spinner-border.spinner-border(role="status")
-                span.sr-only Loading...
-
+<template>
+  <main class="container">
+    <h1 class="display-3 mb-4">
+      <nuxt-link class="text-decoration-none" to="/ton">Ton</nuxt-link>
+    </h1>
+    <section class="row">
+      <div class="col-12 col-sm-6 order-sm-2">
+        <SearchTokenId @click="onClickSearch"></SearchTokenId>
+      </div>
+      <div class="col-12 col-sm-6 order-sm-1">
+        <b-pagination-nav :link-gen="linkGen" :number-of-pages="this.totalSupply" :value="ton.id" limit="1" use-router="use-router"></b-pagination-nav>
+      </div>
+    </section>
+    <section id="ton">
+      <b-row>
+        <b-col class="text-center" lg="12" xl="6"><img class="w-100" :src="ton.imgSrc" style="max-width:512px;"/></b-col>
+        <b-col lg="12" xl="6">
+          <h3 class="mb-3">Entity</h3>
+          <b-row class="mb-5">
+            <b-col lg="12" xl="6">
+              <dl>
+                <dt>Id</dt>
+                <dd>{{ ton.id }}</dd>
+              </dl>
+            </b-col>
+            <template v-if="asyncTonsCache[ton.id]">
+              <b-col lg="12" xl="12">
+                <dl>
+                  <dt>Owner</dt>
+                  <dd class="text-break" v-if="asyncTonsCache[ton.id]">
+                    <account-link-facade :account="asyncTonsCache[ton.id].owner"></account-link-facade>
+                  </dd>
+                </dl>
+              </b-col>
+              <b-col lg="12" xl="6">
+                <dl>
+                  <dt>isBreeding</dt>
+                  <dd v-if="asyncTonsCache[ton.id]">{{ asyncTonsCache[ton.id].isBreeding }}</dd>
+                </dl>
+              </b-col>
+              <b-col lg="12" xl="6">
+                <dl>
+                  <dt>isReady</dt>
+                  <dd v-if="asyncTonsCache[ton.id]">{{ asyncTonsCache[ton.id].isReady }}</dd>
+                </dl>
+              </b-col>
+              <b-col lg="12" xl="6">
+                <dl>
+                  <dt>cooldownIndex</dt>
+                  <dd v-if="asyncTonsCache[ton.id]">{{ asyncTonsCache[ton.id].cooldownIndex }}</dd>
+                </dl>
+              </b-col>
+              <b-col lg="12" xl="6">
+                <dl>
+                  <dt>nextActionAt</dt>
+                  <template v-if="asyncTonsCache[ton.id]">
+                    <dd v-if="asyncTonsCache[ton.id].nextActionAt !== '0'">{{ asyncTonsCache[ton.id].nextActionAt }}</dd>
+                    <dd v-else="v-else">-</dd>
+                  </template>
+                </dl>
+              </b-col>
+              <b-col lg="12" xl="6">
+                <dl>
+                  <dt>matingWithId</dt>
+                  <template v-if="asyncTonsCache[ton.id]">
+                    <dd v-if="asyncTonsCache[ton.id].matingWithId !== '0'">
+                      <nuxt-link :to="`/ton/${asyncTonsCache[ton.id].matingWithId}`">{{ asyncTonsCache[ton.id].matingWithId }}</nuxt-link>
+                    </dd>
+                    <dd v-else="v-else">-</dd>
+                  </template>
+                </dl>
+              </b-col>
+              <b-col lg="12" xl="6">
+                <dl>
+                  <dt>birthTime</dt>
+                  <dd v-if="asyncTonsCache[ton.id]">{{ $unixtimeFormat(asyncTonsCache[ton.id].birthTime) }}</dd>
+                </dl>
+              </b-col>
+              <b-col lg="12" xl="6">
+                <dl>
+                  <dt>breederId</dt>
+                  <template v-if="asyncTonsCache[ton.id]">
+                    <dd v-if="asyncTonsCache[ton.id].breederId !== '0'">
+                      <nuxt-link :to="`/ton/${asyncTonsCache[ton.id].breederId}`">{{ asyncTonsCache[ton.id].breederId }}</nuxt-link>
+                    </dd>
+                    <dd v-else="v-else">-</dd>
+                  </template>
+                </dl>
+              </b-col>
+              <b-col lg="12" xl="6">
+                <dl>
+                  <dt>seederId</dt>
+                  <template v-if="asyncTonsCache[ton.id]">
+                    <dd v-if="asyncTonsCache[ton.id].seederId !== '0'">
+                      <nuxt-link :to="`/ton/${asyncTonsCache[ton.id].seederId}`">{{ asyncTonsCache[ton.id].seederId }}</nuxt-link>
+                    </dd>
+                    <dd v-else="v-else">-</dd>
+                  </template>
+                </dl>
+              </b-col>
+              <b-col lg="12" xl="6">
+                <dl>
+                  <dt>generation</dt>
+                  <template v-if="asyncTonsCache[ton.id]">
+                    <dd v-if="asyncTonsCache[ton.id].generation !== '0'">
+                      <nuxt-link :to="`/familytree/${ton.id}`">{{ asyncTonsCache[ton.id].generation }}</nuxt-link>
+                    </dd>
+                    <dd v-else="v-else">-</dd>
+                  </template>
+                </dl>
+              </b-col>
+              <b-col lg="12" xl="12">
+                <dl>
+                  <dt>dna</dt>
+                  <template v-if="asyncTonsCache[ton.id]">
+                    <dd class="text-break">{{ asyncTonsCache[ton.id].dna }}</dd>
+                  </template>
+                </dl>
+              </b-col>
+            </template>
+            <template v-else="v-else">
+              <div class="spinner-border spinner-border" role="status"><span class="sr-only">Loading...</span></div>
+            </template>
+          </b-row>
+          <h3 class="mb-3">Shop</h3>
+          <b-row class="mb-5">
+            <template v-if="asyncTonsCache[ton.id]">
+              <template v-if="asyncTonsCache[ton.id].sell.shown">
+                <b-col lg="12" xl="6">
+                  <dl>
+                    <dt>Price</dt>
+                    <dd>{{ asyncTonsCache[ton.id].sell.price }}</dd>
+                  </dl>
+                </b-col>
+                <b-col lg="12" xl="12">
+                  <dl>
+                    <dt>Seller</dt>
+                    <dd class="text-break" v-if="asyncTonsCache[ton.id]">
+                      <account-link-facade :account="asyncTonsCache[ton.id].sell.seller"></account-link-facade>
+                    </dd>
+                  </dl>
+                </b-col>
+                <b-col lg="12" xl="6">
+                  <dl>
+                    <dt>Starting Price</dt>
+                    <dd>{{ asyncTonsCache[ton.id].sell.startingPrice }}</dd>
+                  </dl>
+                </b-col>
+                <b-col lg="12" xl="6">
+                  <dl>
+                    <dt>Ending Price</dt>
+                    <dd>{{ asyncTonsCache[ton.id].sell.endingPrice }}</dd>
+                  </dl>
+                </b-col>
+                <b-col lg="12" xl="6">
+                  <dl>
+                    <dt>Duration</dt>
+                    <dd>{{ $secondsFormat(asyncTonsCache[ton.id].sell.duration) }}</dd>
+                  </dl>
+                </b-col>
+                <b-col lg="12" xl="6">
+                  <dl>
+                    <dt>startedAt</dt>
+                    <dd v-if="asyncTonsCache[ton.id]">{{ $unixtimeFormat(asyncTonsCache[ton.id].sell.startedAt) }}</dd>
+                  </dl>
+                </b-col>
+              </template>
+              <template v-else="v-else">
+                <b-col>None</b-col>
+              </template>
+            </template>
+            <template v-else="v-else">
+              <div class="spinner-border spinner-border" role="status"><span class="sr-only">Loading...</span></div>
+            </template>
+          </b-row>
+          <h3 class="mb-3">Seed</h3>
+          <b-row class="mb-5">
+            <template v-if="asyncTonsCache[ton.id]">
+              <template v-if="asyncTonsCache[ton.id].seed.shown">
+                <b-col lg="12" xl="6">
+                  <dl>
+                    <dt>Price</dt>
+                    <dd>{{ asyncTonsCache[ton.id].seed.price }}</dd>
+                  </dl>
+                </b-col>
+                <b-col lg="12" xl="12">
+                  <dl>
+                    <dt>Seller</dt>
+                    <dd class="text-break" v-if="asyncTonsCache[ton.id]">
+                      <account-link-facade :account="asyncTonsCache[ton.id].seed.seller"></account-link-facade>
+                    </dd>
+                  </dl>
+                </b-col>
+                <b-col lg="12" xl="6">
+                  <dl>
+                    <dt>Starting Price</dt>
+                    <dd>{{ asyncTonsCache[ton.id].seed.startingPrice }}</dd>
+                  </dl>
+                </b-col>
+                <b-col lg="12" xl="6">
+                  <dl>
+                    <dt>Ending Price</dt>
+                    <dd>{{ asyncTonsCache[ton.id].seed.endingPrice }}</dd>
+                  </dl>
+                </b-col>
+                <b-col lg="12" xl="6">
+                  <dl>
+                    <dt>Duration</dt>
+                    <dd>{{ $secondsFormat(asyncTonsCache[ton.id].seed.duration) }}</dd>
+                  </dl>
+                </b-col>
+                <b-col lg="12" xl="6">
+                  <dl>
+                    <dt>startedAt</dt>
+                    <dd v-if="asyncTonsCache[ton.id]">{{ $unixtimeFormat(asyncTonsCache[ton.id].seed.startedAt) }}</dd>
+                  </dl>
+                </b-col>
+              </template>
+              <template v-else="v-else">
+                <b-col>None</b-col>
+              </template>
+            </template>
+            <template v-else="v-else">
+              <div class="spinner-border spinner-border" role="status"><span class="sr-only">Loading...</span></div>
+            </template>
+          </b-row>
+        </b-col>
+      </b-row>
+    </section>
+  </main>
 </template>
 
 <script>
