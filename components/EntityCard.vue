@@ -1,11 +1,15 @@
-<template lang="pug">
-  .d-flex.flex-wrap
-    template(v-for="ton in currentTons")
-      .card-wrap(:key="ton.id")
-        .card
-          .p-3.position-absolute
-            nuxt-link(:to="`/ton/${ton.id}`") {{ ton.id }}
-          img.w-100(:src="ton.imgSrc")
+<template>
+  <div class="d-flex flex-wrap">
+    <template v-for="ton in currentTons">
+      <div class="card-wrap" :key="ton.id">
+        <div class="card">
+          <div class="p-3 position-absolute">
+            <nuxt-link :to="`/ton/${ton.id}`">{{ ton.id }}</nuxt-link>
+          </div><img class="w-100" :src="ton.imgSrc"/>
+        </div>
+      </div>
+    </template>
+  </div>
 </template>
 
 <script>

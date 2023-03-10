@@ -1,28 +1,22 @@
-<template lang="pug">
-  div.overflow-auto
-    b-table(striped hover :items="currentTons" :fields="fields" foot-clone)
-      template(v-slot:cell(thumb)="data")
-        img(:src="data.item.imgSrc" style="height: 45px;")
-      template(v-slot:cell(id)="data")
-        nuxt-link(:to="`/ton/${data.value}`") {{ data.value }}
-      template(v-slot:cell(generation)="data")
-        span(v-if="asyncTonsCache[data.item.id]")
-          template(v-if="asyncTonsCache[data.item.id].generation === '0'")
-            span {{ asyncTonsCache[data.item.id].generation }}
-          template(v-else)
-            nuxt-link(:to="`/familytree/${data.item.id}`") {{ asyncTonsCache[data.item.id].generation }}
-      template(v-slot:cell(isBreeding)="data")
-        span(v-if="asyncTonsCache[data.item.id]")
-          span {{ asyncTonsCache[data.item.id].isBreeding }}
-      template(v-slot:cell(isReady)="data")
-        span(v-if="asyncTonsCache[data.item.id]")
-          span {{ asyncTonsCache[data.item.id].isReady }}
-      template(v-slot:cell(birthTime)="data")
-        span(v-if="asyncTonsCache[data.item.id]")
-          span {{ $unixtimeFormat(asyncTonsCache[data.item.id].birthTime) }}
-      template(v-slot:cell(owner)="data")
-        span(v-if="asyncTonsCache[data.item.id]")
-          account-link-facade(:account="asyncTonsCache[data.item.id].owner")
+<template>
+  <div class="overflow-auto">
+    <b-table striped="striped" hover="hover" :items="currentTons" :fields="fields" foot-clone="foot-clone">
+      <template v-slot:cell(thumb)="data"><img :src="data.item.imgSrc" style="height: 45px;"/></template>
+      <template v-slot:cell(id)="data">
+        <nuxt-link :to="`/ton/${data.value}`">{{ data.value }}</nuxt-link>
+      </template>
+      <template v-slot:cell(generation)="data"><span v-if="asyncTonsCache[data.item.id]">
+        <template v-if="asyncTonsCache[data.item.id].generation === '0'"><span>{{ asyncTonsCache[data.item.id].generation }}</span></template>
+        <template v-else="v-else">
+          <nuxt-link :to="`/familytree/${data.item.id}`">{{ asyncTonsCache[data.item.id].generation }}</nuxt-link>
+        </template></span></template>
+      <template v-slot:cell(isBreeding)="data"><span v-if="asyncTonsCache[data.item.id]"><span>{{ asyncTonsCache[data.item.id].isBreeding }}</span></span></template>
+      <template v-slot:cell(isReady)="data"><span v-if="asyncTonsCache[data.item.id]"><span>{{ asyncTonsCache[data.item.id].isReady }}</span></span></template>
+      <template v-slot:cell(birthTime)="data"><span v-if="asyncTonsCache[data.item.id]"><span>{{ $unixtimeFormat(asyncTonsCache[data.item.id].birthTime) }}</span></span></template>
+      <template v-slot:cell(owner)="data"><span v-if="asyncTonsCache[data.item.id]">
+        <account-link-facade :account="asyncTonsCache[data.item.id].owner"></account-link-facade></span></template>
+    </b-table>
+  </div>
 </template>
 
 <script>

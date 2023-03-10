@@ -1,26 +1,32 @@
-<template lang="pug">
-  div.overflow-auto
-    b-table(striped hover :items="currentTons" :fields="fields")
-      template(v-slot:cell(thumb)="data")
-        img(:src="data.item.imgSrc" style="height: 45px;")
-      template(v-slot:cell(id)="data")
-        nuxt-link(:to="`/ton/${data.value}`") {{ data.value }}
-      template(v-slot:cell(price)="data")
-        template(v-if="asyncTonsCache[data.item.id]")
-          template(v-if="asyncTonsCache[data.item.id][name].shown")
-            span {{ asyncTonsCache[data.item.id][name].price }}
-          template(v-else)
-            span -
-        template(v-else)
-          b-spinner(small type="grow")
-      template(v-slot:cell(seller)="data")
-        template(v-if="asyncTonsCache[data.item.id]")
-          template(v-if="asyncTonsCache[data.item.id][name].shown")
-            account-link-facade(:account="asyncTonsCache[data.item.id][name].seller")
-          template(v-else)
-            span -
-        template(v-else)
-          b-spinner(small type="grow")
+<template>
+  <div class="overflow-auto">
+    <b-table striped="striped" hover="hover" :items="currentTons" :fields="fields">
+      <template v-slot:cell(thumb)="data"><img :src="data.item.imgSrc" style="height: 45px;"/></template>
+      <template v-slot:cell(id)="data">
+        <nuxt-link :to="`/ton/${data.value}`">{{ data.value }}</nuxt-link>
+      </template>
+      <template v-slot:cell(price)="data">
+        <template v-if="asyncTonsCache[data.item.id]">
+          <template v-if="asyncTonsCache[data.item.id][name].shown"><span>{{ asyncTonsCache[data.item.id][name].price }}</span></template>
+          <template v-else="v-else"><span>-</span></template>
+        </template>
+        <template v-else="v-else">
+          <b-spinner small="small" type="grow"></b-spinner>
+        </template>
+      </template>
+      <template v-slot:cell(seller)="data">
+        <template v-if="asyncTonsCache[data.item.id]">
+          <template v-if="asyncTonsCache[data.item.id][name].shown">
+            <account-link-facade :account="asyncTonsCache[data.item.id][name].seller"></account-link-facade>
+          </template>
+          <template v-else="v-else"><span>-</span></template>
+        </template>
+        <template v-else="v-else">
+          <b-spinner small="small" type="grow"></b-spinner>
+        </template>
+      </template>
+    </b-table>
+  </div>
 </template>
 
 <script>

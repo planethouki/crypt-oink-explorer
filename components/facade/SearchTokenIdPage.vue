@@ -1,8 +1,10 @@
-<template lang="pug">
-  b-input-group
-    b-form-input(name="formInput" type="number" placeholder="Token ID" v-model="formInput" min=1 :max="totalSupply")
-    b-input-group-append
-      b-button(text="Go" variant="primary" @click="click") Go
+<template>
+  <b-input-group>
+    <b-form-input name="formInput" type="number" placeholder="Token ID" v-model="formInput" min="1" :max="totalSupply"></b-form-input>
+    <b-input-group-append>
+      <b-button text="Go" variant="primary" @click="click">Go</b-button>
+    </b-input-group-append>
+  </b-input-group>
 </template>
 
 <script>

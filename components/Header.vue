@@ -1,21 +1,29 @@
-<template lang="pug">
-  b-navbar(toggleable="md" type="light" variant="light")
-    b-navbar-brand
-      nuxt-link(to="/") Crypt-Oink-Explorer
-    b-navbar-toggle(target="navbarSupportedContent")
-    b-collapse#navbarSupportedContent(is-nav)
-      b-navbar-nav
-        b-nav-item
-          nuxt-link(:to="toTons") Tons
-        b-nav-item
-          nuxt-link(:to="toShop") Shop
-        b-nav-item
-          nuxt-link(:to="toBreed") Breed
-        b-nav-item
-          nuxt-link(to="/ton") Detail
-        b-nav-item
-          nuxt-link(to="/familytree") Tree
-
+<template>
+  <b-navbar toggleable="md" type="light" variant="light">
+    <b-navbar-brand>
+      <nuxt-link to="/">Crypt-Oink-Explorer</nuxt-link>
+    </b-navbar-brand>
+    <b-navbar-toggle target="navbarSupportedContent"></b-navbar-toggle>
+    <b-collapse id="navbarSupportedContent" is-nav="is-nav">
+      <b-navbar-nav>
+        <b-nav-item>
+          <nuxt-link :to="toTons">Tons</nuxt-link>
+        </b-nav-item>
+        <b-nav-item>
+          <nuxt-link :to="toShop">Shop</nuxt-link>
+        </b-nav-item>
+        <b-nav-item>
+          <nuxt-link :to="toBreed">Breed</nuxt-link>
+        </b-nav-item>
+        <b-nav-item>
+          <nuxt-link to="/ton">Detail</nuxt-link>
+        </b-nav-item>
+        <b-nav-item>
+          <nuxt-link to="/familytree">Tree</nuxt-link>
+        </b-nav-item>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
 </template>
 
 <script>
