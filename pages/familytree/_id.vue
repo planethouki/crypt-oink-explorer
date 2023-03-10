@@ -186,25 +186,28 @@ export default {
   overflow-x: auto;
   cursor: all-scroll;
 }
+</style>
+
+<style lang="scss">
 #family-tree-chart {
-  & /deep/ .myNodeClass > div {
+  .myNodeClass > div {
     border: 2px solid #b5d9ea;
     text-align: center;
     position: relative;
   }
-  & /deep/ .mySelectedNodeClass > div {
+  .mySelectedNodeClass > div {
     border: 2px solid #e3ca4b;
     text-align: center;
     background-color: #fff7ae;
     position: relative;
   }
-  & /deep/ .token-title {
+  .token-title {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
   }
-  & /deep/ .token-image {
+  .token-image {
     width: 100px;
     transform: scale(1.5);
     cursor: pointer;
