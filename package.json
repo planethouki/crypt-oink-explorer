@@ -9,7 +9,7 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate:gighub": "cross-env DEPLOY_ENV=GH_PAGES nuxt generate",
-    "generate:dist": "nuxt generate",
+    "generate:dist": "nuxt generate"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.31",
