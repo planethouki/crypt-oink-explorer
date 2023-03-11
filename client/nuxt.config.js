@@ -1,7 +1,3 @@
-const routerBase =
-  process.env.DEPLOY_ENV === 'GH_PAGES' ? '/crypt-oink-explorer/' : '/'
-const generateDir = process.env.DEPLOY_ENV === 'GH_PAGES' ? 'docs' : 'dist'
-
 export default {
   ssr: false,
 
@@ -68,14 +64,7 @@ export default {
     publicPath: '/n/'
   },
 
-  generate: {
-    dir: generateDir,
-    devtools: true,
-    fallback: true
-  },
-
   router: {
-    base: routerBase,
     mode: 'hash'
   },
 
