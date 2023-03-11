@@ -1,20 +1,16 @@
-# crypt-oink-explorer client
+# crypt-oink-explorer
 
-## Build Setup
+Web: https://planethouki.github.io/crypt-oink-explorer/
 
-``` bash
-# install dependencies
-$ npm install
+[くりぷ豚](https://www.crypt-oink.io)のコントラクトを表示するWeb
 
-# serve with hot reload at localhost:3000
-$ npm run dev
+## Powered By
 
-# build for production and launch server
-$ npm run build
-$ npm start
-
-# generate static project
-$ npm run generate
-```
-
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+- くりぷ豚（https://www.crypt-oink.io）
+- vue.js
+- nuxt.js
+- axios
+- scroll booster (https://ilyashubin.github.io/scrollbooster/)
+- bootstrap-vue
+- Google Charts
+- sass
