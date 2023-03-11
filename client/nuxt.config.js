@@ -50,7 +50,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'https://d7z2qp33qjdd8.cloudfront.net/api'
+    baseURL: process.env.NODE_ENV === 'development' ? 'https://d7z2qp33qjdd8.cloudfront.net/api' : '/api'
   },
   /*
    ** Build configuration
