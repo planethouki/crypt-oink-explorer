@@ -34,7 +34,7 @@
 
 <script>
 import SearchTokenId from '@/components/SearchTokenId.vue'
-import { GChart } from 'vue-google-charts'
+import { GChart } from 'vue-google-charts/legacy'
 import ScrollBooster from 'scrollbooster'
 
 export default {
