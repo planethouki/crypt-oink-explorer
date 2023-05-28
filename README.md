@@ -1,6 +1,6 @@
 # crypt-oink-explorer
 
-Web: https://planethouki.github.io/crypt-oink-explorer/
+Web: https://oinktrace.site
 
 [くりぷ豚](https://www.crypt-oink.io)のコントラクトを表示するWeb
 
