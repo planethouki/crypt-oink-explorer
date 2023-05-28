@@ -6,11 +6,11 @@ Web: https://oinktrace.site
 
 ## Powered By
 
-- くりぷ豚（https://www.crypt-oink.io）
+- くりぷ豚 https://www.crypt-oink.io
 - vue.js
 - nuxt.js
 - axios
-- scroll booster (https://ilyashubin.github.io/scrollbooster/)
+- scroll booster https://ilyashubin.github.io/scrollbooster/
 - bootstrap-vue
 - Google Charts
 - sass
