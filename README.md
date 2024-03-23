@@ -1,6 +1,6 @@
 # crypt-oink-explorer
 
-Web: https://oinktrace.site
+Web: https://orange-ocean-02b16bc10.2.azurestaticapps.net
 
 [くりぷ豚](https://www.crypt-oink.io)のコントラクトを表示するWeb
 
